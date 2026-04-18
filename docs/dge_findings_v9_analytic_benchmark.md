@@ -32,6 +32,31 @@ Para que el benchmark sea honesto, hemos definido las reglas del juego:
 | **SGD+Mom** | Analíticos | 100k (33k pasos) | **88.67%** | 19.8s |
 | **DGE (v8)** | **Black-Box** | **100k** (3.3k pasos) | **87.50%** | 30.8s |
 
+```python
+python scratch/dge_vs_analytic_benchmark_v9.py
+
+--- Running DGE (Zeroth-Order) ---
+  Evals:      30 | Train Acc: 8.17% | Test Acc: 8.33%
+  Evals:   30000 | Train Acc: 86.83% | Test Acc: 83.00%
+  Evals:   60000 | Train Acc: 90.50% | Test Acc: 86.17%
+  Evals:   90000 | Train Acc: 92.63% | Test Acc: 87.17%
+
+--- Running Adam (Analytic Backprop) ---
+  Evals:  100002+ | Train Acc: 100.00% | Test Acc: 90.33%
+
+--- Running SGD (Analytic Backprop) ---
+  Evals:  100002+ | Train Acc: 100.00% | Test Acc: 88.67%
+
+==================================================
+Algorithm       | Test Accuracy   | Time (s)  
+--------------------------------------------------
+DGE             |          87.50% |       30.8s
+Adam            |          90.33% |       24.2s
+SGD             |          88.67% |       19.8s
+==================================================
+Note: Adam/SGD budget capped at 100000 evals (counting 1 step = 3 evals).
+```
+
 ---
 
 ## Análisis Técnico: ¿Por qué es tan cerca?

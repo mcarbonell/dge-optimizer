@@ -30,6 +30,30 @@ Matemáticamente, la derivada de esta función es **0 en todas partes**.
 | **Adam** | Analíticos | 61.50% | **Fallo parcial**. Solo entrenó la capa de salida. |
 | **DGE (v11)** | **Black-Box** | **65.00%** | **Éxito**. Optimizó capas a pesar del gradiente nulo. |
 
+```python
+python scratch/dge_step_function_v11.py
+DEMO: Training a model with STEP ACTIVATIONS (Non-Differentiable)
+DGE expects to train it, while Adam/SGD expect to fail due to Zero Gradients.
+
+>>> TESTING Adam Experiment (NON-DIFFERENTIABLE) | Budget: 120000 evals
+      Adam Evals:   20001 | Test Acc: 60.67%
+      Adam Evals:   40002 | Test Acc: 61.33%
+      Adam Evals:   60000 | Test Acc: 61.67%
+      Adam Evals:   80001 | Test Acc: 60.50%
+      Adam Evals:  100002 | Test Acc: 61.83%
+      Adam Evals:  120000 | Test Acc: 61.50%
+    FINAL ADAM: Acc=61.50% | Time=21.8s
+
+>>> TESTING DGE Experiment (NON-DIFFERENTIABLE) | Budget: 120000 evals
+      DGE Evals:   20010 | Test Acc: 55.33%
+      DGE Evals:   40020 | Test Acc: 62.83%
+      DGE Evals:   60000 | Test Acc: 65.83%
+      DGE Evals:   80010 | Test Acc: 65.83%
+      DGE Evals:  100020 | Test Acc: 66.17%
+      DGE Evals:  120000 | Test Acc: 65.00%
+    FINAL DGE: Acc=65.00% | Time=38.6s
+```
+
 ---
 
 ## Análisis de Implicaciones

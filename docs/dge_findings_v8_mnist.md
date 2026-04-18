@@ -91,7 +91,7 @@ Es equivalente al `same_sample` trick de MeZO.
 
 2. **DGE divide en k=15 grupos de ~1,697 variables.** El ruido dentro de cada
    grupo se cancela estadísticamente gracias a Adam (segundo momento por variable).
-   La señal de gradiente emerges limpiamente incluso con pocos pasos.
+   La señal de gradiente emerge limpiamente incluso con pocos pasos.
 
 3. **Clip norm (0.05) protege de explosiones.** Los grupos con gradiente muy
    consistente se normalizan, dando estabilidad global.

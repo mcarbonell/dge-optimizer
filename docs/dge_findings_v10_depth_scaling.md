@@ -29,6 +29,49 @@ Aumentar la profundidad de una red neuronal presenta dos problemas para un optim
 | **Deep** (784-64x4-10) | DGE | **63,370** | **85.67%** | 98s |
 | **Deep** (784-64x4-10) | Adam | 63,370 | 90.50% | 71s |
 
+```python
+python scratch/dge_deep_benchmark_v10.py
+
+>>> TESTING Shallow | Arch: (784, 32, 10) | Budget: 100000 evals
+    Params (D): 25,450
+      DGE Evals:   20010 | Test Acc: 79.00%
+      DGE Evals:   40020 | Test Acc: 84.33%
+      DGE Evals:   60000 | Test Acc: 86.17%
+      DGE Evals:   80010 | Test Acc: 87.00%
+      DGE Evals:  100020 | Test Acc: 87.50%
+    FINAL: Acc=87.50% | Time=28.7s
+
+>>> TESTING Shallow | Arch: (784, 32, 10) | Budget: 100000 evals
+    Params (D): 25,450
+      Adam Evals:   20001 | Test Acc: 90.00%
+      Adam Evals:   40002 | Test Acc: 89.83%
+      Adam Evals:   60000 | Test Acc: 89.67%
+      Adam Evals:   80001 | Test Acc: 89.00%
+      Adam Evals:  100002 | Test Acc: 90.33%
+    FINAL: Acc=90.33% | Time=25.2s
+
+>>> TESTING Deep | Arch: (784, 64, 64, 64, 64, 10) | Budget: 150000 evals
+    Params (D): 63,370
+      DGE Evals:   20000 | Test Acc: 63.50%
+      DGE Evals:   40000 | Test Acc: 78.67%
+      DGE Evals:   60000 | Test Acc: 81.83%
+      DGE Evals:   80000 | Test Acc: 83.17%
+      DGE Evals:  100000 | Test Acc: 85.33%
+      DGE Evals:  120000 | Test Acc: 85.50%
+      DGE Evals:  140000 | Test Acc: 85.33%
+    FINAL: Acc=85.67% | Time=98.4s
+
+>>> TESTING Deep | Arch: (784, 64, 64, 64, 64, 10) | Budget: 150000 evals
+    Params (D): 63,370
+      Adam Evals:   20001 | Test Acc: 90.83%
+      Adam Evals:   40002 | Test Acc: 91.50%
+      Adam Evals:   60000 | Test Acc: 90.67%
+      Adam Evals:   80001 | Test Acc: 90.17%
+      Adam Evals:  100002 | Test Acc: 90.33%
+      Adam Evals:  120000 | Test Acc: 90.83%
+      Adam Evals:  140001 | Test Acc: 90.17%
+    FINAL: Acc=90.50% | Time=71.4s
+```
 ---
 
 ## Análisis de Escalado

@@ -33,6 +33,23 @@ $w_{used} = \text{sign}(w_{float})$
 | **Tiempo de Entrenamiento** | 97.3s |
 | **Información por Peso** | **1 bit** (Signo) |
 
+
+```python
+python scratch/dge_binary_weights_v12.py
+DGE: Training a network where inference uses ONLY signs of weights (Quantized {-1, 1})
+
+>>> TESTING Binary DGE (BINARY WEIGHTS (-1, 1)) | Budget: 150000 evals
+    Parameters: 101,632
+      DGE Evals:   10030 | Binary Test Acc: 60.50%
+      DGE Evals:   30022 | Binary Test Acc: 65.83%
+      DGE Evals:   50014 | Binary Test Acc: 68.50%
+      DGE Evals:   70006 | Binary Test Acc: 73.50%
+      DGE Evals:   90032 | Binary Test Acc: 71.83%
+      DGE Evals:  110024 | Binary Test Acc: 62.17%
+      DGE Evals:  130016 | Binary Test Acc: 64.00%
+      DGE Evals:  150008 | Binary Test Acc: 55.67%
+    FINAL BINARY DGE: Acc=55.67% | Time=97.3s
+```
 ---
 
 ## Análisis de Implicaciones Generales
