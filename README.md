@@ -24,50 +24,36 @@ The EMA acts as a *Temporal Denoiser*. Over time, the conflicting noise from co-
 
 ---
 
-## 📊 Benchmark: MNIST from Scratch (No Backprop)
+## 📊 Experimental Results (MNIST Benchmark)
 
-We trained a standard Vision network (`784 -> 32 -> 10`, 25,450 parameters) on MNIST **without Autograd/Backpropagation**. 
-Budget: 100,000 forward passes.
-
-| Algorithm | Method | Train Accuracy | Test Accuracy |
-|-----------|--------|----------------|---------------|
-| **SPSA** | Perturb everything (O(1)) | 59.1% | 56.5% |
-| **DGE** | Group Testing + EMA (O(log D)) | **92.9%** | **85.7%** |
-
-*DGE trained a 25k parameter neural network to 85.7% accuracy using only random blocks and loss evaluations, demonstrating a mathematical victory over high-dimensional variance.*
+| Iteration | Architecture | Constraint | Evaluation Budget | Accuracy (Test) | Note |
+|:---|:---|:---|:---|:---|:---|
+| **v8c** | Shallow (784-32-10) | None | 1,000,000 | **90.40%** | Baseline Zeroth-Order |
+| **v9** | Shallow (784-32-10) | None | 100,000 | **87.50%** | Only 3% behind Adam/SGD |
+| **v10** | Deep (784-64x4-10) | Depth | 150,000 | **85.67%** | Stable scaling in deep architectures |
+| **v11** | Non-Diff (Step) | Non-Diff | 120,000 | **65.00%** | Outperformed Adam (Adam failed at 61%) |
+| **v12** | Binary {-1, 1} | 1-bit W | 150,000 | **73.50%** (peak) | Extreme 32x weight compression |
+| **v13** | Ternary {-1, 0, 1}| Sparse W | 150,000 | **67.67%** | 50% sparsity + 1-bit values |
 
 ---
 
-## 💻 Usage
+## 🛠 Applications
 
-```python
-import numpy as np
-from dge import DGEOptimizer
+DGE is not just for Neural Networks; it is a universal optimizer for any multi-dimensional landscape where derivatives are unavailable or unreliable:
 
-# 1. Initialize Optimizer
-optimizer = DGEOptimizer(
-    dim=25000,           # Number of parameters
-    lr=0.5,              # Learning rate
-    delta=1e-3,          # Perturbation size
-    clip_norm=0.05       # Crucial for high-D stability
-)
-
-# 2. Define your parameters and a callable Black-Box loss function
-params = np.random.randn(25000)
-
-def loss_fn(p):
-    # CRITICAL: For stochastic data (minibatches), ensure the 
-    # exact same data batch is used during a single step.
-    return my_neural_network_forward(data_batch, p)
-
-# 3. Optimize
-for step in range(1000):
-    params, evals_used = optimizer.step(loss_fn, params)
-```
+1.  **Chess Engine Tuning:** Optimize evaluation functions, Piece-Square Tables (PST), and piece values with logarithmic efficiency. DGE can tune parameters directly against game results or engine evaluations much faster than traditional SPSA or local-search methods.
+2.  **Edge AI & Quantized Training:** Native training of binary and ternary networks for deployment on low-power, integer-only hardware.
+3.  **Adversarial Research:** Perform efficient black-box adversarial attacks by identifying the most sensitive input pixels/tokens with $O(\log N)$ calls.
+4.  **Non-Differentiable Systems:** Tuning hyper-parameters in complex simulators (physics engines, robotics, financial markets) where backpropagation is impossible.
+5.  **Memory-Free Learning:** Training massive models on consumer hardware by eliminating the $O(L)$ memory cost of activation graphs.
 
 ---
 
 ## 📂 Repository Structure
 * `dge/optimizer.py`: The core algorithm implementation (Adam-infused EMA group testing).
-* `examples/train_mnist.py`: A complete script demonstrating how to train a PyTorch/Numpy network on MNIST without backpropagation.
-* `docs/`: The original theoretical whitepapers and empirical findings that led to the creation of DGE.
+* `examples/train_mnist.py`: A complete script demonstrating how to train on MNIST.
+* `scratch/`: Experimental versions and prototypes (v1 to v13).
+* `docs/`: Detailed findings and research whitepapers for each iteration.
+
+---
+*DGE — Reimagining Optimization for the Discreteness of Reality.*
