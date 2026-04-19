@@ -22,7 +22,7 @@ try:
 except ImportError:
     TORCH_AVAILABLE = False
 
-def forward_np(X, params, arch):
+def forward_np(X, params, arch, activation="relu"):
     i = 0
     h = X
     for layer_in, layer_out in zip(arch[:-1], arch[1:]):
@@ -32,8 +32,14 @@ def forward_np(X, params, arch):
         b = params[i:i+layer_out]
         i += layer_out
         h = h @ W + b
+        
         if layer_out != arch[-1]:
-            h = np.maximum(h, 0)   # ReLU
+            if activation == "relu":
+                h = np.maximum(h, 0)
+            elif activation == "step":
+                h = (h > 0).astype(np.float32)
+            elif activation == "sign":
+                h = np.sign(h)
     return h
 
 def softmax_np(z):
@@ -41,8 +47,8 @@ def softmax_np(z):
     e = np.exp(z)
     return e / e.sum(axis=1, keepdims=True)
 
-def full_accuracy(X, y, params, arch):
-    logits = forward_np(X, params, arch)
+def full_accuracy(X, y, params, arch, activation="relu"):
+    logits = forward_np(X, params, arch, activation=activation)
     preds  = logits.argmax(axis=1)
     return float(np.mean(preds == y))
 
@@ -85,6 +91,7 @@ def run_ml_experiment(config, seed):
     batch_size = config.get("batch_size", 256)
     budget = config.get("budget", 100000)
     arch = tuple(config.get("architecture", [784, 32, 10]))
+    activation = config.get("activation", "relu")
     
     dim = sum(arch[i] * arch[i+1] + arch[i+1] for i in range(len(arch) - 1))
     
@@ -126,7 +133,6 @@ def run_ml_experiment(config, seed):
     history_evals = []
     history_train_acc = []
     history_test_acc = []
-    history_loss = []
     
     log_interval = max(1, budget // 10)
     next_log = 0
@@ -136,22 +142,22 @@ def run_ml_experiment(config, seed):
 
     while evals < budget:
         if evals >= next_log:
-            tr_acc = full_accuracy(X_train, y_train, params, arch)
-            te_acc = full_accuracy(X_test, y_test, params, arch)
+            tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation)
+            te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation)
             history_evals.append(evals)
             history_train_acc.append(tr_acc)
             history_test_acc.append(te_acc)
             print(f"Evals: {evals}, Test Acc: {te_acc:.2%}")
             next_log += log_interval
 
-        # Sample minibatch once per step (CRITICAL for DGE to cancel spatial noise, not data noise)
+        # Sample minibatch once per step
         idx = rng_mb.integers(0, len(y_train), size=batch_size)
         Xb, yb = X_train[idx], y_train[idx]
 
         def tracked_f(p):
             nonlocal f_time
             t_f0 = time.time()
-            logits = forward_np(Xb, p, arch)
+            logits = forward_np(Xb, p, arch, activation=activation)
             probs = softmax_np(logits)
             probs = np.clip(probs, 1e-7, 1 - 1e-7)
             loss = float(-np.mean(np.log(probs[np.arange(len(yb)), yb])))
@@ -163,11 +169,10 @@ def run_ml_experiment(config, seed):
         internal_time += time.time() - t0 - f_time
         
         evals += evals_used
-        history_loss.append(tracked_f(params))
 
     # Final log
-    tr_acc = full_accuracy(X_train, y_train, params, arch)
-    te_acc = full_accuracy(X_test, y_test, params, arch)
+    tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation)
+    te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation)
     history_evals.append(evals)
     history_train_acc.append(tr_acc)
     history_test_acc.append(te_acc)

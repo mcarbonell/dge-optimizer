@@ -1,0 +1,19 @@
+{
+    "name": "mnist_step_dge",
+    "dataset": "mnist",
+    "activation": "step",
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 120000,
+    "architecture": [784, 32, 10],
+    "optimizer": {
+        "name": "dge",
+        "lr": 0.5,
+        "lr_decay": 0.01,
+        "delta": 0.01,
+        "greedy_w": 0.0,
+        "clip_norm": 0.05,
+        "dense_update": false
+    }
+}
