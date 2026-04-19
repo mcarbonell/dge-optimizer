@@ -1,0 +1,13 @@
+{
+    "name": "rosenbrock_d128_dge",
+    "benchmark": "rosenbrock",
+    "dimension": 128,
+    "budget": 50000,
+    "init_range": [-2.0, 2.0],
+    "optimizer": {
+        "name": "dge",
+        "lr": 0.1,
+        "lr_decay": 0.01,
+        "delta": 0.01
+    }
+}
