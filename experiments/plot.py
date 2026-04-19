@@ -11,39 +11,40 @@ except ImportError:
 
 def main():
     parser = argparse.ArgumentParser(description="Plot aggregated experiment results")
-    parser.add_argument("--summary", type=str, required=True, help="Path to summary JSON")
+    parser.add_argument("--summaries", type=str, nargs='+', required=True, help="Paths to summary JSONs")
+    parser.add_argument("--out", type=str, default="comparison_plot.png", help="Output filename")
+    parser.add_argument("--title", type=str, default="Benchmark Comparison", help="Plot title")
     args = parser.parse_args()
 
-    if not os.path.exists(args.summary):
-        print(f"Error: Summary file {args.summary} not found.")
-        return
-
-    with open(args.summary, 'r') as f:
-        summary = json.load(f)
-
-    exp_name = summary["experiment_name"]
-    evals = np.array(summary["aggregated_history"]["evaluations"])
-    means = np.array(summary["aggregated_history"]["objective_value_mean"])
-    stds = np.array(summary["aggregated_history"]["objective_value_std"])
-
     plt.figure(figsize=(10, 6))
-    plt.plot(evals, means, label=f'{exp_name} (mean)', color='blue')
-    plt.fill_between(evals, means - stds, means + stds, color='blue', alpha=0.2, label=r'$\pm 1$ std')
 
-    # Many optimization landscapes go to zero, log scale helps.
-    # Replace zeros or negatives to avoid log errors if any exist.
-    means_safe = np.where(means <= 0, 1e-10, means)
-    
+    for summary_file in args.summaries:
+        if not os.path.exists(summary_file):
+            print(f"Error: Summary file {summary_file} not found. Skipping.")
+            continue
+
+        with open(summary_file, 'r') as f:
+            summary = json.load(f)
+
+        exp_name = summary["experiment_name"]
+        evals = np.array(summary["aggregated_history"]["evaluations"])
+        means = np.array(summary["aggregated_history"]["objective_value_mean"])
+        stds = np.array(summary["aggregated_history"]["objective_value_std"])
+
+        p = plt.plot(evals, means, label=f'{exp_name} ({summary["num_seeds"]} seeds)')
+        color = p[0].get_color()
+        plt.fill_between(evals, means - stds, means + stds, color=color, alpha=0.2)
+
     plt.yscale('log')
     plt.xlabel('Function Evaluations')
     plt.ylabel('Objective Value (Log Scale)')
-    plt.title(f'Performance: {exp_name} ({summary["num_seeds"]} seeds)')
+    plt.title(args.title)
     plt.legend()
     plt.grid(True, which="both", ls="-", alpha=0.5)
 
     figures_dir = "results/figures"
     os.makedirs(figures_dir, exist_ok=True)
-    out_file = os.path.join(figures_dir, f"{exp_name}_plot.png")
+    out_file = os.path.join(figures_dir, args.out)
     
     plt.savefig(out_file, dpi=300, bbox_inches='tight')
     print(f"Plot saved to {out_file}")
