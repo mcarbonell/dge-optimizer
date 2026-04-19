@@ -8,6 +8,7 @@
         "name": "dge",
         "lr": 0.1,
         "lr_decay": 0.01,
-        "delta": 0.01
+        "delta": 0.01,
+        "greedy_w": 0.0
     }
 }

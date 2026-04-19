@@ -15,7 +15,7 @@ class DGEOptimizer:
     def __init__(self, dim: int, lr: float = 1.0, delta: float = 1e-3, 
                  beta1: float = 0.9, beta2: float = 0.999, eps: float = 1e-8, 
                  lr_decay: float = 0.01, delta_decay: float = 0.05,
-                 total_steps: int = 1000, greedy_w: float = 0.3, 
+                 total_steps: int = 1000, greedy_w: float = 0.0, 
                  clip_norm: float = 1.0, seed: int | None = None):
         self.dim = dim
         self.lr0 = lr
@@ -103,12 +103,15 @@ class DGEOptimizer:
         # 3. Adam EMA Accumulation (Exploración temporal y Denoising)
         self.m[ev] = self.beta1 * self.m[ev] + (1 - self.beta1) * g[ev]
         self.v[ev] = self.beta2 * self.v[ev] + (1 - self.beta2) * g[ev] ** 2
+        
+        not_ev = ~ev
+        self.m[not_ev] = self.beta1 * self.m[not_ev]
+        self.v[not_ev] = self.beta2 * self.v[not_ev]
 
         mh = self.m / (1 - self.beta1 ** self.t + 1e-30)
         vh = self.v / (1 - self.beta2 ** self.t + 1e-30)
 
-        upd = np.zeros(self.dim, dtype=np.float32)
-        upd[ev] = lr * mh[ev] / (np.sqrt(vh[ev]) + self.eps)
+        upd = lr * mh / (np.sqrt(vh) + self.eps)
         
         # Gradient Clipping (Crucial for High-Dimensional stability)
         un = np.linalg.norm(upd)
