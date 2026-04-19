@@ -393,6 +393,14 @@ Use this section to leave short updates between sessions.
 - [x] Baseline suite expanded (SPSA and Random Direction Search implemented)
 - [ ] Ablations completed (Partial: greedy step disabled, proving EMA is the main driver)
 - [x] ML benchmarks stabilized
+- [x] Non-differentiable benchmarks stabilized (Phase 6 initial results)
+- [ ] Theory notes drafted
+- [ ] README claims revised
+- [ ] Paper outline drafted
+- [ ] README claims revised
+- [ ] Paper outline drafted
+ed
+stabilized
 - [ ] Non-differentiable benchmarks stabilized
 - [ ] Theory notes drafted
 - [ ] README claims revised
