@@ -392,7 +392,7 @@ Use this section to leave short updates between sessions.
 - [x] Synthetic suite implemented (Phase 2 initial D=128 runs complete)
 - [x] Baseline suite expanded (SPSA and Random Direction Search implemented)
 - [ ] Ablations completed (Partial: greedy step disabled, proving EMA is the main driver)
-- [ ] ML benchmarks stabilized
+- [x] ML benchmarks stabilized
 - [ ] Non-differentiable benchmarks stabilized
 - [ ] Theory notes drafted
 - [ ] README claims revised
