@@ -1,0 +1,11 @@
+{
+    "name": "dummy_benchmark",
+    "benchmark": "sphere",
+    "dimension": 32,
+    "budget": 1000,
+    "optimizer": {
+        "name": "dge",
+        "group_size": 4,
+        "k": 5
+    }
+}
