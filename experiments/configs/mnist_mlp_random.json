@@ -1,0 +1,14 @@
+{
+    "name": "mnist_mlp_random",
+    "dataset": "mnist",
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 100000,
+    "architecture": [784, 32, 10],
+    "optimizer": {
+        "name": "random",
+        "lr": 0.5,
+        "lr_decay": 0.01
+    }
+}

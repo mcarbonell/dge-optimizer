@@ -14,6 +14,8 @@ def main():
     parser.add_argument("--summaries", type=str, nargs='+', required=True, help="Paths to summary JSONs")
     parser.add_argument("--out", type=str, default="comparison_plot.png", help="Output filename")
     parser.add_argument("--title", type=str, default="Benchmark Comparison", help="Plot title")
+    parser.add_argument("--metric", type=str, default="objective_value", help="Which metric from history to plot (e.g. objective_value, test_accuracy)")
+    parser.add_argument("--log_scale", action="store_true", help="Use log scale for Y axis")
     args = parser.parse_args()
 
     plt.figure(figsize=(10, 6))
@@ -28,16 +30,28 @@ def main():
 
         exp_name = summary["experiment_name"]
         evals = np.array(summary["aggregated_history"]["evaluations"])
-        means = np.array(summary["aggregated_history"]["objective_value_mean"])
-        stds = np.array(summary["aggregated_history"]["objective_value_std"])
+        
+        mean_key = f"{args.metric}_mean"
+        std_key = f"{args.metric}_std"
+        
+        if mean_key not in summary["aggregated_history"]:
+            print(f"Warning: Metric {mean_key} not found in {summary_file}. Skipping.")
+            continue
+            
+        means = np.array(summary["aggregated_history"][mean_key])
+        stds = np.array(summary["aggregated_history"][std_key])
 
         p = plt.plot(evals, means, label=f'{exp_name} ({summary["num_seeds"]} seeds)')
         color = p[0].get_color()
         plt.fill_between(evals, means - stds, means + stds, color=color, alpha=0.2)
 
-    plt.yscale('log')
+    if args.log_scale:
+        plt.yscale('log')
+        plt.ylabel(f'{args.metric} (Log Scale)')
+    else:
+        plt.ylabel(args.metric)
+        
     plt.xlabel('Function Evaluations')
-    plt.ylabel('Objective Value (Log Scale)')
     plt.title(args.title)
     plt.legend()
     plt.grid(True, which="both", ls="-", alpha=0.5)

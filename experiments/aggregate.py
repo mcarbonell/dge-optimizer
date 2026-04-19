@@ -33,41 +33,44 @@ def main():
 
     print(f"Found {len(files)} result files for {exp_name}.")
     
+    # We will aggregate any key found in metrics and history
     all_metrics = []
-    # Assuming history evaluations are aligned across runs
     all_histories = []
-    evaluations_axis = None
-
+    
     for f in files:
         with open(f, 'r') as file:
             data = json.load(file)
-            all_metrics.append(data["metrics"])
-            all_histories.append(data["history"]["objective_value"])
-            if evaluations_axis is None:
-                evaluations_axis = data["history"]["evaluations"]
+            all_metrics.append(data.get("metrics", {}))
+            all_histories.append(data.get("history", {}))
 
-    # Calculate aggregations
-    final_objs = [m["final_objective"] for m in all_metrics]
-    mean_final_obj = np.mean(final_objs)
-    std_final_obj = np.std(final_objs)
+    aggregated_metrics = {}
+    if all_metrics:
+        keys = all_metrics[0].keys()
+        for k in keys:
+            vals = [m[k] for m in all_metrics if k in m and isinstance(m[k], (int, float))]
+            if vals:
+                aggregated_metrics[f"{k}_mean"] = float(np.mean(vals))
+                aggregated_metrics[f"{k}_std"] = float(np.std(vals))
 
-    hist_array = np.array(all_histories)
-    mean_history = np.mean(hist_array, axis=0).tolist()
-    std_history = np.std(hist_array, axis=0).tolist()
+    aggregated_history = {}
+    if all_histories:
+        keys = all_histories[0].keys()
+        for k in keys:
+            if k == "evaluations":
+                aggregated_history[k] = all_histories[0][k]
+            else:
+                arrays = [h[k] for h in all_histories if k in h]
+                if arrays:
+                    arr = np.array(arrays)
+                    aggregated_history[f"{k}_mean"] = np.mean(arr, axis=0).tolist()
+                    aggregated_history[f"{k}_std"] = np.std(arr, axis=0).tolist()
 
     summary = {
         "experiment_name": exp_name,
         "num_seeds": len(files),
         "config": config,
-        "aggregated_metrics": {
-            "final_objective_mean": mean_final_obj,
-            "final_objective_std": std_final_obj,
-        },
-        "aggregated_history": {
-            "evaluations": evaluations_axis,
-            "objective_value_mean": mean_history,
-            "objective_value_std": std_history
-        }
+        "aggregated_metrics": aggregated_metrics,
+        "aggregated_history": aggregated_history
     }
 
     summary_dir = "results/summary"

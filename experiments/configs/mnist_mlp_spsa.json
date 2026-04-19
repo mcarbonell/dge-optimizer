@@ -1,0 +1,15 @@
+{
+    "name": "mnist_mlp_spsa",
+    "dataset": "mnist",
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 100000,
+    "architecture": [784, 32, 10],
+    "optimizer": {
+        "name": "spsa",
+        "lr": 0.01,
+        "lr_decay": 0.01,
+        "delta": 0.01
+    }
+}
