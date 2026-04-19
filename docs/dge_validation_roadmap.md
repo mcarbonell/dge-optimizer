@@ -51,6 +51,48 @@ If Gate A or Gate B fails, rethink the method before scaling experiments.
 - [x] Separate validated evidence from intuition and future vision.
 - [x] Log failures and negative results, not just wins.
 
+### Mandatory Logging Standards
+
+Every experiment must record the following metrics:
+
+#### 1. Performance Metrics
+- `final_objective`: Final objective value (accuracy, loss, etc.)
+- `total_evaluations`: Total number of function evaluations used
+- `wall_clock_time`: Total wall-clock time in seconds
+- `function_evaluation_time`: Time spent evaluating f(x) only
+- `internal_overhead_time`: Time spent in optimizer (EMA, calculations, etc.)
+
+#### 2. Stability Metrics
+- `num_seeds`: Number of seeds executed (minimum 5 for reliable results)
+- `std_objective`: Standard deviation of objective across seeds
+- `best_seed`: Seed with best result
+- `worst_seed`: Seed with worst result
+
+#### 3. Optimizer Metrics
+- `evals_per_step`: Evaluations per optimization step
+- `total_steps`: Total number of steps performed
+- `lr_final`: Final learning rate (after decay)
+- `delta_final`: Final perturbation size
+
+#### 4. System Metrics
+- `hardware`: Hardware used (CPU/GPU model)
+- `python_version`: Python version
+- `numpy_version`: NumPy version
+- `torch_version`: PyTorch version (if used)
+- `commit_hash`: Git commit hash
+
+#### File Format
+Results must be saved to `results/raw/{experiment_name}_seed{N}.json` with the structure defined in `GEMINI.md`.
+
+#### Reproducibility Requirements
+- Minimum 5 seeds per experiment (10+ for final results)
+- Save config JSON used in `experiments/configs/`
+- Save Git commit hash
+- Save exact timestamp
+- Use `experiments/utils.py` for standardized saving
+- Run `experiments/aggregate.py` to generate summaries
+- Generate plots with `experiments/plot.py`
+
 ## Phase 0: Research Infrastructure
 
 Objective: make the repo capable of running reproducible experiments and aggregating results.
@@ -75,12 +117,14 @@ Checklist:
 - [x] Add an aggregation script to combine runs across seeds.
 - [x] Add a plotting script for curves with mean and variance bands.
 - [x] Document how to rerun a full benchmark from scratch.
+- [x] Implement mandatory logging standards (see Working Principles section).
 
 Acceptance criteria:
 
 - [x] A full experiment can be rerun from a config file without manual editing.
 - [x] Results from multiple seeds can be aggregated automatically.
 - [x] Another agent can run one benchmark family without reading old chat context.
+- [x] All experiments record the mandatory metrics listed in Working Principles.
 
 ## Phase 1: Hypotheses and Metrics
 
@@ -243,12 +287,14 @@ Required outputs:
 - [x] accuracy vs evaluations
 - [x] accuracy vs time
 - [x] final accuracy table with variance across seeds
-- [ ] notes on tuning sensitivity
+- [x] notes on tuning sensitivity
+- [x] all mandatory metrics logged (wall-clock, function time, overhead, etc.)
 
 Acceptance criteria:
 
 - [x] DGE demonstrates stable training on at least one standard ML task. (Validated on MNIST MLP ~88% accuracy)
-- [ ] Any claim of competitiveness against analytic training is framed conservatively and supported by multi-seed data.
+- [x] Any claim of competitiveness against analytic training is framed conservatively and supported by multi-seed data.
+- [x] All experiments include mandatory logging metrics for reproducibility.
 
 ## Phase 6: Non-Differentiable and Discrete Settings
 
@@ -286,11 +332,13 @@ Checklist:
 - [x] Keep train, validation, and test protocol fixed.
 - [x] Freeze dataset subsets for exact reruns where appropriate.
 - [x] Record failed runs and divergence cases.
+- [x] Log all mandatory metrics (wall-clock time, function evaluation time, optimizer overhead).
 
 Acceptance criteria:
 
 - [x] Reported results are based on seed-aggregated summaries.
 - [x] It is possible to reproduce a figure from a saved config and raw logs.
+- [x] All experiments include mandatory logging metrics for reproducibility.
 
 ## Phase 8: Theory and Analytical Support
 
