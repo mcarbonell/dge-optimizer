@@ -234,6 +234,7 @@ Comparisons:
 
 - [ ] DGE vs black-box baselines at equal evaluation budgets
 - [ ] DGE vs Adam/SGD as analytic references
+- [ ] Analyze impact of batch size and paired evaluation (evaluating all perturbations on the exact same batch to isolate weight signal from data noise)
 
 Required outputs:
 
