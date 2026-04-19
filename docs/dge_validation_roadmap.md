@@ -386,13 +386,15 @@ If another agent picks this up, start here:
 
 Use this section to leave short updates between sessions.
 
-- [ ] Roadmap created
-- [ ] Infrastructure bootstrapped
-- [ ] Synthetic suite implemented
-- [ ] Baseline suite expanded
-- [ ] Ablations completed
+- [x] Roadmap created
+- [x] Infrastructure bootstrapped (Phase 0 complete)
+- [x] Synthetic suite implemented (Phase 2 initial D=128 runs complete)
+- [x] Baseline suite expanded (SPSA and Random Direction Search implemented)
+- [ ] Ablations completed (Partial: greedy step disabled, proving EMA is the main driver)
 - [ ] ML benchmarks stabilized
 - [ ] Non-differentiable benchmarks stabilized
 - [ ] Theory notes drafted
 - [ ] README claims revised
+- [ ] Paper outline drafted
+] README claims revised
 - [ ] Paper outline drafted
