@@ -22,7 +22,7 @@ Este es el resultado que valida la premisa fundamental del whitepaper:
 
 La idea de DGE (Estimación Dicotómica de Gradiente) surgió el 2026-04-18 como alternativa
 de coste `O(log D)` al cálculo de gradiente por diferencias finitas `O(D)`.
-Whitepaper conceptual: `docs/dichotomous_gradient_estimation_idea.md`.
+Whitepaper conceptual: `docs/denoised_gradient_estimation_idea.md`.
 
 ---
 

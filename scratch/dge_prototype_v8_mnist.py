@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v8)
+DGE - Denoised Gradient Estimation (Prototype v8)
 =====================================================
 MNIST sin backpropagation.
 

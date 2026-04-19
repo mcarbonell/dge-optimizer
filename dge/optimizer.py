@@ -3,7 +3,7 @@ import math
 
 class DGEOptimizer:
     """
-    Dichotomous Gradient Estimation (DGE) Optimizer.
+    Denoised Gradient Estimation (DGE) Optimizer.
     
     A zeroth-order (derivative-free) optimizer that circumvents the O(D) finite-difference 
     curse of dimensionality. It isolates the most active parameters by testing random 

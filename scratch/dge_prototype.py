@@ -1,8 +1,8 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v1)
+DGE - Denoised Gradient Estimation (Prototype v1)
 =====================================================
 Implementación del algoritmo descrito en:
-  docs/dichotomous_gradient_estimation_idea.md  (Sección 7)
+  docs/denoised_gradient_estimation_idea.md  (Sección 7)
 
 Estrategia: Random Group Testing + EMA
   - Cada paso genera k = ceil(log2(D)) bloques aleatorios de variables.

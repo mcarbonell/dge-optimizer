@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v6)
+DGE - Denoised Gradient Estimation (Prototype v6)
 =====================================================
 Primera prueba en Machine Learning real: Red XOR sin backprop.
 

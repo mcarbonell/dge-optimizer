@@ -1,8 +1,8 @@
-# Estimación Dicotómica de Gradiente (DGE)
+# Estimación de Gradiente por Eliminación de Ruido (DGE - Denoised Gradient Estimation)
 ## Un enfoque O(log D) para Optimización Black-Box
 
 ### 1. La Idea Central
-En optimización sin derivadas (DFO), el cálculo del gradiente mediante diferencias finitas requiere $O(D)$ evaluaciones (una por dimensión). La idea de la **Estimación Dicotómica de Gradiente (DGE - Dichotomous Gradient Estimation)** es utilizar una estrategia de "Divide y Vencerás" (búsqueda binaria) para aislar las variables que tienen un mayor impacto en la función objetivo, reduciendo el coste computacional a $O(\log_2 D)$.
+En optimización sin derivadas (DFO), el cálculo del gradiente mediante diferencias finitas requiere $O(D)$ evaluaciones (una por dimensión). La idea de la **Estimación de Gradiente por Eliminación de Ruido (DGE - Denoised Gradient Estimation)** (originalmente propuesta como *Dichotomous*) es utilizar una estrategia de testeo por grupos aleatorios y acumulación temporal para filtrar el ruido de fondo, reduciendo drásticamente el coste computacional de obtener un gradiente limpio.
 
 La premisa matemática subyacente asume **dispersión (sparsity) de gradiente**: en un paso de optimización dado, no todas las variables contribuyen por igual al error. Unas pocas variables dominan la pendiente. Si logramos aislar rápidamente esas variables, podemos dar un paso de descenso de gradiente muy efectivo sin tener que evaluar las variables irrelevantes.
 
@@ -74,7 +74,7 @@ Esto transforma a DGE de ser un algoritmo puramente local a un algoritmo con "At
 2. **Sparsity estricto:** Funciona de forma óptima si el "Paisaje" de la función tiene unas pocas variables dominando en cada momento. Si todas las 1,000,000 dimensiones contribuyen *exactamente* igual al gradiente (una esfera perfecta), la dicotomía tomará caminos aleatorios (aunque la memoria temporal mitiga este problema drásticamente).
 
 ### 5. Conclusión
-El método DGE (Estimación Dicotómica) con Acumulación Temporal actúa como un filtro espacial y temporal rápido. En lugar de preguntar "cuál es la pendiente en todas partes", pregunta "¿dónde está la mayor pendiente?" usando búsqueda binaria informada por el pasado, y solo calcula esa. Representa un puente teórico brillante entre la optimización basada en gradientes, las técnicas de Compressed Sensing, y el procesamiento de señales en tiempo real de Computer Graphics.
+El método DGE (Denoised Gradient Estimation) con Acumulación Temporal actúa como un filtro espacial y temporal rápido. En lugar de preguntar "cuál es la pendiente en todas partes", pregunta "¿dónde está la mayor pendiente?" usando búsqueda binaria informada por el pasado, y solo calcula esa. Representa un puente teórico brillante entre la optimización basada en gradientes, las técnicas de Compressed Sensing, y el procesamiento de señales en tiempo real de Computer Graphics.
 
 ### 6. Aplicación a Redes Neuronales y Machine Learning
 

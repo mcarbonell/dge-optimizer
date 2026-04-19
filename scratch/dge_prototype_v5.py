@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v5)
+DGE - Denoised Gradient Estimation (Prototype v5)
 =====================================================
 Mejoras sobre v4:
   - lr automaticamente escalado por 1/sqrt(D): estabilidad en alta dimension.
@@ -12,7 +12,7 @@ Hipotesis a validar:
   - DGE es comparable o superior a SPSA en funciones densas.
   - DGE mantiene ventaja en alta dimension por presupuesto logaritmico.
 
-Referencia: docs/dichotomous_gradient_estimation_idea.md  (Seccion 7)
+Referencia: docs/denoised_gradient_estimation_idea.md  (Seccion 7)
 """
 
 import numpy as np

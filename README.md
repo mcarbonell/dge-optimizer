@@ -1,8 +1,8 @@
-# DGE Optimizer (Dichotomous Gradient Estimation)
+# DGE Optimizer (Denoised Gradient Estimation)
 
-**DGE** is a novel zeroth-order (derivative-free) optimizer designed to solve the "Curse of Dimensionality" in Black-Box optimization and memory-constrained Machine Learning. 
+**DGE** (**Denoised Gradient Estimation**, formerly *Dichotomous*) is a novel zeroth-order (derivative-free) optimizer designed to solve the "Curse of Dimensionality" in Black-Box optimization and memory-constrained Machine Learning. 
 
-It provides an $O(\log D)$ gradient estimation approach that can successfully train Neural Networks without ever calculating analytical derivatives or using Backpropagation.
+It provides an efficient gradient estimation approach that uses randomized group testing and temporal accumulation to filter out noise, allowing it to train Neural Networks without ever calculating analytical derivatives or using Backpropagation.
 
 ---
 
@@ -53,7 +53,7 @@ DGE is not just for Neural Networks; it is a universal optimizer for any multi-d
 * `dge/optimizer.py`: The core algorithm implementation (Adam-infused EMA group testing).
 * `examples/train_mnist.py`: A complete script demonstrating how to train on MNIST.
 * `scratch/`: Experimental versions and prototypes (v1 to v13).
-* `docs/`: Detailed findings and research whitepapers for each iteration.
+* `docs/`: Detailed findings and research whitepapers for each iteration (including `denoised_gradient_estimation_idea.md`).
 
 ---
 *DGE — Reimagining Optimization for the Discreteness of Reality.*

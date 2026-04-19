@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v7)
+DGE - Denoised Gradient Estimation (Prototype v7)
 =====================================================
 Iris dataset: primer test ML real con datos reales, 3 clases, 150 muestras.
 

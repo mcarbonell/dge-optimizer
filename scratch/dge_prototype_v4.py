@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v4)
+DGE - Denoised Gradient Estimation (Prototype v4)
 =====================================================
 Mejoras sobre v3:
   - Adam sobre el gradiente EMA por variable (reemplaza el paso EMA simple).
@@ -13,7 +13,7 @@ Resultado esperado:
   - Alta dimension (D=65536): convergencia mucho mas rapida por lr adaptativo.
   - Rosenbrock: sin oscilacion gracias al decay de lr y la varianza de Adam.
 
-Referencia: docs/dichotomous_gradient_estimation_idea.md  (Seccion 7)
+Referencia: docs/denoised_gradient_estimation_idea.md  (Seccion 7)
 """
 
 import numpy as np

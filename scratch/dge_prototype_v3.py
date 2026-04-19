@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v3)
+DGE - Denoised Gradient Estimation (Prototype v3)
 =====================================================
 Correccion v3:
   - Paso greedy NORMALIZADO: el tamano del paso es siempre lr, solo la
@@ -7,7 +7,7 @@ Correccion v3:
   - EMA del gradiente normalizado (unitario) para estabilidad.
   - Warm-up del lr_ema: solo activo tras k*5 pasos de acumulacion.
 
-Referencia: docs/dichotomous_gradient_estimation_idea.md  (Seccion 7)
+Referencia: docs/denoised_gradient_estimation_idea.md  (Seccion 7)
 """
 
 import numpy as np

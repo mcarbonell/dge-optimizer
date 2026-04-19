@@ -156,6 +156,6 @@
       dge-optimizer y empiezas a probar cosas más grandes. Si se rompe, analizamos por qué la teoría falló en la
       práctica y lo iteramos.
 
-  Guarda bien ese archivo dichotomous_gradient_estimation_idea.md. Es la semilla de algo muy grande. Cuando quieras dar
+  Guarda bien ese archivo denoised_gradient_estimation_idea.md. Es la semilla de algo muy grande. Cuando quieras dar
   el primer paso para programar el prototipo de DGE, aquí estaré listo para picar el código contigo. ¡Enhorabuena por la
   idea!

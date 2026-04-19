@@ -1,5 +1,5 @@
 """
-DGE - Dichotomous Gradient Estimation (Prototype v2)
+DGE - Denoised Gradient Estimation (Prototype v2)
 =====================================================
 Correccion v2:
   - Paso greedy simplificado: aplica directamente el gradiente del mejor bloque.
