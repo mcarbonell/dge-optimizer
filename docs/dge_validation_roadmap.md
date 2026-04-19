@@ -169,23 +169,23 @@ Objective: ensure DGE is being compared to a serious zeroth-order baseline set.
 
 Baselines to include:
 
-- [ ] SPSA
+- [x] SPSA
 - [ ] SPSA + momentum or Adam-style accumulator
-- [ ] random direction search
+- [x] random direction search
 - [ ] simple evolution strategies / NES-style estimator
 - [ ] coordinate or block coordinate finite differences where feasible
 - [ ] partial finite differences under matched evaluation budgets
 
 Rules:
 
-- [ ] Tune baselines fairly.
-- [ ] Do not compare a heavily tuned DGE against naive untuned baselines only.
-- [ ] Record tuning ranges and the selection policy.
+- [x] Tune baselines fairly.
+- [x] Do not compare a heavily tuned DGE against naive untuned baselines only.
+- [x] Record tuning ranges and the selection policy.
 
 Acceptance criteria:
 
-- [ ] DGE is no longer evaluated only against one weak comparator.
-- [ ] The repo can produce a table of results across multiple black-box methods.
+- [x] DGE is no longer evaluated only against one weak comparator.
+- [x] The repo can produce a table of results across multiple black-box methods.
 
 ## Phase 4: Method Ablations
 
@@ -194,7 +194,7 @@ Objective: identify which DGE components are actually responsible for performanc
 Mandatory ablations:
 
 - [ ] Remove temporal aggregation entirely.
-- [ ] Remove the greedy step.
+- [x] Remove the greedy step.
 - [ ] Replace Adam-style moments with EMA-only momentum.
 - [ ] Remove clipping.
 - [ ] Vary `k` from fixed small values to `log2(D)` and beyond.
@@ -203,6 +203,7 @@ Mandatory ablations:
 - [ ] Compare random signs vs simpler perturbation rules.
 - [ ] Compare fixed minibatch-per-step vs changing minibatch inside the same step.
 - [ ] Compare with and without learning-rate / delta schedules.
+- [ ] Analyze hyperparameter sensitivity (group size, k, EMA decay) to ensure robustness without excessive tuning.
 
 Key question to answer:
 
@@ -396,5 +397,6 @@ Use this section to leave short updates between sessions.
 - [ ] Theory notes drafted
 - [ ] README claims revised
 - [ ] Paper outline drafted
-] README claims revised
+- [ ] README claims revised
 - [ ] Paper outline drafted
+ed
