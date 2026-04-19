@@ -1,0 +1,16 @@
+{
+    "name": "mnist_binary_random",
+    "dataset": "mnist",
+    "weight_quantization": "binary",
+    "use_bias": false,
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 150000,
+    "architecture": [784, 128, 10],
+    "optimizer": {
+        "name": "random",
+        "lr": 0.5,
+        "lr_decay": 0.01
+    }
+}

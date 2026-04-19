@@ -22,17 +22,36 @@ try:
 except ImportError:
     TORCH_AVAILABLE = False
 
-def forward_np(X, params, arch, activation="relu"):
+def quantize_weights(params, mode="none"):
+    if mode == "none":
+        return params
+    elif mode == "binary":
+        return np.sign(params)
+    elif mode == "ternary":
+        # -1 if w < -0.5, 1 if w > 0.5, else 0
+        q = np.zeros_like(params)
+        q[params > 0.5] = 1.0
+        q[params < -0.5] = -1.0
+        return q
+    return params
+
+def forward_np(X, params, arch, activation="relu", weight_quant="none", use_bias=True):
     i = 0
     h = X
+    params_q = quantize_weights(params, mode=weight_quant)
+    
     for layer_in, layer_out in zip(arch[:-1], arch[1:]):
         w_size = layer_in * layer_out
-        W = params[i:i+w_size].reshape(layer_in, layer_out)
+        W = params_q[i:i+w_size].reshape(layer_in, layer_out)
         i += w_size
-        b = params[i:i+layer_out]
-        i += layer_out
-        h = h @ W + b
         
+        if use_bias:
+            b = params_q[i:i+layer_out]
+            i += layer_out
+            h = h @ W + b
+        else:
+            h = h @ W
+            
         if layer_out != arch[-1]:
             if activation == "relu":
                 h = np.maximum(h, 0)
@@ -47,8 +66,8 @@ def softmax_np(z):
     e = np.exp(z)
     return e / e.sum(axis=1, keepdims=True)
 
-def full_accuracy(X, y, params, arch, activation="relu"):
-    logits = forward_np(X, params, arch, activation=activation)
+def full_accuracy(X, y, params, arch, activation="relu", weight_quant="none", use_bias=True):
+    logits = forward_np(X, params, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
     preds  = logits.argmax(axis=1)
     return float(np.mean(preds == y))
 
@@ -92,23 +111,35 @@ def run_ml_experiment(config, seed):
     budget = config.get("budget", 100000)
     arch = tuple(config.get("architecture", [784, 32, 10]))
     activation = config.get("activation", "relu")
+    weight_quant = config.get("weight_quantization", "none")
+    use_bias = config.get("use_bias", True)
     
-    dim = sum(arch[i] * arch[i+1] + arch[i+1] for i in range(len(arch) - 1))
+    if use_bias:
+        dim = sum(arch[i] * arch[i+1] + arch[i+1] for i in range(len(arch) - 1))
+    else:
+        dim = sum(arch[i] * arch[i+1] for i in range(len(arch) - 1))
     
     X_train, y_train, X_test, y_test = load_mnist_subset(n_train, n_test, seed)
     
     rng = np.random.default_rng(seed)
     rng_mb = np.random.default_rng(seed + 1)
     
-    # Glorot/He initialization
+    # Glorot/He initialization or specific for quantization
     params = np.zeros(dim, dtype=np.float32)
     i = 0
+    init_mode = config.get("init_mode", "normal")
+    
     for fan_in, fan_out in zip(arch[:-1], arch[1:]):
         w_size = fan_in * fan_out
-        std = math.sqrt(2.0 / fan_in)
-        params[i:i+w_size] = rng.normal(0, std, w_size).astype(np.float32)
+        if init_mode == "uniform":
+            params[i:i+w_size] = rng.uniform(-1, 1, w_size).astype(np.float32)
+        else:
+            std = math.sqrt(2.0 / fan_in)
+            params[i:i+w_size] = rng.normal(0, std, w_size).astype(np.float32)
         i += w_size
-        i += fan_out
+        if use_bias:
+            params[i:i+fan_out] = rng.normal(0, 0.1, fan_out).astype(np.float32)
+            i += fan_out
         
     opt_config = config.get("optimizer", {})
     opt_name = opt_config.get("name", "dge")
@@ -142,12 +173,19 @@ def run_ml_experiment(config, seed):
 
     while evals < budget:
         if evals >= next_log:
-            tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation)
-            te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation)
+            tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
+            te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
             history_evals.append(evals)
             history_train_acc.append(tr_acc)
             history_test_acc.append(te_acc)
-            print(f"Evals: {evals}, Test Acc: {te_acc:.2%}")
+            
+            sparsity = 0
+            if weight_quant == "ternary":
+                pq = quantize_weights(params, mode="ternary")
+                sparsity = float(np.mean(pq == 0))
+            
+            sparsity_str = f", Sparsity: {sparsity:.1%}" if weight_quant == "ternary" else ""
+            print(f"Evals: {evals}, Test Acc: {te_acc:.2%}{sparsity_str}")
             next_log += log_interval
 
         # Sample minibatch once per step
@@ -157,7 +195,7 @@ def run_ml_experiment(config, seed):
         def tracked_f(p):
             nonlocal f_time
             t_f0 = time.time()
-            logits = forward_np(Xb, p, arch, activation=activation)
+            logits = forward_np(Xb, p, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
             probs = softmax_np(logits)
             probs = np.clip(probs, 1e-7, 1 - 1e-7)
             loss = float(-np.mean(np.log(probs[np.arange(len(yb)), yb])))
@@ -171,8 +209,8 @@ def run_ml_experiment(config, seed):
         evals += evals_used
 
     # Final log
-    tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation)
-    te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation)
+    tr_acc = full_accuracy(X_train, y_train, params, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
+    te_acc = full_accuracy(X_test, y_test, params, arch, activation=activation, weight_quant=weight_quant, use_bias=use_bias)
     history_evals.append(evals)
     history_train_acc.append(tr_acc)
     history_test_acc.append(te_acc)
