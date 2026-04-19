@@ -16,7 +16,7 @@ class DGEOptimizer:
                  beta1: float = 0.9, beta2: float = 0.999, eps: float = 1e-8, 
                  lr_decay: float = 0.01, delta_decay: float = 0.05,
                  total_steps: int = 1000, greedy_w: float = 0.0, 
-                 clip_norm: float = 1.0, seed: int | None = None):
+                 clip_norm: float = 1.0, dense_update: bool = True, seed: int | None = None):
         self.dim = dim
         self.lr0 = lr
         self.delta0 = delta
@@ -28,6 +28,7 @@ class DGEOptimizer:
         self.total_steps = total_steps
         self.greedy_w = greedy_w
         self.clip_norm = clip_norm
+        self.dense_update = dense_update
         self.rng = np.random.default_rng(seed)
         
         # Number of random blocks to test per step: k ≈ log2(D)
@@ -111,7 +112,11 @@ class DGEOptimizer:
         mh = self.m / (1 - self.beta1 ** self.t + 1e-30)
         vh = self.v / (1 - self.beta2 ** self.t + 1e-30)
 
-        upd = lr * mh / (np.sqrt(vh) + self.eps)
+        if self.dense_update:
+            upd = lr * mh / (np.sqrt(vh) + self.eps)
+        else:
+            upd = np.zeros(self.dim, dtype=np.float32)
+            upd[ev] = lr * mh[ev] / (np.sqrt(vh[ev]) + self.eps)
         
         # Gradient Clipping (Crucial for High-Dimensional stability)
         un = np.linalg.norm(upd)
