@@ -41,11 +41,11 @@ The EMA acts as a *Temporal Denoiser*. Over time, the conflicting noise from co-
 
 DGE is not just for Neural Networks; it is a universal optimizer for any multi-dimensional landscape where derivatives are unavailable or unreliable:
 
-1.  **Chess Engine Tuning:** Optimize evaluation functions, Piece-Square Tables (PST), and piece values with logarithmic efficiency. DGE can tune parameters directly against game results or engine evaluations much faster than traditional SPSA or local-search methods.
-2.  **Edge AI & Quantized Training:** Native training of binary and ternary networks for deployment on low-power, integer-only hardware.
-3.  **Adversarial Research:** Perform efficient black-box adversarial attacks by identifying the most sensitive input pixels/tokens with $O(\log N)$ calls.
-4.  **Non-Differentiable Systems:** Tuning hyper-parameters in complex simulators (physics engines, robotics, financial markets) where backpropagation is impossible.
-5.  **Memory-Free Learning:** Training massive models on consumer hardware by eliminating the $O(L)$ memory cost of activation graphs.
+1.  **Edge AI & Quantized Training:** Native training of binary and ternary networks for deployment on low-power, integer-only hardware.
+2.  **Adversarial Research:** Perform efficient black-box adversarial attacks by identifying the most sensitive input pixels/tokens with $O(\log N)$ calls.
+3.  **Non-Differentiable Systems:** Tuning hyper-parameters in complex simulators (physics engines, robotics, financial markets) where backpropagation is impossible.
+4.  **Memory-Free Learning:** Training massive models on consumer hardware by eliminating the $O(L)$ memory cost of activation graphs.
+5.  **Chess Engine Tuning:** Optimize evaluation functions, Piece-Square Tables (PST), and piece values with logarithmic efficiency. DGE can tune parameters directly against game results or engine evaluations much faster than traditional SPSA or local-search methods.
 
 ---
 
