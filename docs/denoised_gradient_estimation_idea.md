@@ -100,7 +100,7 @@ La búsqueda dicotómica estricta (dividir siempre un conjunto por la mitad y de
 
 Para solucionar esto de forma elegante **manteniendo intacto el coste de $O(\log_2 D)$ evaluaciones por iteración**, podemos evolucionar el concepto de la partición binaria hacia un **Testeo de Grupos Aleatorios con Acumulación Estadística**:
 
-1. **Particiones Aleatorias Limitadas:** En lugar de construir un árbol de búsqueda, si tenemos $D$ dimensiones, determinamos nuestro "presupuesto" de evaluaciones en el paso actual como $k \approx \log_2(D)$. Generamos $k$ subconjuntos (bloques) de variables distribuidas aleatoriamente, permitiendo solapamientos.
+1. **Particiones Aleatorias Limitadas:** En lugar de construir un árbol de búsqueda, si tenemos $D$ dimensiones, determinamos nuestro "presupuesto" de evaluaciones en el paso actual como $k \approx \log_2(D)$. Generamos $k$ subconjuntos (bloques) de variables distribuidas aleatoriamente, sin permitir solapamientos.
    - *Ejemplo:* Si $D=32$, $k=5$. En lugar de hacer una búsqueda binaria, creamos de golpe 5 bloques de tamaño $\approx 6.4$ (mezclando grupos de 6 o 7 variables elegidas al azar).
 
 2. **Acción Inmediata (Explotación):** Evaluamos el cambio que produce cada uno de esos $k$ bloques en la función objetivo. Tomamos el bloque que produjo la mayor mejora y actualizamos la posición actual dando un paso en esa dirección. Garantizamos progreso inmediato.
