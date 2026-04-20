@@ -48,6 +48,7 @@ These ideas seem both plausible and implementable, with a realistic chance of pr
 These ideas may become paper-worthy branches, but need more careful experimental framing.
 
 - Hierarchical SPSA / truncated Walsh-Hadamard perturbations
+- Temporal hierarchical SPSA with immediate updates across a Hadamard cycle
 - Binary orthogonal coding via Walsh-Hadamard-style perturbation schedules
 
 ### Tier 3: Preserve, but do not prioritize yet
@@ -259,9 +260,135 @@ If pushed too far, this becomes a new project rather than an incremental evoluti
 Keep this alive as a medium-term branch.
 Promising, but likely best pursued after the current DGE line is experimentally stabilized.
 
+## 5. Temporal Hierarchical SPSA with Immediate Updates
+
+Source:
+
+- new follow-up idea extending the hierarchical Hadamard direction
+
+### Core idea
+
+Instead of spending `2 * log(D)` evaluations inside one large DGE step, distribute those structured measurements over time.
+At each iteration, use only one hierarchical perturbation pattern and its two function evaluations, then immediately update the parameters in the direction suggested by that measurement.
+
+Over roughly `log(D)` iterations, the optimizer completes one structured spatial cycle.
+
+### Intuition
+
+This trades estimator richness per step for higher update frequency.
+
+Compared with original DGE:
+
+- original DGE gathers several block measurements before one consolidated update
+- this variant acts after every measurement
+
+That may improve convergence speed when the main bottleneck is not "estimating the cleanest possible gradient", but "making useful progress as often as possible".
+
+### Why this is interesting
+
+In the original DGE setup, an important variable may only receive limited effective exposure within one step structure.
+In a temporal hierarchical schedule, an important variable can appear repeatedly across multiple hierarchical patterns over successive steps.
+
+That creates a potentially useful effect:
+
+- relevant variables can influence the optimizer more often
+- low-frequency spatial structure is revisited repeatedly
+- the optimizer may move faster early in training even if each individual estimate is noisier
+
+### Key tradeoff
+
+This idea likely reduces spatial precision per iteration, but increases temporal action density.
+
+Put differently:
+
+- less signal extraction per step
+- more opportunities to move
+
+The central hypothesis is that faster repeated action may beat richer but slower estimation in some regimes.
+
+### When it may help
+
+- when early progress matters more than exact gradient reconstruction
+- when useful structure is low-frequency or spatially coherent
+- when relevant directions persist over time
+- when evaluation is cheap relative to the cost of delayed adaptation
+
+### Important systems note
+
+There may also be regimes where evaluation of candidate directions is cheap, but committing a real step is expensive.
+In those settings, this idea may be less attractive than original DGE, because it increases the number of executed updates even if it reduces decision latency.
+
+So this branch should be evaluated under both views of cost:
+
+- cost per function evaluation
+- cost per committed optimizer step
+
+### Main risks
+
+- updates may become too noisy before a full hierarchical cycle is completed
+- the optimizer may overreact to partial spatial information
+- high-frequency or highly local useful signals may be lost
+- the notion of spatial adjacency may be weak in some parameterizations
+
+### Variant split
+
+This branch naturally divides into two sub-variants.
+
+#### A. Reactive temporal hierarchy
+
+Each hierarchical probe immediately produces an update.
+
+Expected properties:
+
+- fastest reaction speed
+- highest noise
+- easiest to prototype
+
+#### B. Temporal hierarchy with memory
+
+Keep EMA-style memory over hierarchical probes or levels, and update from the smoothed signal rather than only the latest measurement.
+
+Expected properties:
+
+- more stable
+- closer in spirit to DGE
+- stronger long-term research story
+
+### Minimal testable hypothesis
+
+> A temporal hierarchical probing schedule with immediate updates can outperform original DGE in progress-per-evaluation or early convergence on problems with persistent low-frequency structure.
+
+### Secondary hypothesis
+
+> A memory-augmented temporal hierarchy can recover some of the stability of DGE while retaining the faster reaction speed of SPSA-like updates.
+
+### Best initial benchmarks
+
+- correlated synthetic landscapes
+- rotated or structured quadratic problems
+- Rosenbrock-like valleys
+- small MLPs where parameter ordering is at least somewhat meaningful
+
+### Required comparisons
+
+- SPSA
+- original DGE
+- hierarchical probing with full-cycle accumulation before updating
+- reactive temporal hierarchy
+- temporal hierarchy with EMA memory
+
+### Recommendation
+
+Strong direction.
+This is worth exploring because it targets a real optimization question:
+
+> Is it better to extract more information before acting, or to act more frequently with weaker but structured information?
+
+That question is central enough to support a serious experimental branch.
+
 ## Tier 3 Directions
 
-## 5. Backtracking Line Search in Black-Box Mode
+## 6. Backtracking Line Search in Black-Box Mode
 
 Original source:
 
@@ -289,7 +416,7 @@ Treat this as an optional rescue mechanism, not a default ingredient of DGE.
 Low priority.
 Useful if instability becomes a major practical issue, but not central to the identity of the method.
 
-## 6. Oscillating Variables and Snapshot-Based Updates
+## 7. Oscillating Variables and Snapshot-Based Updates
 
 Original source:
 
@@ -313,7 +440,7 @@ Without a cleaner estimation story, it risks becoming a complicated form of loca
 
 Preserve as a speculative idea, but do not prioritize.
 
-## 7. Fourier-Based Frequency Estimation
+## 8. Fourier-Based Frequency Estimation
 
 Original source:
 
@@ -340,7 +467,7 @@ In theory, it offers a way to multiplex many variable probes into one temporal s
 Interesting academically, but too speculative for the current stage.
 If revisited later, compare it directly against Walsh-Hadamard-style binary coding.
 
-## 8. Desynchronized Tremor / Phase-Based Exploration
+## 9. Desynchronized Tremor / Phase-Based Exploration
 
 Original source:
 
@@ -402,6 +529,7 @@ Relevant branches:
 - random groups
 - orthogonal binary coding
 - hierarchical Walsh-Hadamard patterns
+- temporal hierarchical probing
 
 ## Recommended Next Steps
 
@@ -410,7 +538,8 @@ If the goal is disciplined progress rather than open-ended ideation, the next im
 1. Implement direction-consistency learning rates
 2. Implement vector-group DGE
 3. Benchmark both against current DGE on synthetic correlated problems
-4. Only after that, prototype one structured perturbation family such as truncated Walsh-Hadamard probing
+4. Prototype one structured perturbation family such as truncated Walsh-Hadamard probing
+5. Test whether temporal hierarchical updates beat full-cycle accumulation in early convergence
 
 ## Concrete Research Questions
 
@@ -420,6 +549,8 @@ These are the questions most worth answering next.
 - [ ] Does vector grouping reduce zig-zag behavior on correlated landscapes?
 - [ ] Does architecture-aware grouping help on neural-network benchmarks?
 - [ ] Can low-frequency structured probes outperform random groups under the same evaluation budget?
+- [ ] Is it better to update immediately from hierarchical probes or wait to accumulate a fuller cycle?
+- [ ] In which regimes is the dominant cost function evaluations versus committed update steps?
 - [ ] Which improvement is strongest: better temporal adaptation, better spatial grouping, or better perturbation coding?
 
 ## Shortlist for Paper-Worthy Branches
