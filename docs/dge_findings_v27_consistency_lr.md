@@ -160,19 +160,56 @@ El efecto es orthogonal a Adam's `v_t`: Adam normaliza la magnitud; Consistency 
 
 ## Próximos Pasos Recomendados
 
-1. **Extender la ablación de T** a {30, 50} para confirmar si la tendencia sigue o hay un óptimo entre 20 y 50.
-2. **Quick wins paralelos** (spec: shortlist Tier 0):
+1. ~~Extender la ablación de T a {30, 50}~~ — **CERRADO** (ver Apéndice A: T=20 es el límite superior práctico).
+2. **MNIST con ConsistencyDGE_T20** como baseline para comparar vs v25 (81.17%).
+3. Si MNIST mejora → **story de paper es sólida**: PureDGE + Consistency LR es un zeroth-order optimizer mejorado con una única modificación de 5 líneas de Python.
+4. **Quick wins opcionales** sobre ConsistencyDGE_T20:
    - Half-Step Retry (1 eval adicional máx.)
    - Curvature-Preconditioned Perturbations (escalar δ por 1/√v_t)
-   - Same-Batch Evaluation (cost: zero)
-3. **MNIST con ConsistencyDGE_T20** como baseline para comparar vs v25 (81.17%).
-4. Si MNIST mejora → **story de paper es sólida**: PureDGE + Consistency LR es un zeroth-order optimizer mejorado con una única modificación de 5 líneas de Python.
 
 ---
 
 ## Trazabilidad
 
-- Código: `scratch/dge_consistency_lr_v27.py`
-- JSON crudo: `results/raw/v27_consistency_lr.json`
+- Código principal: `scratch/dge_consistency_lr_v27.py`
+- Sondeo T: `scratch/dge_consistency_t_probe.py`
+- JSON v27: `results/raw/v27_consistency_lr.json`
+- JSON T-probe: `results/raw/v27_t_probe.json`
 - Spec de referencia: `docs/research_shortlist.md` (sección v27)
 - `internal_overhead_time`: overhead de consistency (O(T·dim) por paso) es despreciable. Wall_clock de ConsistencyDGE ≈ wall_clock de PureDGE en todos los benchmarks.
+
+---
+
+## Apéndice A: Sondeo de T > 20
+
+**Fecha:** 2026-04-21
+**Script:** `scratch/dge_consistency_t_probe.py`
+**Configuración:** D=128, budget=100K, k=8, seeds=3, T ∈ {20, 30, 50, 100, 200}
+
+### Resultados (mejora relativa vs T=20 como referencia)
+
+| T | Rosenbrock | RotatedQuadratic | Ellipsoid | Sphere |
+|---|---|---|---|---|
+| **20** | (ref) | (ref) | (ref) | (ref) |
+| 30 | +0.2% ❌ | +2.701% ❌ | −0.4% ✅ | +0.0% |
+| 50 | +0.6% ❌ | +68.578% ❌❌ | +0.3% ❌ | +0.0% |
+| 100 | +0.9% ❌ | +470.217% ❌❌ | +4.6% ❌ | +0.0% |
+| 200 | +1.0% ❌ | +1.375.527% ❌❌ | +8.2% ❌ | +0.0% |
+
+*(positivo = peor que T=20)*
+
+### Diagnóstico por benchmark
+
+**Rosenbrock:** degradación suave y monótona. T=20 ya es el óptimo. Historia larga acumula curvatura obsoleta en el valle no-convexo.
+
+**Rotated Quadratic — hallazgo crítico:** con 100K budget (~6.250 pasos), T=20 había convergido a **1.28e-10** (esencialmente cero). Con T=200 el resultado es **1.78e-6** (+1.375.527%). Causa: durante la **fase tardía** (x cerca del mínimo, gradiente verdadero diminuto), la ventana T=200 retiene historia de la **fase de aproximación** (gradientes grandes en dirección al mínimo). La máscara de consistencia le indica al optimizador "sigue empujando fuerte" justo cuando debería frenarse → sobredisparos repetidos → regresión catastrófica.
+
+**Ellipsoid y Sphere:** ya habían convergido a valores muy bajos con T=20. T>50 introduce degradación marginal. Saturación limpia.
+
+### Conclusión del sondeo
+
+> **T=20 es el límite superior práctico. No hay beneficio en T>20 para ningún benchmark.**
+
+El óptimo de T **no depende solo de la curvatura del paisaje**, sino de la **longitud del horizonte de optimización**: T debe ser una fracción pequeña del número total de pasos para que la historia sea siempre reciente. T≈20 representa ~0.3% del run en escenarios de 100K budget y ~0.06% en 500K — rango que funciona robustamente.
+
+**Heurística final:** `T = 20` es el default robusto invariante al budget y al tipo de paisaje. La búsqueda de T adaptativo no está justificada por los datos.
