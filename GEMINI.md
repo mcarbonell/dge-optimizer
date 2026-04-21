@@ -15,6 +15,12 @@ Para cada nueva iteración o experimento algorítmico, se debe seguir este flujo
 4.  **Commit**: Realizar un commit con el código y la documentación antes de pasar a la siguiente fase.
 5.  **Iteración**: Proponer y ejecutar el siguiente experimento basado en los hallazgos previos.
 
+## Gestión de Ejecución y Cuota (Consumo de Tokens)
+**REGLA DE ORO DE COSTES:** Para optimizar el uso de la cuota de Antigravity, se deben seguir estas normas de ejecución:
+- **Ejecución por defecto:** Las ejecuciones de benchmarks, entrenamientos y pruebas largas las debe realizar el **USER** directamente en su terminal. El agente no debe lanzarlas por iniciativa propia.
+- **Ejecución bajo demanda:** Si el USER pide explícitamente al agente que lance un script, el agente **NO** debe lanzarlo en modo background si esto implica que el agente permanezca activo muestreando la salida (lo cual consume tokens rápidamente).
+- **Espera de finalización:** En caso de que el agente lance un script, debe hacerlo de forma que el control no vuelva al agente hasta que el script haya terminado (o el agente debe entrar en pausa hasta recibir la señal de finalización), evitando el "sampling" continuo de logs en segundo plano.
+
 ## Normas de Logging y Resultados (Sistema de Métricas)
 
 Todo experimento debe registrar obligatoriamente las siguientes métricas para asegurar la transparencia científica:
