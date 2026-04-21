@@ -1,0 +1,433 @@
+{
+  "budget": 100000,
+  "seeds": 3,
+  "T_values": [
+    20,
+    30,
+    50,
+    100,
+    200
+  ],
+  "results": [
+    {
+      "benchmark": "rosenbrock",
+      "T": 20,
+      "seed": 0,
+      "final_loss": 121.95609374699664,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 20,
+      "seed": 1,
+      "final_loss": 120.32292162544039,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 20,
+      "seed": 2,
+      "final_loss": 124.03040301843964,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 30,
+      "seed": 0,
+      "final_loss": 122.147942834421,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 30,
+      "seed": 1,
+      "final_loss": 120.49849061979195,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 30,
+      "seed": 2,
+      "final_loss": 124.23927419884897,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 50,
+      "seed": 0,
+      "final_loss": 122.27738460060813,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 50,
+      "seed": 1,
+      "final_loss": 120.67860227254901,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 50,
+      "seed": 2,
+      "final_loss": 125.7064940049658,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 100,
+      "seed": 0,
+      "final_loss": 122.51795067773087,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 100,
+      "seed": 1,
+      "final_loss": 120.81157378395126,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 100,
+      "seed": 2,
+      "final_loss": 126.41067436245483,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 200,
+      "seed": 0,
+      "final_loss": 122.68671813363933,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 200,
+      "seed": 1,
+      "final_loss": 120.91820673054413,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rosenbrock",
+      "T": 200,
+      "seed": 2,
+      "final_loss": 126.41302698436124,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 20,
+      "seed": 0,
+      "final_loss": 1.9362880708711708e-11,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 20,
+      "seed": 1,
+      "final_loss": 3.420777317387532e-12,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 20,
+      "seed": 2,
+      "final_loss": 3.6184989127612294e-10,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 30,
+      "seed": 0,
+      "final_loss": 8.384481299855347e-10,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 30,
+      "seed": 1,
+      "final_loss": 1.910734892093293e-10,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 30,
+      "seed": 2,
+      "final_loss": 9.823390302699456e-09,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 50,
+      "seed": 0,
+      "final_loss": 1.2451419225129646e-08,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 50,
+      "seed": 1,
+      "final_loss": 8.418839580476112e-09,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 50,
+      "seed": 2,
+      "final_loss": 2.4534554869783424e-07,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 100,
+      "seed": 0,
+      "final_loss": 1.2898913403551517e-07,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 100,
+      "seed": 1,
+      "final_loss": 8.759137076390466e-08,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 100,
+      "seed": 2,
+      "final_loss": 1.606522397258213e-06,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 200,
+      "seed": 0,
+      "final_loss": 3.931060012896048e-07,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 200,
+      "seed": 1,
+      "final_loss": 2.257758654714618e-07,
+      "budget": 100000
+    },
+    {
+      "benchmark": "rotated_quadratic",
+      "T": 200,
+      "seed": 2,
+      "final_loss": 4.713506726457327e-06,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 20,
+      "seed": 0,
+      "final_loss": 1780.8661950531186,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 20,
+      "seed": 1,
+      "final_loss": 1216.7566597959449,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 20,
+      "seed": 2,
+      "final_loss": 1328.9356196982694,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 30,
+      "seed": 0,
+      "final_loss": 1795.3193078086438,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 30,
+      "seed": 1,
+      "final_loss": 1206.923218642162,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 30,
+      "seed": 2,
+      "final_loss": 1305.3291591832972,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 50,
+      "seed": 0,
+      "final_loss": 1808.8668576020768,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 50,
+      "seed": 1,
+      "final_loss": 1212.9859501396995,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 50,
+      "seed": 2,
+      "final_loss": 1316.4527049757899,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 100,
+      "seed": 0,
+      "final_loss": 1913.9064849560102,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 100,
+      "seed": 1,
+      "final_loss": 1266.5069805057797,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 100,
+      "seed": 2,
+      "final_loss": 1346.7906547727448,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 200,
+      "seed": 0,
+      "final_loss": 1977.5402208107225,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 200,
+      "seed": 1,
+      "final_loss": 1312.0924962522063,
+      "budget": 100000
+    },
+    {
+      "benchmark": "ellipsoid",
+      "T": 200,
+      "seed": 2,
+      "final_loss": 1391.1690552670275,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 20,
+      "seed": 0,
+      "final_loss": 2.393995593527604e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 20,
+      "seed": 1,
+      "final_loss": 2.3909263812658727e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 20,
+      "seed": 2,
+      "final_loss": 2.145615325681848e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 30,
+      "seed": 0,
+      "final_loss": 2.417415390231285e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 30,
+      "seed": 1,
+      "final_loss": 2.4657561797297777e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 30,
+      "seed": 2,
+      "final_loss": 2.1408776261194084e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 50,
+      "seed": 0,
+      "final_loss": 2.980865202413363e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 50,
+      "seed": 1,
+      "final_loss": 2.5388603110647e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 50,
+      "seed": 2,
+      "final_loss": 2.6458174885622232e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 100,
+      "seed": 0,
+      "final_loss": 2.9239177554312864e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 100,
+      "seed": 1,
+      "final_loss": 2.5459463424600684e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 100,
+      "seed": 2,
+      "final_loss": 2.705693596936104e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 200,
+      "seed": 0,
+      "final_loss": 3.056356316732784e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 200,
+      "seed": 1,
+      "final_loss": 3.1515629458398664e-39,
+      "budget": 100000
+    },
+    {
+      "benchmark": "sphere",
+      "T": 200,
+      "seed": 2,
+      "final_loss": 3.340112942191002e-39,
+      "budget": 100000
+    }
+  ]
+}

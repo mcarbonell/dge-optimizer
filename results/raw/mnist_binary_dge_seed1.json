@@ -1,0 +1,85 @@
+{
+  "experiment_name": "mnist_binary_dge",
+  "seed": 1,
+  "timestamp": "2026-04-19T09:32:14.512902",
+  "commit_hash": "1467113c6c2ce455d67dbe39a7154c73e7aa136a",
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD"
+  },
+  "config": {
+    "name": "mnist_binary_dge",
+    "dataset": "mnist",
+    "weight_quantization": "binary",
+    "use_bias": false,
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 150000,
+    "architecture": [
+      784,
+      128,
+      10
+    ],
+    "optimizer": {
+      "name": "dge",
+      "lr": 0.5,
+      "lr_decay": 0.01,
+      "delta": 0.01,
+      "greedy_w": 0.3,
+      "clip_norm": 0.1,
+      "dense_update": false
+    }
+  },
+  "metrics": {
+    "final_test_accuracy": 0.5533333333333333,
+    "final_train_accuracy": 0.5713333333333334,
+    "total_evaluations": 150008,
+    "wall_clock_time": 336.57037019729614,
+    "internal_overhead_time": -534258.757983923,
+    "function_evaluation_time": 246.27907538414001
+  },
+  "history": {
+    "evaluations": [
+      0,
+      15028,
+      30022,
+      45016,
+      60010,
+      75004,
+      90032,
+      105026,
+      120020,
+      135014,
+      150008
+    ],
+    "train_accuracy": [
+      0.12666666666666668,
+      0.597,
+      0.6516666666666666,
+      0.709,
+      0.7186666666666667,
+      0.7023333333333334,
+      0.6993333333333334,
+      0.6996666666666667,
+      0.632,
+      0.6303333333333333,
+      0.5713333333333334
+    ],
+    "test_accuracy": [
+      0.14666666666666667,
+      0.575,
+      0.6366666666666667,
+      0.6816666666666666,
+      0.705,
+      0.6816666666666666,
+      0.6783333333333333,
+      0.6716666666666666,
+      0.62,
+      0.6116666666666667,
+      0.5533333333333333
+    ]
+  }
+}

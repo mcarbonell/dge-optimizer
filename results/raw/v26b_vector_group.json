@@ -1,0 +1,2331 @@
+{
+  "experiment": "v26b_vector_group",
+  "dim": 128,
+  "budget": 500000,
+  "k_blocks_main": 8,
+  "lr": 0.1,
+  "delta": 0.001,
+  "seeds": 5,
+  "results": [
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 88.08162193200994,
+      "budget": 500000,
+      "wall_clock_time": 7.908
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 79.30613197365932,
+      "budget": 500000,
+      "wall_clock_time": 9.422
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 92.27042144820518,
+      "budget": 500000,
+      "wall_clock_time": 10.544
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 94.48879902745914,
+      "budget": 500000,
+      "wall_clock_time": 9.465
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 90.91198350113577,
+      "budget": 500000,
+      "wall_clock_time": 10.411
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 126.0986357192491,
+      "budget": 500000,
+      "wall_clock_time": 7.126
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 95.68174021813446,
+      "budget": 500000,
+      "wall_clock_time": 7.629
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 96.05653259017184,
+      "budget": 500000,
+      "wall_clock_time": 7.074
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 91.32407506626969,
+      "budget": 500000,
+      "wall_clock_time": 6.808
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 97.49932764977223,
+      "budget": 500000,
+      "wall_clock_time": 7.301
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 88.08162193200994,
+      "budget": 500000,
+      "wall_clock_time": 12.326
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 79.30613197365932,
+      "budget": 500000,
+      "wall_clock_time": 12.643
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 92.27042144820518,
+      "budget": 500000,
+      "wall_clock_time": 12.811
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 94.48879902745914,
+      "budget": 500000,
+      "wall_clock_time": 12.278
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 90.91198350113577,
+      "budget": 500000,
+      "wall_clock_time": 12.503
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 102.52998612446098,
+      "budget": 500000,
+      "wall_clock_time": 10.213
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 93.48662037610107,
+      "budget": 500000,
+      "wall_clock_time": 10.139
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 96.26865591998293,
+      "budget": 500000,
+      "wall_clock_time": 6.951
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 98.28043639521702,
+      "budget": 500000,
+      "wall_clock_time": 6.267
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 95.8957700630562,
+      "budget": 500000,
+      "wall_clock_time": 6.385
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.030406129322896665,
+      "budget": 500000,
+      "wall_clock_time": 6.528
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.015412303876703528,
+      "budget": 500000,
+      "wall_clock_time": 6.863
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 2.7283759526713215e-09,
+      "budget": 500000,
+      "wall_clock_time": 6.56
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.0015543618795823037,
+      "budget": 500000,
+      "wall_clock_time": 6.647
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.01689629345790927,
+      "budget": 500000,
+      "wall_clock_time": 6.983
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 3.937852388713305e-06,
+      "budget": 500000,
+      "wall_clock_time": 5.866
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.03920814362372438,
+      "budget": 500000,
+      "wall_clock_time": 5.045
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 0.0051132429649886,
+      "budget": 500000,
+      "wall_clock_time": 5.074
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 1.296878103273706e-08,
+      "budget": 500000,
+      "wall_clock_time": 5.083
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.001623146046214633,
+      "budget": 500000,
+      "wall_clock_time": 5.038
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.030406129322896665,
+      "budget": 500000,
+      "wall_clock_time": 7.633
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.015412303876703528,
+      "budget": 500000,
+      "wall_clock_time": 7.627
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 2.7283759526713215e-09,
+      "budget": 500000,
+      "wall_clock_time": 7.63
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.0015543618795823037,
+      "budget": 500000,
+      "wall_clock_time": 7.641
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.01689629345790927,
+      "budget": 500000,
+      "wall_clock_time": 7.683
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.00826838628400954,
+      "budget": 500000,
+      "wall_clock_time": 6.286
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.004121113323920275,
+      "budget": 500000,
+      "wall_clock_time": 6.311
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 0.025415348490962046,
+      "budget": 500000,
+      "wall_clock_time": 6.313
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.00018343504356165815,
+      "budget": 500000,
+      "wall_clock_time": 6.33
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.0019395360063882232,
+      "budget": 500000,
+      "wall_clock_time": 6.324
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 9070.600790803932,
+      "budget": 500000,
+      "wall_clock_time": 8.562
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 8446.723898789847,
+      "budget": 500000,
+      "wall_clock_time": 8.458
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 5860.454340549404,
+      "budget": 500000,
+      "wall_clock_time": 8.474
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 8703.441176379743,
+      "budget": 500000,
+      "wall_clock_time": 8.554
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 6633.410815182902,
+      "budget": 500000,
+      "wall_clock_time": 8.536
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 9177.604000971673,
+      "budget": 500000,
+      "wall_clock_time": 7.194
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 17520.810407037818,
+      "budget": 500000,
+      "wall_clock_time": 7.272
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 11743.938269111273,
+      "budget": 500000,
+      "wall_clock_time": 7.276
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 9905.351457415127,
+      "budget": 500000,
+      "wall_clock_time": 7.324
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 15898.383694392927,
+      "budget": 500000,
+      "wall_clock_time": 7.296
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 9070.600790803932,
+      "budget": 500000,
+      "wall_clock_time": 9.85
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 8446.723898789847,
+      "budget": 500000,
+      "wall_clock_time": 9.967
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 5860.454340549404,
+      "budget": 500000,
+      "wall_clock_time": 9.869
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 8703.441176379743,
+      "budget": 500000,
+      "wall_clock_time": 9.871
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 6633.410815182902,
+      "budget": 500000,
+      "wall_clock_time": 9.83
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 17132.712241169982,
+      "budget": 500000,
+      "wall_clock_time": 8.641
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 14782.602330793621,
+      "budget": 500000,
+      "wall_clock_time": 8.495
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 14325.690110658023,
+      "budget": 500000,
+      "wall_clock_time": 8.459
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 12710.461449222916,
+      "budget": 500000,
+      "wall_clock_time": 8.526
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "ellipsoid",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 13413.799813024965,
+      "budget": 500000,
+      "wall_clock_time": 8.468
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.0005300556457815525,
+      "budget": 500000,
+      "wall_clock_time": 4.568
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.0005796095211334947,
+      "budget": 500000,
+      "wall_clock_time": 4.601
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 5.021712197426512e-05,
+      "budget": 500000,
+      "wall_clock_time": 4.542
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.0006661778699255309,
+      "budget": 500000,
+      "wall_clock_time": 4.539
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.0006745355104440799,
+      "budget": 500000,
+      "wall_clock_time": 4.574
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.0009577915221909996,
+      "budget": 500000,
+      "wall_clock_time": 3.368
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.000425129783233078,
+      "budget": 500000,
+      "wall_clock_time": 3.341
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 9.817267238503894e-10,
+      "budget": 500000,
+      "wall_clock_time": 3.358
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.0019151514983444778,
+      "budget": 500000,
+      "wall_clock_time": 3.347
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 8.055941597569458e-05,
+      "budget": 500000,
+      "wall_clock_time": 3.342
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.0005300556457815525,
+      "budget": 500000,
+      "wall_clock_time": 5.818
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.0005796095211334947,
+      "budget": 500000,
+      "wall_clock_time": 5.847
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 5.021712197426512e-05,
+      "budget": 500000,
+      "wall_clock_time": 5.843
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 0.0006661778699255309,
+      "budget": 500000,
+      "wall_clock_time": 5.857
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.0006745355104440799,
+      "budget": 500000,
+      "wall_clock_time": 5.844
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 0,
+      "final_loss": 0.0005705751702933224,
+      "budget": 500000,
+      "wall_clock_time": 4.57
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 1,
+      "final_loss": 0.00119798451016524,
+      "budget": 500000,
+      "wall_clock_time": 4.576
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 2,
+      "final_loss": 2.33662956685261e-05,
+      "budget": 500000,
+      "wall_clock_time": 4.593
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 3,
+      "final_loss": 4.3610353029541104e-05,
+      "budget": 500000,
+      "wall_clock_time": 4.579
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "sphere",
+      "k_blocks": 8,
+      "seed": 4,
+      "final_loss": 0.00014450825606701824,
+      "budget": 500000,
+      "wall_clock_time": 4.587
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 101.06557551647151,
+      "budget": 500000,
+      "wall_clock_time": 7.695,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 103.21076774011367,
+      "budget": 500000,
+      "wall_clock_time": 8.014,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 107.83718234480077,
+      "budget": 500000,
+      "wall_clock_time": 7.856,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 101.66091625220452,
+      "budget": 500000,
+      "wall_clock_time": 7.769,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 100.12988674228588,
+      "budget": 500000,
+      "wall_clock_time": 7.806,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 102.34645281893438,
+      "budget": 500000,
+      "wall_clock_time": 6.632,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 107.71417042082705,
+      "budget": 500000,
+      "wall_clock_time": 6.746,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 98.22101594298127,
+      "budget": 500000,
+      "wall_clock_time": 7.273,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 102.96425559335054,
+      "budget": 500000,
+      "wall_clock_time": 12.11,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 97.33915500084625,
+      "budget": 500000,
+      "wall_clock_time": 11.309,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 101.11218224104576,
+      "budget": 500000,
+      "wall_clock_time": 15.564,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 101.92753402656197,
+      "budget": 500000,
+      "wall_clock_time": 15.916,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 103.05474563275814,
+      "budget": 500000,
+      "wall_clock_time": 15.456,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 107.25371382786257,
+      "budget": 500000,
+      "wall_clock_time": 15.221,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 102.59129218708351,
+      "budget": 500000,
+      "wall_clock_time": 14.542,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 98.63504826678661,
+      "budget": 500000,
+      "wall_clock_time": 12.552,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 105.03389702267157,
+      "budget": 500000,
+      "wall_clock_time": 13.486,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 155.0345403283949,
+      "budget": 500000,
+      "wall_clock_time": 12.962,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 105.86142430462588,
+      "budget": 500000,
+      "wall_clock_time": 12.998,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 107.53283550859032,
+      "budget": 500000,
+      "wall_clock_time": 12.775,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 101.69540977978869,
+      "budget": 500000,
+      "wall_clock_time": 10.639,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 99.48506730969079,
+      "budget": 500000,
+      "wall_clock_time": 10.14,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 99.30242214818297,
+      "budget": 500000,
+      "wall_clock_time": 10.411,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 91.50319565429116,
+      "budget": 500000,
+      "wall_clock_time": 11.356,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 98.82597081243969,
+      "budget": 500000,
+      "wall_clock_time": 10.344,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 96.88071748327225,
+      "budget": 500000,
+      "wall_clock_time": 9.007,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 99.88755578272959,
+      "budget": 500000,
+      "wall_clock_time": 9.158,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 92.15426473990544,
+      "budget": 500000,
+      "wall_clock_time": 9.671,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 99.32923796846558,
+      "budget": 500000,
+      "wall_clock_time": 8.899,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 104.29773582348143,
+      "budget": 500000,
+      "wall_clock_time": 5.563,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 101.69540977978869,
+      "budget": 500000,
+      "wall_clock_time": 8.117,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 99.48506730969079,
+      "budget": 500000,
+      "wall_clock_time": 8.188,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 99.30242214818297,
+      "budget": 500000,
+      "wall_clock_time": 8.055,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 91.50319565429116,
+      "budget": 500000,
+      "wall_clock_time": 8.208,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 98.82597081243969,
+      "budget": 500000,
+      "wall_clock_time": 8.244,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 101.34047324956111,
+      "budget": 500000,
+      "wall_clock_time": 6.808,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 97.32034344582942,
+      "budget": 500000,
+      "wall_clock_time": 6.801,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 96.95453696012406,
+      "budget": 500000,
+      "wall_clock_time": 6.926,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 100.3922968162583,
+      "budget": 500000,
+      "wall_clock_time": 6.835,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 98.26321592334777,
+      "budget": 500000,
+      "wall_clock_time": 7.238,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 83.3277170083084,
+      "budget": 500000,
+      "wall_clock_time": 10.555,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 152.26455895951997,
+      "budget": 500000,
+      "wall_clock_time": 10.043,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 85.49440043061,
+      "budget": 500000,
+      "wall_clock_time": 13.891,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 89.46137215476094,
+      "budget": 500000,
+      "wall_clock_time": 13.804,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 83.73718148488794,
+      "budget": 500000,
+      "wall_clock_time": 13.262,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 90.01417289025139,
+      "budget": 500000,
+      "wall_clock_time": 11.006,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 89.50284727495487,
+      "budget": 500000,
+      "wall_clock_time": 9.474,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 86.98667835250903,
+      "budget": 500000,
+      "wall_clock_time": 8.727,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 93.1906765025101,
+      "budget": 500000,
+      "wall_clock_time": 8.816,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 86.53860784722676,
+      "budget": 500000,
+      "wall_clock_time": 8.492,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 83.3277170083084,
+      "budget": 500000,
+      "wall_clock_time": 12.51,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 152.26455895951997,
+      "budget": 500000,
+      "wall_clock_time": 12.511,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 85.49440043061,
+      "budget": 500000,
+      "wall_clock_time": 12.401,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 89.46137215476094,
+      "budget": 500000,
+      "wall_clock_time": 10.352,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 83.73718148488794,
+      "budget": 500000,
+      "wall_clock_time": 7.621,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 88.80324930271361,
+      "budget": 500000,
+      "wall_clock_time": 6.247,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 87.90178108657126,
+      "budget": 500000,
+      "wall_clock_time": 6.12,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 93.5848808754532,
+      "budget": 500000,
+      "wall_clock_time": 6.318,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 138.3830627908945,
+      "budget": 500000,
+      "wall_clock_time": 6.19,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 91.72620625003556,
+      "budget": 500000,
+      "wall_clock_time": 6.156,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 93.75250806719107,
+      "budget": 500032,
+      "wall_clock_time": 6.094,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 82.63501769136677,
+      "budget": 500032,
+      "wall_clock_time": 6.169,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 81.33567457592689,
+      "budget": 500032,
+      "wall_clock_time": 6.289,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 77.76312387997662,
+      "budget": 500032,
+      "wall_clock_time": 6.111,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 77.24285617967234,
+      "budget": 500032,
+      "wall_clock_time": 7.126,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 85.45887503313294,
+      "budget": 500032,
+      "wall_clock_time": 7.794,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 81.47277011923312,
+      "budget": 500032,
+      "wall_clock_time": 7.979,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 82.30742552901391,
+      "budget": 500032,
+      "wall_clock_time": 7.775,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 123.2930655437852,
+      "budget": 500032,
+      "wall_clock_time": 7.691,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 80.59688336685424,
+      "budget": 500032,
+      "wall_clock_time": 7.521,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 93.75250806719107,
+      "budget": 500032,
+      "wall_clock_time": 11.884,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 82.63501769136677,
+      "budget": 500032,
+      "wall_clock_time": 8.899,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 81.33567457592689,
+      "budget": 500032,
+      "wall_clock_time": 7.207,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 77.76312387997662,
+      "budget": 500032,
+      "wall_clock_time": 7.255,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 77.24285617967234,
+      "budget": 500032,
+      "wall_clock_time": 7.234,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 88.30014289094684,
+      "budget": 500032,
+      "wall_clock_time": 5.955,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 80.47001850606512,
+      "budget": 500032,
+      "wall_clock_time": 6.022,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 89.84246859515443,
+      "budget": 500032,
+      "wall_clock_time": 6.058,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 86.68244792637503,
+      "budget": 500032,
+      "wall_clock_time": 6.077,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rosenbrock",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 86.59576474814712,
+      "budget": 500032,
+      "wall_clock_time": 6.171,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 0.036917843058068646,
+      "budget": 500000,
+      "wall_clock_time": 8.254,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 0.02758208947301602,
+      "budget": 500000,
+      "wall_clock_time": 8.23,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 0.031289771941074775,
+      "budget": 500000,
+      "wall_clock_time": 8.172,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 0.08950537016501126,
+      "budget": 500000,
+      "wall_clock_time": 8.194,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 0.019652221793215685,
+      "budget": 500000,
+      "wall_clock_time": 8.11,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 0.049350440343322914,
+      "budget": 500000,
+      "wall_clock_time": 6.567,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 0.06266415911578818,
+      "budget": 500000,
+      "wall_clock_time": 6.627,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 0.0225853934402048,
+      "budget": 500000,
+      "wall_clock_time": 6.559,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 0.022124394888207055,
+      "budget": 500000,
+      "wall_clock_time": 6.597,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 0.043752246689114815,
+      "budget": 500000,
+      "wall_clock_time": 6.599,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 0.036917846813973705,
+      "budget": 500000,
+      "wall_clock_time": 9.099,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 0.02758208904336295,
+      "budget": 500000,
+      "wall_clock_time": 9.093,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 0.03128977194041935,
+      "budget": 500000,
+      "wall_clock_time": 9.109,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 0.0895052820870609,
+      "budget": 500000,
+      "wall_clock_time": 9.096,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 0.019652221080297204,
+      "budget": 500000,
+      "wall_clock_time": 9.035,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 0,
+      "final_loss": 0.06449278932231206,
+      "budget": 500000,
+      "wall_clock_time": 7.748,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 1,
+      "final_loss": 0.069128963073041,
+      "budget": 500000,
+      "wall_clock_time": 7.717,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 2,
+      "final_loss": 0.0382721974616044,
+      "budget": 500000,
+      "wall_clock_time": 7.705,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 3,
+      "final_loss": 0.016957592676804627,
+      "budget": 500000,
+      "wall_clock_time": 7.7,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 2,
+      "seed": 4,
+      "final_loss": 0.039942997735643214,
+      "budget": 500000,
+      "wall_clock_time": 7.675,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 0.003224394929760911,
+      "budget": 500000,
+      "wall_clock_time": 6.691,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 0.02157957752703938,
+      "budget": 500000,
+      "wall_clock_time": 6.694,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 0.014964220619406676,
+      "budget": 500000,
+      "wall_clock_time": 6.679,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 0.02778137426902375,
+      "budget": 500000,
+      "wall_clock_time": 6.703,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 0.019530684460987525,
+      "budget": 500000,
+      "wall_clock_time": 6.716,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 0.010806526793750305,
+      "budget": 500000,
+      "wall_clock_time": 6.575,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 0.003302516979606863,
+      "budget": 500000,
+      "wall_clock_time": 9.461,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 0.00904463946260853,
+      "budget": 500000,
+      "wall_clock_time": 9.643,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 0.0240174256709798,
+      "budget": 500000,
+      "wall_clock_time": 9.247,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 0.02335638407145648,
+      "budget": 500000,
+      "wall_clock_time": 9.45,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 0.003224394929760911,
+      "budget": 500000,
+      "wall_clock_time": 13.989,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 0.02157957752703938,
+      "budget": 500000,
+      "wall_clock_time": 13.848,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 0.014964220619406676,
+      "budget": 500000,
+      "wall_clock_time": 13.43,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 0.02778137426902375,
+      "budget": 500000,
+      "wall_clock_time": 14.397,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 0.019530684460987525,
+      "budget": 500000,
+      "wall_clock_time": 13.466,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 0,
+      "final_loss": 0.018763078626988405,
+      "budget": 500000,
+      "wall_clock_time": 11.286,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 1,
+      "final_loss": 0.024860501335190986,
+      "budget": 500000,
+      "wall_clock_time": 11.186,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 2,
+      "final_loss": 0.010993889358442336,
+      "budget": 500000,
+      "wall_clock_time": 11.304,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 3,
+      "final_loss": 0.049154065349700155,
+      "budget": 500000,
+      "wall_clock_time": 11.208,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 4,
+      "seed": 4,
+      "final_loss": 0.01621009288799985,
+      "budget": 500000,
+      "wall_clock_time": 11.403,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 2.384470979748175e-33,
+      "budget": 500000,
+      "wall_clock_time": 9.817,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 5.357267801021592e-31,
+      "budget": 500000,
+      "wall_clock_time": 9.834,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 1.112329625985132e-22,
+      "budget": 500000,
+      "wall_clock_time": 9.799,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 1.9678308271985843e-25,
+      "budget": 500000,
+      "wall_clock_time": 9.985,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 2.2103380345268505e-22,
+      "budget": 500000,
+      "wall_clock_time": 9.846,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 4.406899601864105e-22,
+      "budget": 500000,
+      "wall_clock_time": 7.863,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 2.1844434373364335e-20,
+      "budget": 500000,
+      "wall_clock_time": 7.766,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 6.2807677090710294e-21,
+      "budget": 500000,
+      "wall_clock_time": 7.973,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 3.2705321914348797e-25,
+      "budget": 500000,
+      "wall_clock_time": 7.816,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 2.676683381886048e-23,
+      "budget": 500000,
+      "wall_clock_time": 7.815,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 2.384470979748175e-33,
+      "budget": 500000,
+      "wall_clock_time": 12.209,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 5.357267801021592e-31,
+      "budget": 500000,
+      "wall_clock_time": 12.251,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 1.112329625985132e-22,
+      "budget": 500000,
+      "wall_clock_time": 12.153,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 1.9678308271985843e-25,
+      "budget": 500000,
+      "wall_clock_time": 12.049,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 2.2103380345268505e-22,
+      "budget": 500000,
+      "wall_clock_time": 12.081,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 0,
+      "final_loss": 6.317215832715031e-28,
+      "budget": 500000,
+      "wall_clock_time": 10.081,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 1,
+      "final_loss": 1.81127497368913e-25,
+      "budget": 500000,
+      "wall_clock_time": 10.108,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 2,
+      "final_loss": 2.6896301843950813e-19,
+      "budget": 500000,
+      "wall_clock_time": 9.896,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 3,
+      "final_loss": 1.622853621566355e-22,
+      "budget": 500000,
+      "wall_clock_time": 9.891,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 16,
+      "seed": 4,
+      "final_loss": 6.513553441590375e-25,
+      "budget": 500000,
+      "wall_clock_time": 10.072,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 1.1566790526199697e-30,
+      "budget": 500032,
+      "wall_clock_time": 9.708,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 6.622493864608571e-26,
+      "budget": 500032,
+      "wall_clock_time": 9.783,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 3.51311269104901e-38,
+      "budget": 500032,
+      "wall_clock_time": 9.736,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 1.1629646633252624e-33,
+      "budget": 500032,
+      "wall_clock_time": 9.706,
+      "ablation": true
+    },
+    {
+      "method": "PureDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 2.9514356779154744e-23,
+      "budget": 500032,
+      "wall_clock_time": 9.62,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 1.0574355229625582e-30,
+      "budget": 500032,
+      "wall_clock_time": 7.617,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 6.659338676189278e-27,
+      "budget": 500032,
+      "wall_clock_time": 7.638,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 2.6519831602347132e-31,
+      "budget": 500032,
+      "wall_clock_time": 7.639,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 1.1272866685930047e-26,
+      "budget": 500032,
+      "wall_clock_time": 7.713,
+      "ablation": true
+    },
+    {
+      "method": "SphericalDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 1.1891417319915744e-31,
+      "budget": 500032,
+      "wall_clock_time": 7.722,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 1.1566790526199697e-30,
+      "budget": 500032,
+      "wall_clock_time": 11.904,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 6.622493864608571e-26,
+      "budget": 500032,
+      "wall_clock_time": 11.824,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 3.51311269104901e-38,
+      "budget": 500032,
+      "wall_clock_time": 11.995,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 1.1629646633252624e-33,
+      "budget": 500032,
+      "wall_clock_time": 11.821,
+      "ablation": true
+    },
+    {
+      "method": "ScalarVarianceDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 2.9514356779154744e-23,
+      "budget": 500032,
+      "wall_clock_time": 11.81,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 0,
+      "final_loss": 3.595141862571068e-36,
+      "budget": 500032,
+      "wall_clock_time": 9.801,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 1,
+      "final_loss": 9.784815371170258e-27,
+      "budget": 500032,
+      "wall_clock_time": 9.692,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 2,
+      "final_loss": 2.9267348018723047e-38,
+      "budget": 500032,
+      "wall_clock_time": 9.683,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 3,
+      "final_loss": 5.226672372672615e-38,
+      "budget": 500032,
+      "wall_clock_time": 9.54,
+      "ablation": true
+    },
+    {
+      "method": "VectorGroupDGE",
+      "benchmark": "rotated_quadratic",
+      "k_blocks": 32,
+      "seed": 4,
+      "final_loss": 2.8331431067758846e-31,
+      "budget": 500032,
+      "wall_clock_time": 9.609,
+      "ablation": true
+    }
+  ]
+}

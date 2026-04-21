@@ -161,5 +161,4 @@ data/
 *.h5
 *.ckpt
 outputs/
-results/
 temp/

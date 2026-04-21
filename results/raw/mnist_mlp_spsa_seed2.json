@@ -1,0 +1,80 @@
+{
+  "experiment_name": "mnist_mlp_spsa",
+  "seed": 2,
+  "timestamp": "2026-04-19T08:01:07.669771",
+  "commit_hash": "cd9ff9c8c047fc7d7a9e65f438b70e07be1e5994",
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD"
+  },
+  "config": {
+    "name": "mnist_mlp_spsa",
+    "dataset": "mnist",
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 100000,
+    "architecture": [
+      784,
+      32,
+      10
+    ],
+    "optimizer": {
+      "name": "spsa",
+      "lr": 0.01,
+      "lr_decay": 0.01,
+      "delta": 0.01
+    }
+  },
+  "metrics": {
+    "final_test_accuracy": 0.685,
+    "final_train_accuracy": 0.698,
+    "total_evaluations": 100000,
+    "wall_clock_time": 125.31064128875732,
+    "internal_overhead_time": -2530508.61014843,
+    "function_evaluation_time": 104.66568398475647
+  },
+  "history": {
+    "evaluations": [
+      0,
+      10000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      70000,
+      80000,
+      90000,
+      100000
+    ],
+    "train_accuracy": [
+      0.118,
+      0.5773333333333334,
+      0.6196666666666667,
+      0.647,
+      0.648,
+      0.662,
+      0.6873333333333334,
+      0.68,
+      0.698,
+      0.698,
+      0.698
+    ],
+    "test_accuracy": [
+      0.11,
+      0.58,
+      0.6066666666666667,
+      0.685,
+      0.645,
+      0.645,
+      0.6683333333333333,
+      0.6783333333333333,
+      0.685,
+      0.685,
+      0.685
+    ]
+  }
+}

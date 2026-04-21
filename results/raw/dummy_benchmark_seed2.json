@@ -1,0 +1,42 @@
+{
+  "experiment_name": "dummy_benchmark",
+  "seed": 2,
+  "timestamp": "2026-04-19T07:00:54.667093",
+  "commit_hash": "3a3a0102523acd3198cd677c640a2b4bb471bb83",
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD"
+  },
+  "config": {
+    "name": "dummy_benchmark",
+    "benchmark": "sphere",
+    "dimension": 32,
+    "budget": 1000,
+    "optimizer": {
+      "name": "dge",
+      "group_size": 4,
+      "k": 5
+    }
+  },
+  "metrics": {
+    "final_objective": 0.5,
+    "total_evaluations": 300,
+    "wall_clock_time": 2.1457672119140625e-06
+  },
+  "history": {
+    "evaluations": [
+      0,
+      100,
+      200,
+      300
+    ],
+    "objective_value": [
+      10.0,
+      5.0,
+      2.0,
+      0.5
+    ]
+  }
+}

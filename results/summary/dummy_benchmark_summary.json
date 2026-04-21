@@ -1,0 +1,39 @@
+{
+  "experiment_name": "dummy_benchmark",
+  "num_seeds": 2,
+  "config": {
+    "name": "dummy_benchmark",
+    "benchmark": "sphere",
+    "dimension": 32,
+    "budget": 1000,
+    "optimizer": {
+      "name": "dge",
+      "group_size": 4,
+      "k": 5
+    }
+  },
+  "aggregated_metrics": {
+    "final_objective_mean": 0.5,
+    "final_objective_std": 0.0
+  },
+  "aggregated_history": {
+    "evaluations": [
+      0,
+      100,
+      200,
+      300
+    ],
+    "objective_value_mean": [
+      10.0,
+      5.0,
+      2.0,
+      0.5
+    ],
+    "objective_value_std": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "experiment_name": "mnist_v15b_b1_0.98_gw0.3",
+  "seed": 1,
+  "config": {
+    "name": "mnist_v15b_b1_0.98_gw0.3",
+    "arch": [
+      784,
+      32,
+      10
+    ],
+    "budget": 60000,
+    "optimizer": {
+      "beta1": 0.98,
+      "greedy_w_init": 0.3,
+      "lr": 0.5,
+      "clip_norm": 0.05
+    }
+  },
+  "metrics": {
+    "final_accuracy": 0.8483333333333334,
+    "total_evaluations": 60000,
+    "wall_clock_time": 19.466293334960938,
+    "function_evaluation_time": 15.6035475730896,
+    "internal_overhead_time": 3.862745761871338,
+    "snr_correlation_final": 0.2498997275028761
+  },
+  "history": {
+    "evaluations": [
+      10020,
+      20010,
+      30000,
+      40020,
+      50010,
+      60000
+    ],
+    "objective_value": [
+      0.7083333333333334,
+      0.8,
+      0.83,
+      0.8316666666666667,
+      0.835,
+      0.8483333333333334
+    ]
+  }
+}

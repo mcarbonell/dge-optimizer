@@ -1,0 +1,82 @@
+{
+  "experiment_name": "mnist_ternary_random",
+  "seed": 3,
+  "timestamp": "2026-04-19T10:33:52.914001",
+  "commit_hash": "1467113c6c2ce455d67dbe39a7154c73e7aa136a",
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD"
+  },
+  "config": {
+    "name": "mnist_ternary_random",
+    "dataset": "mnist",
+    "weight_quantization": "ternary",
+    "init_mode": "uniform",
+    "use_bias": false,
+    "n_train": 3000,
+    "n_test": 600,
+    "batch_size": 256,
+    "budget": 150000,
+    "architecture": [
+      784,
+      128,
+      10
+    ],
+    "optimizer": {
+      "name": "random",
+      "lr": 0.5,
+      "lr_decay": 0.01
+    }
+  },
+  "metrics": {
+    "final_test_accuracy": 0.305,
+    "final_train_accuracy": 0.32866666666666666,
+    "total_evaluations": 150000,
+    "wall_clock_time": 365.0095672607422,
+    "internal_overhead_time": -9390988.409719944,
+    "function_evaluation_time": 250.3381702899933
+  },
+  "history": {
+    "evaluations": [
+      0,
+      15000,
+      30000,
+      45000,
+      60000,
+      75000,
+      90000,
+      105000,
+      120000,
+      135000,
+      150000
+    ],
+    "train_accuracy": [
+      0.112,
+      0.24733333333333332,
+      0.24733333333333332,
+      0.2796666666666667,
+      0.3006666666666667,
+      0.2896666666666667,
+      0.283,
+      0.2996666666666667,
+      0.32266666666666666,
+      0.3263333333333333,
+      0.32866666666666666
+    ],
+    "test_accuracy": [
+      0.09666666666666666,
+      0.21333333333333335,
+      0.215,
+      0.2733333333333333,
+      0.2833333333333333,
+      0.245,
+      0.25,
+      0.25666666666666665,
+      0.28833333333333333,
+      0.305,
+      0.305
+    ]
+  }
+}

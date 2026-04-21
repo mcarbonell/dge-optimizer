@@ -1,0 +1,13 @@
+{
+    "final_objective": 1.598425030708313,
+    "total_evaluations": 202240,
+    "wall_clock_time": 13.423654079437256,
+    "test_accuracy": 0.5433333516120911,
+    "train_accuracy": 0.559333324432373,
+    "d": 25450,
+    "architecture": [
+        784,
+        32,
+        10
+    ]
+}

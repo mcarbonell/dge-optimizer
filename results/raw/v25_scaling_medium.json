@@ -1,0 +1,16 @@
+{
+    "pure": {
+        "method": "pure",
+        "evals": 801248,
+        "steps": 343,
+        "best_test_acc": 0.8116666674613953,
+        "wall_time": 217.10475254058838
+    },
+    "hybrid": {
+        "method": "hybrid",
+        "evals": 803156,
+        "steps": 581,
+        "best_test_acc": 0.6549999713897705,
+        "wall_time": 228.75724053382874
+    }
+}
