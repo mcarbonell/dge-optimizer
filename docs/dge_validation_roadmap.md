@@ -346,21 +346,21 @@ Objective: provide enough formal grounding to support the empirical story.
 
 Minimum theoretical targets:
 
-- [ ] Define the DGE estimator formally.
-- [ ] Derive expected estimator behavior under a simplified model.
-- [ ] Analyze how bias and variance depend on dimension, group size, and sparsity assumptions.
-- [ ] Explain when temporal aggregation should improve signal-to-noise ratio.
-- [ ] Document at least one regime where DGE should not be expected to help.
+- [x] Define the DGE estimator formally.
+- [x] Derive expected estimator behavior under a simplified model.
+- [x] Analyze how bias and variance depend on dimension, group size, and sparsity assumptions.
+- [x] Explain when temporal aggregation should improve signal-to-noise ratio.
+- [x] Document at least one regime where DGE should not be expected to help.
 
 Nice-to-have targets:
 
-- [ ] simplified convergence argument under strong assumptions
-- [ ] comparison against SPSA under a toy probabilistic model
+- [x] simplified convergence argument under strong assumptions
+- [x] comparison against SPSA under a toy probabilistic model
 
 Acceptance criteria:
 
-- [ ] The paper can explain why DGE might work without relying only on intuition.
-- [ ] Theoretical discussion includes limitations, not just optimistic cases.
+- [x] The paper can explain why DGE might work without relying only on intuition.
+- [x] Theoretical discussion includes limitations, not just optimistic cases.
 
 ## Phase 9: Claim Discipline
 
@@ -368,21 +368,21 @@ Objective: align repository language with the actual evidence.
 
 Checklist:
 
-- [ ] Rewrite README claims into validated, preliminary, and speculative sections.
-- [ ] Separate "what we measured" from "why this might matter".
-- [ ] Remove or soften universal claims unless supported.
-- [ ] Add a limitations section.
-- [ ] Add a reproducibility section with exact commands or scripts.
+- [x] Rewrite README claims into validated, preliminary, and speculative sections.
+- [x] Separate "what we measured" from "why this might matter".
+- [x] Remove or soften universal claims unless supported.
+- [x] Add a limitations section.
+- [x] Add a reproducibility section with exact commands or scripts.
 
 Suggested evidence labels:
 
-- [ ] Validated: replicated with multiple seeds and documented configs
-- [ ] Preliminary: observed, but not yet fully replicated or ablated
-- [ ] Speculative: plausible future direction, not yet validated
+- [x] Validated: replicated with multiple seeds and documented configs
+- [x] Preliminary: observed, but not yet fully replicated or ablated
+- [x] Speculative: plausible future direction, not yet validated
 
 Acceptance criteria:
 
-- [ ] A skeptical reader can tell which claims are solid and which are exploratory.
+- [x] A skeptical reader can tell which claims are solid and which are exploratory.
 
 ## Phase 10: Paper Assembly
 
@@ -390,26 +390,26 @@ Objective: convert validated work into a paper-quality narrative.
 
 Draft structure:
 
-- [ ] Introduction: problem definition and motivation
-- [ ] Related work: zeroth-order optimization, SPSA, ES, coordinate methods
-- [ ] Method: DGE algorithm and complexity discussion
-- [ ] Theory: bias/variance or signal-to-noise analysis
-- [ ] Experiments: synthetic, black-box baselines, ML tasks, non-differentiable tasks
-- [ ] Ablations: what matters and why
-- [ ] Limitations: honest failure modes and open questions
-- [ ] Conclusion: scoped claims only
+- [x] Introduction: problem definition and motivation
+- [x] Related work: zeroth-order optimization, SPSA, ES, coordinate methods
+- [x] Method: DGE algorithm and complexity discussion
+- [x] Theory: bias/variance or signal-to-noise analysis
+- [x] Experiments: synthetic, black-box baselines, ML tasks, non-differentiable tasks
+- [x] Ablations: what matters and why
+- [x] Limitations: honest failure modes and open questions
+- [x] Conclusion: scoped claims only
 
 Figures to target:
 
-- [ ] one core synthetic scaling figure
-- [ ] one ablation figure
-- [ ] one main ML benchmark figure
-- [ ] one non-differentiable highlight figure
-- [ ] one summary table across baselines
+- [x] one core synthetic scaling figure
+- [x] one ablation figure
+- [x] one main ML benchmark figure
+- [x] one non-differentiable highlight figure
+- [x] one summary table across baselines
 
 Acceptance criteria:
 
-- [ ] The paper narrative matches the strongest validated evidence, not the most ambitious speculation.
+- [x] The paper narrative matches the strongest validated evidence, not the most ambitious speculation.
 
 ## Immediate Next Actions
 
@@ -433,6 +433,6 @@ Use this section to leave short updates between sessions.
 - [x] Baseline suite expanded (SPSA and Random Direction Search implemented)
 - [x] ML benchmarks stabilized (Phase 5 MNIST complete ~88%)
 - [x] Non-differentiable benchmarks stabilized (Phase 6 Step, Binary, Ternary complete)
-- [ ] Theory notes drafted
-- [ ] README claims revised
-- [ ] Paper outline drafted
+- [x] Theory notes drafted
+- [x] README claims revised
+- [x] Paper outline drafted
