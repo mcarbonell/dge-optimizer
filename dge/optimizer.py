@@ -98,6 +98,10 @@ class DGEOptimizer:
         delta_decay: float = 0.1,
         consistency_window: int = 20,
         seed: int | None = None,
+        # Deprecated parameters (silently ignored for backward compatibility)
+        clip_norm: float | None = None,   # removed in v2; was never beneficial (v14+ findings)
+        greedy_step: bool = False,        # removed in v2; abandoned in v14+ experiments
+        dense_update: bool = False,       # removed in v2; no measurable benefit
     ):
         self.dim = dim
         self.k = k_blocks if k_blocks is not None else max(1, math.ceil(math.log2(dim)))
