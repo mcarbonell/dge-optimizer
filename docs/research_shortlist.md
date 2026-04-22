@@ -39,6 +39,15 @@ This shortlist defines the top branches worth pursuing next, based on:
 | **Consistency LR reduce std entre seeds en 53–85%** | **v27** | **No solo converge mejor sino con mayor reproducibilidad** |
 | **ConsistencyDGE MNIST: 87.56% ± 0.77% vs PureDGE 80.00% ± 1.57%** | **v28** | **+7.56pp (+9.4%), train loss 10× menor, wall-clock neutro — nuevo máximo histórico** |
 
+## Open / Active Research Branches
+
+### Branch 3: Advanced Consistency LR (V2)
+**Status:** OPEN (Ideation)
+**Premise:** La máscara de consistencia actual (`v27`) revolucionó el escalado (permitiendo alcanzar >94% en MNIST con 3M evals), pero se basa en una media plana no ponderada de los signos con $T=20$ estático. Hacer la máscara consciente de la magnitud (vía SNR) y adaptativa a la capa de la red promete una mejora exponencial en eficiencia.
+**Questions to answer:**
+- ¿Puede una consistencia guiada por SNR evitar estancamientos en mínimos locales?
+- ¿Permitiría un $T$ dinámico (bajo en capas finales, alto en iniciales) solucionar el cuello de botella temporal de la red?
+
 ## Closed Research Tracks
 
 ### SFWHT Track (v19–v25): CLOSED ❌

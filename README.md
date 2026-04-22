@@ -13,7 +13,7 @@ El algoritmo combina perturbaciones aleatorias por bloques con un suavizado temp
 
 Las siguientes afirmaciones han sido validadas empíricamente a través de múltiples semillas y experimentos documentados rigurosamente en el directorio `scratch/`.
 
-*   **[Validated] Entrenamiento de arquitecturas densas sin gradientes analíticos:** DGE es capaz de entrenar perceptrones multicapa (MLP) continuos de hasta ~110,000 parámetros obteniendo precisiones altamente competitivas en MNIST (`v28`: 87.56% ± 0.77%).
+*   **[Validated] Entrenamiento de arquitecturas densas sin gradientes analíticos:** DGE es capaz de entrenar perceptrones multicapa (MLP) continuos de hasta ~110,000 parámetros obteniendo precisiones altamente competitivas en MNIST (`v30e`: 94.16% con 3,000,000 evals).
 *   **[Validated] Eficiencia sobre SPSA:** A diferencia de SPSA (cuyo ruido escala linealmente con la dimensión), la estrategia de particionado por bloques de DGE mitiga exponencialmente la varianza, permitiendo convergencia donde SPSA colapsa.
 *   **[Validated] Supremacía en entornos 100% discretos y no-diferenciables:** DGE puede entrenar con éxito arquitecturas donde Adam y la propagación hacia atrás fallan estrepitosamente (gradiente analítico = 0).
     *   **Redes con Activación Signo (Step/Sign):** DGE logra ~73% de accuracy en redes con activaciones `torch.sign` (Adam fracasa al no poder entrenar capas ocultas).
@@ -60,7 +60,7 @@ Todos los resultados validados pueden ser reproducidos usando los scripts locali
 
 ### Comandos Exactos para Reproducción:
 
-**1. Entrenamiento continuo a gran escala (Nuevo Récord MNIST ~87.5% en V3):**
+**1. Entrenamiento continuo a gran escala (Nuevo Récord MNIST ~94.16% en V3):**
 Demuestra la escalabilidad de DGE frente a SPSA/MeZO usando *Direction-Consistency LR*.
 ```bash
 python scratch/dge_fullmnist_comparison_v30e.py

@@ -16,6 +16,11 @@
 * **Mecanismo:** Si al aplicar una actualización el Loss empeora, en lugar de descartar la dirección (que probablemente era buena), intentamos iterativamente con `LR/2`, `LR/4`, etc., hasta encontrar una mejora.
 * **Aplicación en DGE:** Dado que DGE es *Greedy* y ya evalúa constantemente la función, aplicar una búsqueda dicotómica sobre la magnitud del paso una vez encontrada una buena dirección de bloques podría garantizar convergencia sin atascos.
 
+### 1.3. Evolución del Direction-Consistency LR (V2)
+* **Consistencia Ponderada por Magnitud (SNR-based):** En lugar de calcular una media plana de signos (`mean(sign(grad))`), medir la "confianza" utilizando el Ratio Señal-Ruido (SNR) local de la ventana de tiempo. Un pequeño pico de ruido no debería pesar lo mismo que un gradiente fuerte constante.
+* **Ventanas de Tiempo Adaptativas ($T$ dinámico):** Ajustar el hiperparámetro $T$ (tamaño de la memoria histórica) dependiendo de la profundidad de la capa. Las capas finales (señal más limpia) pueden usar un $T$ bajo para converger rápido, mientras que las primeras capas (inundadas por el ruido cruzado) requerirían un $T$ alto para filtrar mejor la señal.
+* **Momentum de la Consistencia:** Implementar un mecanismo de penalización (decay) para variables que demuestren ser "crónicamente ruidosas" durante cientos de pasos, congelándolas agresivamente para ahorrar perturbaciones.
+
 ---
 
 ## 2. Variables Oscilantes y Estimación por Frecuencia
