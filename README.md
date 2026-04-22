@@ -48,6 +48,9 @@ Per step, DGE evaluates $k$ random non-overlapping blocks of parameters (2 evalu
 | v13 | Ternary {-1,0,1} | 150,000 | **67.67%** | 50% sparsity |
 | v25b | Deep MLP ~109K params | 800,000 | **81.17%** | Pure DGE scaling gate |
 | **v28** | Deep MLP ~109K params | 800,000 | **87.56% ± 0.77%** | **ConsistencyDGE — new record** |
+| v31 | Sign Activation (784→32→10) | 200,000 | **73.20%** | Adam fails (61%) |
+| v32 | INT8 Full Quantization | 600,000 | **82.20%** | Native QAT. Adam fails (8%) |
+| v32 | INT4 Full Quantization | 600,000 | **77.80%** | Native QAT. Adam fails (9%) |
 
 ### Synthetic Benchmarks — ConsistencyDGE vs Pure DGE (v27, D=128, 500K evals)
 

@@ -207,9 +207,9 @@ Still speculative.
 2. ✅ ~~**Direction-Consistency LR** (v27)~~ — CONFIRMED (mejora universal en 4/4 benchmarks, T20 default)
 3. ✅ ~~**MNIST con ConsistencyDGE_T20** (v28)~~ — CONFIRMED (**87.56% vs 80.00%, +7.56pp, nuevo récord**)
 4. **Más seeds** (5–7) para consolidar estadística antes del paper
-5. **Curvas de convergencia**: accuracy por paso para cuantificar velocidad de convergencia
-6. **Arquitecturas más profundas**: probar en arch de v10 (stall a 85%) para ver si ConsistencyDGE rompe la barrera
-7. **Comparación con SPSA**: baseline adicional necesario para el paper
+5. ✅ **Curvas de convergencia**: accuracy por paso para cuantificar velocidad de convergencia (Completado en `v30e`)
+6. ✅ **Arquitecturas más profundas**: probar en arch de v10 (stall a 85%) para ver si ConsistencyDGE rompe la barrera (Validado en `v30e` con red de 3 capas)
+7. ✅ **Comparación con SPSA**: baseline adicional necesario para el paper (Integrado en `v30e`)
 8. **Paper assembly** — la historia es completa y sólida
 
 ## Decision Gates

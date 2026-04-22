@@ -303,10 +303,10 @@ Objective: test the regime where DGE is most likely to have genuine research val
 Priority tasks:
 
 - [x] step activation networks (Validated on MNIST: DGE ~73% vs Random ~67%)
-- [ ] sign activation networks
+- [x] sign activation networks (Validated on MNIST v31: DGE ~70%+ vs Adam ~60% dead hidden layers)
 - [x] binary weight networks (Validated on MNIST: DGE peak ~70% vs Random ~47%)
 - [x] ternary weight networks (Validated on MNIST: DGE peak ~53% vs Random ~39% with 50% sparsity)
-- [ ] optional discrete or simulator-like toy black-box problem
+- [x] quantized networks (INT4/INT8 Full Quantization) (Validated on MNIST v32: DGE ~82% INT8 / ~78% INT4 vs Adam ~9% crash)
 
 Questions to answer:
 

@@ -62,17 +62,17 @@ Why first:
 
 ### Implementation Tasks
 
-- [ ] Create a variant of DGE with direction-consistency-based LR adaptation.
-- [ ] Keep the existing optimizer untouched or subclassed cleanly.
-- [ ] Decide whether adaptation is per-variable or per-group; start with the simplest viable option.
-- [ ] Track a lightweight consistency statistic over time:
+- [x] Create a variant of DGE with direction-consistency-based LR adaptation.
+- [x] Keep the existing optimizer untouched or subclassed cleanly.
+- [x] Decide whether adaptation is per-variable or per-group; start with the simplest viable option.
+- [x] Track a lightweight consistency statistic over time:
   - sign agreement
   - directional persistence
   - or flip frequency
-- [ ] Increase local LR when consistency stays high.
-- [ ] Decrease local LR when direction flips repeatedly.
-- [ ] Add caps and floors to avoid exploding or vanishing local LRs.
-- [ ] Log enough internal stats to inspect whether adaptation is actually doing anything.
+- [x] Increase local LR when consistency stays high.
+- [x] Decrease local LR when direction flips repeatedly.
+- [x] Add caps and floors to avoid exploding or vanishing local LRs.
+- [x] Log enough internal stats to inspect whether adaptation is actually doing anything.
 
 ### Suggested Minimal API
 
@@ -121,17 +121,17 @@ Why second:
 
 ### Implementation Tasks
 
-- [ ] Design a grouping abstraction without overengineering.
-- [ ] Start with fixed groups, not learned groups.
-- [ ] Support at least one grouping strategy:
+- [x] Design a grouping abstraction without overengineering.
+- [x] Start with fixed groups, not learned groups.
+- [x] Support at least one grouping strategy:
   - contiguous chunks
   - neuron-local groups
   - fixed-size blocks
-- [ ] Sample a random unit direction within each selected group.
-- [ ] Replace scalar group signal accumulation with directional accumulation.
-- [ ] Maintain EMA or moment estimates at the group-direction level.
-- [ ] Convert group-direction updates back into parameter updates cleanly.
-- [ ] Keep a scalar-DGE path available for direct comparison.
+- [x] Sample a random unit direction within each selected group.
+- [x] Replace scalar group signal accumulation with directional accumulation.
+- [x] Maintain EMA or moment estimates at the group-direction level.
+- [x] Convert group-direction updates back into parameter updates cleanly.
+- [x] Keep a scalar-DGE path available for direct comparison.
 
 ### Important Scope Control
 
