@@ -172,7 +172,7 @@ class StructuralDGEOptimizer:
 # Config
 # ---------------------------------------------------------------------------
 ARCH          = (784, 128, 64, 10)
-BUDGET_DGE    = 500_000
+BUDGET_DGE    = 2500_000
 LR_ZO         = 0.05
 DELTA         = 1e-3
 BATCH_SIZE    = 256
@@ -303,7 +303,7 @@ if __name__ == "__main__":
     y_te_d = y_te_all.to(device)
 
     print(f"\n{'='*70}")
-    print(f"EXPERIMENTO v36: Structural DGE (Option A - Fails due to uniform scaling)")
+    print(f"EXPERIMENTO v36: Structural DGE (Option A - Slow convergence?)")
     print(f"BUDGET: {BUDGET_DGE:,} evals")
     print(f"{'='*70}")
 

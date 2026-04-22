@@ -65,3 +65,25 @@
   - Este proceso dibuja exactamente las filas de una **Matriz de Walsh-Hadamard** ordenadas por "frecuencia espacial" (secuencia de Walsh).
 * **Beneficio Matemático ($O(\log D)$):** Si nos detenemos a una profundidad aceptable (ej. $\log_2(D)$ evaluaciones), no obtenemos el gradiente individual de cada variable, sino la **proyección del gradiente sobre las frecuencias espaciales más bajas**. Dado que los pesos contiguos en redes neuronales suelen estar correlacionados, dar un paso usando estas proyecciones "macro" mueve grandes bloques de pesos en direcciones coherentes, eliminando el ruido microscópico con un coste irrisorio.
 * **Sinergia con Temporal Denoising (EMA):** Al igual que en el algoritmo base, los resultados de estas evaluaciones jerárquicas no tienen que descartarse en cada paso $t$. Como $t$ y $t+1$ no son independientes (el paisaje subyacente cambia despacio), podemos mantener un EMA de la "sensibilidad" de cada nivel de la matriz de Hadamard a lo largo del tiempo, filtrando aún más el ruido y combinando coherencia espacial (Hadamard) con estabilidad temporal (EMA).
+
+### 3.3. DGE Estructural (Node Perturbation): Fan-In / Fan-Out
+* **Concepto:** Agrupar los pesos siguiendo la topología real de la red (neuronas) en lugar de bloques aleatorios ciegos.
+* **Mecanismo:** 
+  - **Bloque Fan-In:** Todos los pesos que entran a una neurona de salida $j$ ($W_{:,j}$ + bias). Equivale a perturbar la pre-activación de la neurona ($z_j$).
+  - **Bloque Fan-Out:** Todos los pesos que salen de una neurona de entrada $i$ ($W_{i,:}$). Equivale a perturbar la activación de la neurona ($a_i$).
+* **Lección de la Opción A (Escalar Fijo):** Sumar un escalar uniforme $+\Delta$ a todo el bloque falla catastróficamente ("Gradient Washing"). La red responde a la suma de todas las entradas ($\sum x_i$), perdiendo la información individual de cada peso.
+* **Lección de la Opción B (Signos Aleatorios):** Al inyectar un vector de signos aleatorios dentro del bloque estructural, la esperanza matemática del gradiente estima exactamente la regla de Backpropagation: $\Delta W_i = \text{Error} \times x_i$.
+* **Ventaja ($O(\text{Nodes})$):** Reduce el número de bloques al número de neuronas, lo que permite estimar gradientes de alta calidad con una fracción mínima de evaluaciones (ej. solo 404 evaluaciones para una red MNIST).
+
+---
+
+## 4. Mutaciones Radicales (Más allá del Gradiente)
+
+### 4.1. Optimización No Paramétrica
+* **Concepto:** DGE se usa tradicionalmente para estimar gradientes y sumarlos/restarlos ($\pm \Delta$), pero al ser un optimizador Black-Box, puede proponer **cualquier** cambio y medir el Loss resultante.
+* **Mecanismos de Mutación:**
+  - **Actualizaciones Multiplicativas:** Probar a multiplicar pesos por un factor ($w = w \cdot (1 \pm \delta)$) en lugar de sumas aditivas.
+  - **Saltos Discretos:** Invertir el signo de un peso o de un bloque entero de golpe y medir si la red "despierta".
+  - **Arquitectura Adaptativa:** Cambiar la función de activación de una neurona (ej. de ReLU a Sigmoide o Tanh) dinámicamente basándose en la estabilidad del Loss.
+  - **Poda (Pruning) Estocástica:** Si un bloque estructural (neurona) demuestra ser consistentemente ruidoso y no aporta al gradiente, "matar" la neurona (poner sus pesos a 0) y medir si el Loss mejora por la simplificación del paisaje de error.
+* **Cambio de Paradigma:** Pasar de "estimar gradientes para Adam" a un sistema puro de **Evolución y Selección** operando sobre los bloques topológicos.
