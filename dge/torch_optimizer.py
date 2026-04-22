@@ -5,12 +5,11 @@ Denoised Gradient Estimation (DGE) Optimizer — PyTorch Batched Native (v3).
 
 This implementation shifts the optimization loop completely to PyTorch and
 generates the perturbations using a fully vectorized (loop-free) strategy via
-`scatter_`. 
+`scatter_`. It natively supports the "Scaling Head" (multi-layer block sizes) 
+approach to ensure deep networks converge correctly.
 
 The objective function `f_batched` MUST accept a 2D batch of parameters
 of shape (2k, dim) and return a 1D tensor of losses of shape (2k,).
-This allows the underlying ML framework to evaluate all blocks concurrently,
-massively reducing the Python overhead and fully utilizing GPU bandwidth.
 """
 
 import math
@@ -19,15 +18,18 @@ import torch
 
 class TorchDGEOptimizer:
     """
-    Batched Native PyTorch implementation of DGE (v3).
+    Batched Native PyTorch implementation of DGE (v3) with Scaling Head support.
     
     Parameters
     ----------
     dim : int
         Total number of parameters to optimize.
-    k_blocks : int or None
-        Number of random blocks per step. Each block uses 2 evaluations.
-        If None, defaults to max(1, ceil(log2(dim))).
+    k_blocks : int or list[int] or None
+        Number of random blocks per step. 
+        If a list, it must match the length of `layer_sizes` for multi-layer scaling.
+    layer_sizes : list[int] or None
+        Sizes of the distinct parameter groups (layers). If provided, `k_blocks`
+        must be a list of the same length. If None, treats `dim` as a single layer.
     lr : float
         Base learning rate. Cosine-annealed to lr*lr_decay over training.
     delta : float
@@ -53,11 +55,14 @@ class TorchDGEOptimizer:
         The device where state tensors reside ('cpu', 'cuda', 'privateuseone:0').
     clip_norm : float or None
         If provided, clips the final update vector norm to this value.
+    chunk_size : int or None
+        If provided, splits the forward pass batch into chunks of this size to prevent OOM.
     """
     def __init__(
         self,
         dim: int,
-        k_blocks: int | None = None,
+        k_blocks: int | list[int] | None = None,
+        layer_sizes: list[int] | None = None,
         lr: float = 0.1,
         delta: float = 1e-3,
         beta1: float = 0.9,
@@ -70,9 +75,9 @@ class TorchDGEOptimizer:
         seed: int | None = None,
         device: torch.device | str = "cpu",
         clip_norm: float | None = None,
+        chunk_size: int | None = None,
     ):
         self.dim = dim
-        self.k = k_blocks if k_blocks is not None else max(1, math.ceil(math.log2(dim)))
         self.lr0 = lr
         self.delta0 = delta
         self.beta1 = beta1
@@ -83,6 +88,7 @@ class TorchDGEOptimizer:
         self.delta_decay = delta_decay
         self.consistency_window = consistency_window
         self.clip_norm = clip_norm
+        self.chunk_size = chunk_size
         
         self.device = torch.device(device) if isinstance(device, str) else device
         
@@ -96,9 +102,32 @@ class TorchDGEOptimizer:
         
         self._sign_buffer = deque(maxlen=consistency_window) if consistency_window > 0 else None
         
-        # Precompute padding logic since the dimension doesn't change
-        self.group_size = (self.dim + self.k - 1) // self.k
-        self.pad = self.group_size * self.k - self.dim
+        # Setup multi-layer architecture
+        if layer_sizes is None:
+            self.layer_sizes = [dim]
+            if k_blocks is None:
+                self.k_blocks = [max(1, math.ceil(math.log2(dim)))]
+            elif isinstance(k_blocks, int):
+                self.k_blocks = [k_blocks]
+            else:
+                self.k_blocks = k_blocks
+        else:
+            self.layer_sizes = layer_sizes
+            self.k_blocks = k_blocks if isinstance(k_blocks, list) else [k_blocks] * len(layer_sizes)
+            
+        assert len(self.layer_sizes) == len(self.k_blocks), "k_blocks length must match layer_sizes"
+        assert sum(self.layer_sizes) == self.dim, "sum of layer_sizes must equal dim"
+        
+        self.total_k = sum(self.k_blocks)
+        
+        # Precompute padding logic per layer
+        self.group_sizes = []
+        self.pads = []
+        for sz, k in zip(self.layer_sizes, self.k_blocks):
+            grp = (sz + k - 1) // k
+            pad = grp * k - sz
+            self.group_sizes.append(grp)
+            self.pads.append(pad)
 
     def _cosine(self, v0: float, decay: float) -> float:
         """Cosine annealing schedule."""
@@ -112,8 +141,8 @@ class TorchDGEOptimizer:
         Parameters
         ----------
         f_batched : Callable[[torch.Tensor], torch.Tensor]
-            Objective function that accepts a parameter batch of shape (2k, dim)
-            and returns a 1D tensor of losses of shape (2k,).
+            Objective function that accepts a parameter batch of shape (P, dim)
+            and returns a 1D tensor of losses of shape (P,).
         x : torch.Tensor, shape (dim,)
             Current parameter vector (must be on self.device).
 
@@ -122,66 +151,97 @@ class TorchDGEOptimizer:
         x_new : torch.Tensor
             Updated parameter vector.
         n_evals : int
-            Number of function evaluations used (always 2 * k).
+            Number of function evaluations used (always 2 * total_k).
         """
         self.t += 1
         lr = self._cosine(self.lr0, self.lr_decay)
         delta = self._cosine(self.delta0, self.delta_decay)
         
-        # 1. Generate permutation and signs
-        perm = torch.randperm(self.dim, generator=self.rng, device=self.device)
-        signs = torch.randint(0, 2, (self.dim,), generator=self.rng, device=self.device).float() * 2 - 1
+        P_plus = torch.zeros((self.total_k, self.dim), device=self.device)
         
-        # Pad to make exactly divisible by k
-        if self.pad > 0:
-            perm_pad = torch.cat([perm, torch.zeros(self.pad, dtype=torch.long, device=self.device)])
-            signs_pad = torch.cat([signs, torch.zeros(self.pad, device=self.device)])
-        else:
-            perm_pad = perm
-            signs_pad = signs
+        offset = 0
+        row_offset = 0
+        
+        perms = []
+        signss = []
+        
+        # 1. Build Multi-Layer Perturbations Matrix
+        for sz, k, pad, grp in zip(self.layer_sizes, self.k_blocks, self.pads, self.group_sizes):
+            perm = torch.randperm(sz, generator=self.rng, device=self.device)
+            signs = torch.randint(0, 2, (sz,), generator=self.rng, device=self.device).float() * 2 - 1
             
-        perm_mat = perm_pad.view(self.k, self.group_size)
-        signs_mat = signs_pad.view(self.k, self.group_size) * delta
-        
-        # 2. Build perturbation matrices using scatter_ for O(1) loop-free performance
-        P_plus = torch.zeros((self.k, self.dim), device=self.device)
-        P_plus.scatter_(1, perm_mat, signs_mat)
-        
-        if self.pad > 0:
-            # Fix the 0th index which was overwritten by padding zeros
-            P_plus[:, 0] = 0.0
-            idx0_mask = (perm == 0)
-            idx0_pos = idx0_mask.nonzero(as_tuple=True)[0]
-            if len(idx0_pos) > 0:
-                block0 = idx0_pos[0] // self.group_size
-                P_plus[block0, 0] = signs[idx0_pos[0]] * delta
+            perms.append(perm)
+            signss.append(signs)
+            
+            if pad > 0:
+                perm_pad = torch.cat([perm, torch.zeros(pad, dtype=torch.long, device=self.device)])
+                signs_pad = torch.cat([signs, torch.zeros(pad, device=self.device)])
+            else:
+                perm_pad = perm
+                signs_pad = signs
                 
-        P = torch.empty((2 * self.k, self.dim), device=self.device)
+            # Shift permutation indices by the layer's offset in the flat parameter vector
+            perm_mat = perm_pad.view(k, grp) + offset
+            signs_mat = signs_pad.view(k, grp) * delta
+            
+            target_slice = P_plus[row_offset : row_offset + k, :]
+            target_slice.scatter_(1, perm_mat, signs_mat)
+            
+            if pad > 0:
+                target_slice[:, offset] = 0.0
+                idx0_mask = (perm == 0)
+                idx0_pos = idx0_mask.nonzero(as_tuple=True)[0]
+                if len(idx0_pos) > 0:
+                    block0 = idx0_pos[0] // grp
+                    target_slice[block0, offset] = signs[idx0_pos[0]] * delta
+                    
+            offset += sz
+            row_offset += k
+                
+        P = torch.empty((2 * self.total_k, self.dim), device=self.device)
         P[0::2] = P_plus
         P[1::2] = -P_plus
         
-        # 3. Batched Forward Pass
-        # x is (dim,). x.unsqueeze(0) + P leverages broadcasting to make (2k, dim)
-        losses = f_batched(x.unsqueeze(0) + P)
+        # 2. Batched Forward Pass (with optional Chunking to avoid OOM)
+        X_batch = x.unsqueeze(0) + P
+        if self.chunk_size is not None and X_batch.shape[0] > self.chunk_size:
+            losses_list = []
+            for i in range(0, X_batch.shape[0], self.chunk_size):
+                losses_list.append(f_batched(X_batch[i : i + self.chunk_size]))
+            losses = torch.cat(losses_list, dim=0)
+        else:
+            losses = f_batched(X_batch)
         
-        # 4. Extract Gradients
+        # 3. Extract Gradients Layer by Layer
         diffs = (losses[0::2] - losses[1::2]) / (2.0 * delta)
         
         grad = torch.zeros(self.dim, device=self.device)
-        diffs_exp = diffs.unsqueeze(1).expand(self.k, self.group_size).flatten()
-        if self.pad > 0:
-            diffs_exp = diffs_exp[:self.dim]
-            
-        grad[perm] = diffs_exp * signs
+        offset = 0
+        row_offset = 0
         
-        # 5. Temporal Denoising (Adam EMA)
+        for i, (sz, k, pad, grp) in enumerate(zip(self.layer_sizes, self.k_blocks, self.pads, self.group_sizes)):
+            perm = perms[i]
+            signs = signss[i]
+            
+            layer_diffs = diffs[row_offset : row_offset + k]
+            diffs_exp = layer_diffs.unsqueeze(1).expand(k, grp).flatten()
+            
+            if pad > 0:
+                diffs_exp = diffs_exp[:sz]
+                
+            grad[offset + perm] = diffs_exp * signs
+            
+            offset += sz
+            row_offset += k
+        
+        # 4. Temporal Denoising (Adam EMA)
         self.m = self.beta1 * self.m + (1.0 - self.beta1) * grad
         self.v = self.beta2 * self.v + (1.0 - self.beta2) * (grad ** 2)
         
         mh = self.m / (1.0 - self.beta1 ** self.t)
         vh = self.v / (1.0 - self.beta2 ** self.t)
         
-        # 6. Direction-Consistency Mask
+        # 5. Direction-Consistency Mask
         mask = 1.0
         if self._sign_buffer is not None:
             self._sign_buffer.append(torch.sign(grad))
@@ -195,4 +255,4 @@ class TorchDGEOptimizer:
             if un > self.clip_norm:
                 upd *= self.clip_norm / un
                 
-        return x - upd, 2 * self.k
+        return x - upd, 2 * self.total_k
