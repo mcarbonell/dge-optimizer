@@ -93,3 +93,24 @@ En tiempo de wall-clock real, SPSA/MeZO tuvieron ~3 min/seed vs 14 min/seed para
 | Probe previo (1 seed) | `scratch/dge_fullmnist_probe.py` |
 | Synthetics | `docs/dge_findings_v27_consistency_lr.md` |
 | MNIST 3K (v29) | `docs/dge_findings_v29_paper_stats.md` |
+
+---
+
+## Apéndice: Nuestro MeZO vs el MeZO original (Malladi et al., 2022)
+
+Al revisar el paper original de MeZO, se observan las siguientes diferencias con nuestra implementación `MeZO_Full`:
+
+| Aspecto | MeZO original (paper) | Nuestra `MeZO_Full` |
+|---|---|---|
+| Perturbación | Gaussiana z ~ N(0,1) | Rademacher ±1 |
+| Optimizer | SGD puro: `θᵢ -= ηt × proj_grad × zᵢ` | **Adam** (EMA de gradiente) |
+| Memory trick | Regenera z desde seed (no almacena vector) | Almacena el vector \signs en memoria |
+| Régimen objetivo | Fine-tuning desde modelo preentrenado | Desde cero (He-init) |
+
+**Implicación:** Nuestra `MeZO_Full` es **más fuerte** que el MeZO del paper (usa Adam en lugar de SGD puro). A pesar de ello, colapsa a ~29%.
+
+Esto refuerza el argumento central: **el colapso no se debe al optimizador sino a la perturbación global con D=109K parámetros**. El SNR del estimador es O(1/√D) ≈ 1/330 independientemente de si el optimizador es SGD o Adam. Dar Adam al estimador global solo retrasa ligeramente el colapso — no lo evita.
+
+**Nota de contexto**: El paper de MeZO fue diseñado para **fine-tuning de LLMs** donde el modelo ya está cerca del óptimo (preentrenado). En ese régimen, el gradiente proyectado es informativo porque el paisaje de pérdida es casi lineal localmente. En nuestro caso (entrenamiento desde cero), el modelo empieza en una región de alta curvatura donde la perturbación global genera señal prácticamente nula frente al ruido.
+
+Para el paper de DGE, la comparación sigue siendo válida y en todo caso el colapso de `MeZO_Full` con Adam (más fuerte que el original) hace la comparación más severa para nosotros y más convincente en favor de la estructura de bloques de DGE.
