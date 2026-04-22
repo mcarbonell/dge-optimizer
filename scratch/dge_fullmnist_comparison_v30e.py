@@ -1,14 +1,13 @@
 """
-dge_fullmnist_comparison_v30d.py
+dge_fullmnist_comparison_v30e.py
 =================================
-v30c + train accuracy en el logging.
+v30d acelerado usando la clase nativa TorchDGEOptimizer (DGE V3).
 
-Cambios respecto a v30c:
-  - Muestra train_acc en cada checkpoint (subsample de 5K para velocidad)
-  - Header: evals | train_acc | test_acc | best_test | time
-  - Todo lo demas identico
+Cambios respecto a v30d:
+  - Reemplazada la implementación manual del bucle por la clase TorchDGEOptimizer
+  - Todo lo demas identico (hiperparámetros, semillas, budgets)
 
-Config identica a v30c:
+Config identica a v30c/v30d:
   SPSA/MeZO budget : 300,000 evals  (log cada 30K)
   DGE budget       : 3,000,000 evals
   Adam/SGD         : 30 epochs
@@ -26,6 +25,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from dge.torch_optimizer import TorchDGEOptimizer
 
 try:
     from torchvision import datasets, transforms
@@ -158,9 +161,15 @@ def run_spsa(name, model, params0, X_tr_subsample, y_tr_sub, X_te, y_te,
 
         signs = torch.randint(0, 2, (dim,), generator=state.rng, device=device).float() * 2 - 1
         pert  = signs * delta
-        p2    = params.unsqueeze(0)
-        fp    = batched_ce(model.forward(Xb, p2 + pert.unsqueeze(0)), yb)[0]
-        fm    = batched_ce(model.forward(Xb, p2 - pert.unsqueeze(0)), yb)[0]
+        
+        # Batch fp and fm to save 1 GPU kernel launch overhead
+        P = torch.empty((2, dim), device=device)
+        P[0] = pert
+        P[1] = -pert
+        
+        losses = batched_ce(model.forward(Xb, params.unsqueeze(0) + P), yb)
+        fp, fm = losses[0], losses[1]
+        
         grad  = (fp - fm) / (2.0 * delta) * signs
         upd   = state.update(grad, lr)
         params = params - upd
@@ -187,10 +196,20 @@ def run_spsa(name, model, params0, X_tr_subsample, y_tr_sub, X_te, y_te,
 
 def run_dge(name, use_consistency, model, params0,
             X_tr_subsample, y_tr_sub, X_te, y_te, seed):
-    dim    = model.dim
-    sizes  = model.sizes
-    state  = AdamState(dim, seed)
-    sign_buf = deque(maxlen=WINDOW) if use_consistency else None
+    
+    opt = TorchDGEOptimizer(
+        dim=model.dim,
+        layer_sizes=model.sizes,
+        k_blocks=list(K_BLOCKS),
+        lr=LR_ZO,
+        delta=DELTA,
+        total_steps=TOTAL_DGE_STEPS,
+        consistency_window=WINDOW if use_consistency else 0,
+        seed=seed,
+        device=device,
+        chunk_size=128
+    )
+    
     params = params0.clone()
     rng_mb = torch.Generator()
     rng_mb.manual_seed(seed + 100)
@@ -210,45 +229,12 @@ def run_dge(name, use_consistency, model, params0,
         idx = torch.randperm(60000, generator=rng_mb)[:BATCH_SIZE]
         Xb, yb = X_tr_d[idx], y_tr_d[idx]
 
-        lr    = state.cosine(LR_ZO, TOTAL_DGE_STEPS)
-        delta = state.cosine(DELTA, TOTAL_DGE_STEPS, decay=0.1)
-
-        full_grad = torch.zeros(dim, device=device)
-        step_evals = 0
-        offset = 0
-        for sz, k in zip(sizes, K_BLOCKS):
-            perm   = torch.randperm(sz, generator=state.rng, device=device)
-            blocks = torch.tensor_split(perm, k)
-            perts  = torch.zeros((2*k, sz), device=device)
-            sl = []
-            for bi, bl in enumerate(blocks):
-                if len(bl) == 0: continue
-                s = torch.randint(0, 2, (len(bl),), generator=state.rng,
-                                  device=device).float() * 2 - 1
-                perts[2*bi, bl] = s * delta
-                perts[2*bi+1, bl] = -s * delta
-                sl.append((bl, s))
-            def fl(pl, _off=offset, _sz=sz, _Xb=Xb, _yb=yb):
-                fp2 = params.unsqueeze(0).expand(pl.shape[0], -1).clone()
-                fp2[:, _off:_off+_sz] = pl
-                return batched_ce(model.forward(_Xb, fp2), _yb)
-            xl = params[offset:offset+sz]
-            Y  = fl(xl.unsqueeze(0) + perts)
-            for bi, (bl, s) in enumerate(sl):
-                full_grad[offset + bl] = (Y[2*bi] - Y[2*bi+1]) / (2.0*delta) * s
-            step_evals += 2 * k
-            offset += sz
-
-        if use_consistency:
-            sign_buf.append(torch.sign(full_grad).cpu())
-            mask = (torch.stack(list(sign_buf)).mean(0).abs().to(device)
-                    if len(sign_buf) >= 2 else torch.ones(dim, device=device))
-            upd = mask * state.update(full_grad, lr)
-        else:
-            upd = state.update(full_grad, lr)
-
-        params = params - upd
-        evals += step_evals
+        def f_batched(p_batch):
+            logits = model.forward(Xb, p_batch)
+            return batched_ce(logits, yb)
+            
+        params, n = opt.step(f_batched, params)
+        evals += n
 
         if evals >= next_log or evals >= BUDGET_DGE:
             tr_acc  = zo_acc(model, X_tr_subsample, y_tr_sub, params)
@@ -357,7 +343,7 @@ y_te_d = y_te_all.to(device)
 
 if __name__ == "__main__":
     print(f"\n{'='*70}")
-    print(f"EXPERIMENTO v30e: Comparacion completa MNIST 60K/10K + train_acc")
+    print(f"EXPERIMENTO v30d: Comparacion completa MNIST 60K/10K + train_acc")
     print(f"SPSA/MeZO: {BUDGET_SPSA:,} evals  DGE: {BUDGET_DGE:,} evals")
     print(f"Train acc: subsample {TRAIN_ACC_N} muestras  Seeds: {SEEDS}")
     print(f"{'='*70}")
@@ -423,9 +409,9 @@ if __name__ == "__main__":
     # --- Guardar JSON ---
     out_dir = Path(__file__).parent.parent / "results" / "raw"
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "v30d_fullmnist_comparison.json"
+    out_path = out_dir / "v30e_fullmnist_comparison.json"
     payload = {
-        "experiment": "v30d_fullmnist_comparison",
+        "experiment": "v30e_fullmnist_comparison",
         "arch": list(ARCH), "budget_dge": BUDGET_DGE,
         "budget_spsa": BUDGET_SPSA, "adam_epochs": ADAM_EPOCHS,
         "seeds": SEEDS,
