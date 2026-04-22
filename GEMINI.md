@@ -1,7 +1,7 @@
 # Reglas estables del Repositorio DGE Optimizer
 
 ## Modificación de código existente
-**REGLA DE ORO:** Bajo NINGÚN CONCEPTO debes modificar un archivo de código (`.py`) que ya exista en scratch/ y funcione.
+**REGLA DE ORO (No modificar exprimentos previos):** Bajo NINGÚN CONCEPTO debes modificar un archivo de código (`.py`) que ya exista en scratch/ y funcione.
 - Todas las iteraciones y mejoras algorítmicas deben realizarse creando NUEVOS archivos.
 - Es preferible y totalmente aceptable duplicar código entre archivos si esto evita tocar implementaciones pasadas que ya son estables y sirven de referencia.
 
@@ -16,10 +16,12 @@ Para cada nueva iteración o experimento algorítmico, se debe seguir este flujo
 5.  **Iteración**: Proponer y ejecutar el siguiente experimento basado en los hallazgos previos.
 
 ## Gestión de Ejecución y Cuota (Consumo de Tokens)
-**REGLA DE ORO DE COSTES:** Para optimizar el uso de la cuota de Antigravity, se deben seguir estas normas de ejecución:
-- **Ejecución por defecto:** Las ejecuciones de benchmarks, entrenamientos y pruebas largas las debe realizar el **USER** directamente en su terminal. El agente no debe lanzarlas por iniciativa propia.
+**REGLA DE ORO (No lanzar procesos):** Para optimizar el uso de la cuota de Antigravity y el estado de la máquina local, se deben seguir estas normas de ejecución:
+- **Ejecución por defecto:** Las ejecuciones de benchmarks, entrenamientos y pruebas largas las debe realizar el **USER** directamente en su terminal. El agente no debe lanzarlas por iniciativa propia. Puede que ya haya un proceso pesado ejecutándose.
 - **Ejecución bajo demanda:** Si el USER pide explícitamente al agente que lance un script, el agente **NO** debe lanzarlo en modo background si esto implica que el agente permanezca activo muestreando la salida (lo cual consume tokens rápidamente).
 - **Espera de finalización:** En caso de que el agente lance un script, debe hacerlo de forma que el control no vuelva al agente hasta que el script haya terminado (o el agente debe entrar en pausa hasta recibir la señal de finalización), evitando el "sampling" continuo de logs en segundo plano.
+
+Para ejecutar con aceleración GPU usar C:/Users/mrcm_/Local/proj/ajedrez/neural-tablebases/venv_gpu/Scripts/python.exe
 
 ## Normas de Logging y Resultados (Sistema de Métricas)
 
