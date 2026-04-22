@@ -64,10 +64,14 @@ class DGEOptimizer:
         Minimum fraction of delta at end of cosine schedule. Default 0.1.
     consistency_window : int
         Number of past steps to track sign consistency per parameter.
-        0 = disabled (pure DGE without consistency mask).
-        20 = default (recommended, validated in v27-v28).
+        0 = disabled (default — pure DGE without consistency mask).
+        Recommended: 20 (validated in v27-v28, significant improvement when
+        LR is moderate, e.g. lr <= 0.1). Must be set explicitly to enable.
         The consistency mask scales the effective LR per parameter by
         |mean(sign(grad_i) over last T steps)|, suppressing noisy dimensions.
+        NOTE: with high learning rates (lr > 0.2) the mask can be
+        counterproductive because sign oscillations are part of the
+        optimization dynamics, not pure noise.
     seed : int or None
         Random seed for reproducibility.
 
@@ -96,7 +100,7 @@ class DGEOptimizer:
         total_steps: int = 10_000,
         lr_decay: float = 0.01,
         delta_decay: float = 0.1,
-        consistency_window: int = 20,
+        consistency_window: int = 0,
         seed: int | None = None,
         # Deprecated parameters (silently ignored for backward compatibility)
         clip_norm: float | None = None,   # removed in v2; was never beneficial (v14+ findings)
