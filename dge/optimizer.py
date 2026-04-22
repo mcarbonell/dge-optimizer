@@ -102,10 +102,12 @@ class DGEOptimizer:
         delta_decay: float = 0.1,
         consistency_window: int = 0,
         seed: int | None = None,
-        # Deprecated parameters (silently ignored for backward compatibility)
-        clip_norm: float | None = None,   # removed in v2; was never beneficial (v14+ findings)
-        greedy_step: bool = False,        # removed in v2; abandoned in v14+ experiments
-        dense_update: bool = False,       # removed in v2; no measurable benefit
+        # Deprecated parameters — now restored as functional for backward compatibility
+        clip_norm: float | None = None,   # when set, clips total update vector norm
+        lr_scale: float | None = None,    # when set, multiplies lr by this value
+                                           # v1 used lr_scale=1/sqrt(k) implicitly
+        greedy_step: bool = False,        # kept as no-op; removed in v14+
+        dense_update: bool = False,       # kept as no-op; removed in v14+
     ):
         self.dim = dim
         self.k = k_blocks if k_blocks is not None else max(1, math.ceil(math.log2(dim)))
@@ -119,8 +121,8 @@ class DGEOptimizer:
         self.delta_decay = delta_decay
         self.consistency_window = consistency_window
         self.rng = np.random.default_rng(seed)
-
-        # Adam state
+        self.clip_norm = clip_norm
+        self.lr_scale = lr_scale if lr_scale is not None else 1.0
         self.m = np.zeros(dim, dtype=np.float64)
         self.v = np.zeros(dim, dtype=np.float64)
         self.t = 0
@@ -208,7 +210,13 @@ class DGEOptimizer:
             self._sign_buffer.append(np.sign(grad))
         mask = self._consistency_mask()
 
-        upd = lr * mask * mh / (np.sqrt(vh) + self.eps)
+        upd = lr * self.lr_scale * mask * mh / (np.sqrt(vh) + self.eps)
+
+        # Gradient clipping (functional when clip_norm is set)
+        if self.clip_norm is not None:
+            un = np.linalg.norm(upd)
+            if un > self.clip_norm:
+                upd *= self.clip_norm / un
 
         return x - upd, 2 * self.k
 
