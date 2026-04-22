@@ -1,18 +1,22 @@
 """
-dge_structural_v36.py
+dge_structural_v37_random_signs.py
 =================================
 Experiment to test Node Perturbation via Structural DGE.
+This implements "Option B: Random Signs".
+
 Instead of random blocks, parameters are grouped by network topology:
-1. Fan-In blocks (all weights to a neuron + its bias)
-2. Fan-Out blocks (all weights from a neuron)
-3. Bias blocks (individual biases)
+1. Fan-In blocks (all weights connecting to an output neuron + its bias).
 
-The total number of blocks scales linearly with the number of neurons
-(N_in + 2*N_out), dramatically reducing the blocks while keeping
-full network capacity via Low-Rank sum mapping.
+Why only Fan-In?
+Because each weight connects to exactly one Fan-In block. By perturbing
+the Fan-In block with random signs, we estimate the gradient with respect 
+to the pre-activation of the neuron. The expectation of the product of the 
+block gradient and the random sign vector mathematically isolates the exact 
+Backprop gradient for each individual weight.
 
-NOTE: This uses Option A (Uniform Scalar Perturbation) which causes
-destructive gradient averaging. Kept for historical reference.
+This reduces the total number of blocks per layer to just the number of 
+output neurons (N_out), drastically reducing evaluations while maintaining
+mathematical exactness in expectation.
 """
 
 import json
@@ -45,10 +49,10 @@ except ImportError:
     print("CPU")
 
 # ---------------------------------------------------------------------------
-# Structural DGE Optimizer (Option A - Uniform Scalar)
+# Structural DGE Optimizer (Option B - Random Signs Fan-In Only)
 # ---------------------------------------------------------------------------
 
-class StructuralDGEOptimizer:
+class StructuralDGEOptimizerV2:
     def __init__(
         self,
         arch: list[int],
@@ -86,11 +90,9 @@ class StructuralDGEOptimizer:
         self.t = 0
         self._sign_buffer = deque(maxlen=consistency_window) if consistency_window > 0 else None
         
-        # Build P_base topological matrix
-        total_blocks = 0
-        for l_in, l_out in zip(self.arch[:-1], self.arch[1:]):
-            total_blocks += 2 * l_out + l_in
-
+        # Build P_base topological matrix (Fan-In only)
+        # Total blocks = sum of all output neurons across all layers
+        total_blocks = sum(self.arch[1:])
         self.P_base = torch.zeros((total_blocks, self.dim), device=self.device)
         self.total_k = total_blocks
         
@@ -100,21 +102,10 @@ class StructuralDGEOptimizer:
             w_offset = offset
             b_offset = offset + l_in * l_out
             
-            # 1. Fan-In blocks
+            # Fan-In blocks (weights + bias for each output neuron)
             for j in range(l_out):
                 w_indices = w_offset + torch.arange(l_in) * l_out + j
                 self.P_base[b_idx, w_indices] = 1.0
-                self.P_base[b_idx, b_offset + j] = 1.0
-                b_idx += 1
-                
-            # 2. Fan-Out blocks
-            for i in range(l_in):
-                w_indices = w_offset + i * l_out + torch.arange(l_out)
-                self.P_base[b_idx, w_indices] = 1.0
-                b_idx += 1
-                
-            # 3. Bias blocks
-            for j in range(l_out):
                 self.P_base[b_idx, b_offset + j] = 1.0
                 b_idx += 1
                 
@@ -129,7 +120,9 @@ class StructuralDGEOptimizer:
         lr = self._cosine(self.lr0, self.lr_decay)
         delta = self._cosine(self.delta0, self.delta_decay)
         
-        P_plus = self.P_base * delta
+        # KEY DIFFERENCE: Apply random signs to the structural blocks!
+        signs = torch.randint(0, 2, (self.total_k, self.dim), device=self.device).float() * 2.0 - 1.0
+        P_plus = self.P_base * signs * delta
         
         P = torch.empty((2 * self.total_k, self.dim), device=self.device)
         P[0::2] = P_plus
@@ -146,8 +139,9 @@ class StructuralDGEOptimizer:
             
         diffs = (losses[0::2] - losses[1::2]) / (2.0 * delta)
         
-        # Distribute block gradients back to parameters via low-rank sum
-        grad = diffs @ self.P_base
+        # Distribute block gradients back to parameters using the EXACT SAME signs
+        grad_signs = P_plus / delta
+        grad = (diffs.unsqueeze(0) @ grad_signs).squeeze(0)
         
         self.m = self.beta1 * self.m + (1.0 - self.beta1) * grad
         self.v = self.beta2 * self.v + (1.0 - self.beta2) * (grad ** 2)
@@ -218,8 +212,8 @@ def zo_acc(model, X, y, params, chunk=1000):
 
 def run_dge(name, opt_cls, model, params0, X_tr, y_tr, X_te, y_te, seed):
     
-    # Structural 
-    blocks = sum(2 * l_out + l_in for l_in, l_out in zip(ARCH[:-1], ARCH[1:]))
+    # Structural Fan-In Only
+    blocks = sum(ARCH[1:])
     total_steps = BUDGET_DGE // (2 * blocks)
     opt = opt_cls(
         arch=ARCH, dim=model.dim, lr=LR_ZO, delta=DELTA, 
@@ -303,14 +297,14 @@ if __name__ == "__main__":
     y_te_d = y_te_all.to(device)
 
     print(f"\n{'='*70}")
-    print(f"EXPERIMENTO v36: Structural DGE (Option A - Fails due to uniform scaling)")
+    print(f"EXPERIMENTO v37: Structural DGE (Option B - Random Signs Fan-In)")
     print(f"BUDGET: {BUDGET_DGE:,} evals")
     print(f"{'='*70}")
 
     all_results = []
     
     METHODS = [
-        ("DGE_Structural_OptA", StructuralDGEOptimizer)
+        ("DGE_Structural_OptB", StructuralDGEOptimizerV2)
     ]
     summary = {m[0]: [] for m in METHODS}
 
@@ -344,10 +338,10 @@ if __name__ == "__main__":
 
     out_dir = Path(__file__).parent.parent / "results" / "raw"
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "v36_structural.json"
+    out_path = out_dir / "v37_structural_random_signs.json"
     
     payload = {
-        "experiment": "v36_structural",
+        "experiment": "v37_structural_random_signs",
         "budget_dge": BUDGET_DGE,
         "seeds": SEEDS,
         "summary": {m: {"mean": float(np.mean(v)), "std": float(np.std(v)), "values": v} for m, v in summary.items()},
