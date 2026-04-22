@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-04-18  
 **Estado:** ¡Validación competitiva completada!  
-**Archivo:** `scratch/dge_vs_analytic_benchmark_v1.py`
+**Archivo:** `scratch/dge_vs_analytic_benchmark_v9.py`
 
 ---
 
