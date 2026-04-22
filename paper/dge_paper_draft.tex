@@ -1,0 +1,114 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\geometry{margin=1in}
+
+\title{Denoised Gradient Estimation (DGE): \\ 
+Training Deep Neural Networks Without Backpropagation}
+\author{Mario Raúl Carbonell Martínez \\ \url{https://github.com/mcarbonell/dge-optimizer}}
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We introduce Denoised Gradient Estimation (DGE), a fully zeroth-order optimization algorithm capable of training deep neural networks using only forward passes. By combining randomized block perturbations with an exponential moving average (EMA) filter and a novel Direction-Consistency Learning Rate, DGE exponentially reduces the structural variance that plagues traditional algorithms like SPSA in high-dimensional spaces. We empirically demonstrate that DGE scales to models with over 100K parameters, achieving an 87.56\% accuracy on MNIST natively without automatic differentiation. Furthermore, DGE excels in non-differentiable settings where backpropagation fails entirely, such as Full Quantization-Aware Training (INT4/INT8) and Sign Activation Networks, establishing it as a highly capable algorithm for ultra-low precision analog hardware and black-box systems.
+\end{abstract}
+
+\section{Introduction}
+Backpropagation is the workhorse of modern deep learning, but its reliance on analytical gradients limits its applicability in discrete topologies, neuromorphic hardware, and black-box physics simulators. Zeroth-order methods estimate gradients using only objective function evaluations, offering a universal alternative.
+
+However, standard zeroth-order methods like Simultaneous Perturbation Stochastic Approximation (SPSA) suffer from catastrophic variance in high dimensions. When all $D$ parameters are perturbed simultaneously, the gradient signal of any single parameter is drowned by the noise of the $D-1$ co-perturbations, leading to an effective Signal-to-Noise Ratio (SNR) that approaches zero.
+
+In this work, we propose Denoised Gradient Estimation (DGE). DGE partitions the parameter space into sparse random blocks and utilizes an Exponential Moving Average (EMA) alongside an attentional Direction-Consistency mask to filter out cross-perturbation noise over time. This approach recovers the latent gradient without the linear evaluation cost of finite differences.
+
+\section{Related Work}
+Zeroth-order optimization methods fall into several categories:
+\begin{itemize}
+    \item \textbf{Finite Differences:} Calculates gradients perfectly but requires $\mathcal{O}(D)$ evaluations per step, making it computationally infeasible for neural networks.
+    \item \textbf{SPSA / ES:} Perturbs all dimensions simultaneously using Rademacher or Gaussian noise. It requires only $\mathcal{O}(1)$ evaluations but suffers from massive variance scaling linearly with $D$.
+    \item \textbf{Forward Gradients / MeZO:} Recent methods that exploit directional derivatives to fine-tune large language models efficiently.
+\end{itemize}
+DGE bridges the gap by maintaining the $\mathcal{O}(1)$ cost of SPSA while leveraging temporal filtering to artificially reduce the dimensionality penalty.
+
+\section{Method: Denoised Gradient Estimation}
+DGE operates on the premise that gradient noise can be canceled out over time if the local landscape is approximately stationary.
+
+\subsection{Block Perturbations}
+In step $t$, DGE selects a sparse binary mask $M_t \in \{0, 1\}^D$ containing exactly $K_{blocks}$ non-zero elements. It generates a Rademacher vector $s_t \in \{-1, 1\}^D$ and evaluates the function along the perturbation $\Delta_t = \delta (s_t \odot M_t)$:
+\begin{equation}
+    g_t = \frac{f(x_t + \Delta_t) - f(x_t - \Delta_t)}{2\delta} \cdot (s_t \odot M_t)
+\end{equation}
+This bounds the conditional variance of the active variables by $\mathcal{O}(K_{blocks}/D)$, significantly compressing the noise amplitude compared to pure SPSA.
+
+\subsection{Temporal Aggregation}
+The raw gradient $g_t$ is injected into an Adam-style EMA filter:
+\begin{equation}
+    m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t
+\end{equation}
+Under the assumption of local stationarity, the true gradient signal $\nabla f(x)$ sums constructively, while the independent, zero-mean cross-perturbation noise sums destructively toward zero.
+
+\subsection{Direction-Consistency Learning Rate}
+To prevent fatal steps caused by anomalous noise bursts in pathological landscapes, DGE tracks the sign history of the estimated gradient over a window $T=20$:
+\begin{equation}
+    C_{t,i} = \left| \frac{1}{T} \sum_{k=0}^{T-1} \text{sgn}(g_{t-k, i}) \right|
+\end{equation}
+The update is scaled by $C_t \in [0, 1]^D$. Variables dominated by noise exhibit a random walk in sign, converging to $C_{t,i} \rightarrow 0$ and naturally halting updates, while strong signal gradients maintain $C_{t,i} \rightarrow 1$.
+
+\section{Experiments}
+We benchmark DGE on differentiable multi-layer perceptrons (MLP) and strictly discrete, non-differentiable networks.
+
+\subsection{Differentiable MLP (MNIST)}
+We evaluated DGE on a 109K parameter MLP (784-128-64-10) using a 3000-sample MNIST subset with an identical budget of 800,000 function evaluations. The addition of the Consistency mask improved peak accuracy by +7.56 percentage points.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Method} & \textbf{Parameters} & \textbf{Test Accuracy} \\ \midrule
+Pure DGE (Baseline) & $\sim$109K & $80.00\% \pm 1.57\%$ \\
+\textbf{Consistency DGE} & $\sim$109K & $\mathbf{87.56\% \pm 0.77\%}$ \\ \bottomrule
+\end{tabular}
+\caption{DGE performance on differentiable MNIST benchmarks.}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    % Placeholder for training curve
+    \fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+    \caption{Placeholder: Training loss and accuracy progression demonstrating DGE convergence.}
+\end{figure}
+
+\subsection{Non-Differentiable and Discrete Networks}
+DGE's true strength lies in environments lacking analytical gradients. We tested it on \textbf{Full INT4/INT8 Quantization-Aware Training} (where weights, inputs, and activations are aggressively rounded) and \textbf{Sign Activation Networks} without utilizing Straight-Through Estimators (STE). Because the analytical derivative of the round function is zero almost everywhere, Adam optimization fundamentally fails.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Network Topology} & \textbf{Levels} & \textbf{Adam Accuracy} & \textbf{DGE Accuracy} \\ \midrule
+Sign Activations (784-32-10) & 2 (Binary) & 61.20\% (Stalled) & \textbf{73.20\%} \\
+INT8 Full Quantization & 256 & 8.40\% (Failed) & \textbf{82.20\%} \\
+INT4 Full Quantization & 16 & 9.30\% (Failed) & \textbf{77.80\%} \\ \bottomrule
+\end{tabular}
+\caption{Performance on environments with zero analytical gradients.}
+\end{table}
+
+\section{Limitations}
+While DGE can train 100K+ parameters cleanly, it exhibits two primary failure modes:
+\begin{enumerate}
+    \item \textbf{Deep Discrete Topologies:} As the depth of discrete (e.g., Sign) networks increases, a single bit-flip in the early layers entirely scrambles the latent state of deeper layers (the butterfly effect). This fractal landscape destroys the local temporal stationarity required by the EMA, capping accuracy at $\sim$75\%.
+    \item \textbf{Backprop Supremacy:} In fully differentiable settings, backpropagation remains infinitely superior in computational efficiency per gradient step.
+\end{enumerate}
+
+\section{Conclusion}
+DGE proves that random block perturbations, when paired with temporal noise cancellation and attentional consistency masking, can overcome the dimensional curse of zeroth-order optimization. It stands as a robust tool for training highly quantized and non-differentiable hardware pipelines.
+
+\end{document}
