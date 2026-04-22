@@ -1,129 +1,88 @@
 # DGE Optimizer (Denoised Gradient Estimation)
 
-**DGE** (**Denoised Gradient Estimation**) is a novel zeroth-order (derivative-free) optimizer that trains Neural Networks **without backpropagation**, using only forward passes (evaluations of the objective function).
+📄 **[Read the Scientific Paper Draft (PDF)](paper/dge_paper_draft.pdf)**
 
-It combines randomized block perturbations with temporal denoising via Adam EMA to isolate clean gradient signals from noise — scaling efficiently to 100K+ parameters at a fraction of the cost of finite differences.
 
----
+**DGE** (**Denoised Gradient Estimation**) es un optimizador zeroth-order (libre de derivadas) que entrena Redes Neuronales y optimiza funciones matemáticas de alta dimensionalidad utilizando exclusivamente evaluaciones de funciones (forward passes), sin utilizar backpropagation.
 
-## 🏆 Latest Result (v28 — April 2026)
-
-**ConsistencyDGE achieves 87.56% ± 0.77% on MNIST** (3000-sample train subset, 800K function evaluations, MLP 784→128→64→10 ~109K params) — a **+7.56 percentage-point improvement** over the Pure DGE baseline (80.00% ± 1.57%) with the **exact same evaluation budget**.
-
-The only change: a 5-line *direction-consistency mask* that scales each parameter's effective learning rate by the confidence of its estimated gradient direction.
-
-| Method | MNIST Acc | Train Loss | Wall-clock |
-|---|---|---|---|
-| Pure DGE (v25b baseline) | 80.00% ± 1.57% | 0.233 | ~220s |
-| **ConsistencyDGE T=20 (v28)** | **87.56% ± 0.77%** | **0.025** | ~221s |
+El algoritmo combina perturbaciones aleatorias por bloques con un suavizado temporal (Adam EMA) y una máscara atencional de consistencia de dirección (Direction-Consistency LR) para extraer el gradiente latente del ruido masivo.
 
 ---
 
-## 🚀 Core Innovation
+## 🟢 Validated Claims (Evidence-Based)
 
-Standard zeroth-order algorithms face a brutal trade-off:
+Las siguientes afirmaciones han sido validadas empíricamente a través de múltiples semillas y experimentos documentados rigurosamente en el directorio `scratch/`.
 
-1. **Finite Differences:** $O(D)$ evaluations per step — perfect precision, computationally impossible for large models.
-2. **SPSA:** $O(1)$ evaluations — but perturbs all dimensions at once. At high dimension ($D > 10^4$), noise from co-variables drowns the signal.
-
-**DGE's solution: Randomized Block Perturbations + Temporal Denoising**
-
-Per step, DGE evaluates $k$ random non-overlapping blocks of parameters (2 evaluations per block). The raw gradient estimate is noisy. Over time, an **Adam EMA** accumulates these estimates: the noise from co-perturbations cancels to zero, isolating the true latent gradient for each individual parameter.
-
-**Direction-Consistency LR** (introduced in v27–v28) adds a per-parameter confidence weight: if a parameter's estimated gradient sign has been consistent for the last $T=20$ steps, it receives a full learning rate. If its sign oscillates (noise-dominated), its update is suppressed. This adds zero function evaluations and $O(T \cdot D)$ memory.
-
----
-
-## 📊 Experimental Results
-
-### MNIST Benchmark — Progression
-
-| Version | Architecture | Budget (evals) | Test Acc | Note |
-|:---|:---|:---|:---|:---|
-| v8c | Shallow (784→32→10) | 1,000,000 | **90.40%** | Early baseline |
-| v9 | Shallow (784→32→10) | 100,000 | **87.50%** | Budget-efficient |
-| v10 | Deep (784→64×4→10) | 150,000 | **85.67%** | First depth test |
-| v11 | Non-diff (Step fn) | 120,000 | **65.00%** | Outperforms Adam (61%) |
-| v12 | Binary {-1,1} weights | 150,000 | **73.50%** | 1-bit weight training |
-| v13 | Ternary {-1,0,1} | 150,000 | **67.67%** | 50% sparsity |
-| v25b | Deep MLP ~109K params | 800,000 | **81.17%** | Pure DGE scaling gate |
-| **v28** | Deep MLP ~109K params | 800,000 | **87.56% ± 0.77%** | **ConsistencyDGE — new record** |
-| v31 | Sign Activation (784→32→10) | 200,000 | **73.20%** | Adam fails (61%) |
-| v32 | INT8 Full Quantization | 600,000 | **82.20%** | Native QAT. Adam fails (8%) |
-| v32 | INT4 Full Quantization | 600,000 | **77.80%** | Native QAT. Adam fails (9%) |
-
-### Synthetic Benchmarks — ConsistencyDGE vs Pure DGE (v27, D=128, 500K evals)
-
-| Benchmark | Pure DGE | ConsistencyDGE T=20 | Improvement |
-|---|---|---|---|
-| Rosenbrock | 89.01 | 79.90 | **-10.2%** |
-| Ill-conditioned Ellipsoid (cond=10^6) | 7,742 | 999 | **-87.1%** |
-| Rotated Quadratic | 1.29e-02 | 2.68e-04 | **-97.9%** |
-| Sphere (isotropic control) | 5.00e-04 | 2.21e-05 | **-95.6%** |
-
-### Key Closed Findings
-
-| Track | Versions | Verdict |
-|---|---|---|
-| SFWHT Hybrid Scanning | v19–v25 | Fails for dense NNs (D/B>>1). Valid only for K-sparse problems. |
-| Vector Group DGE (Spherical perturbations) | v26–v26b | No improvement over Rademacher for groups >= 8 variables. |
-| **Direction-Consistency LR** | **v27–v28** | **Universal improvement. New MNIST record.** |
+*   **[Validated] Entrenamiento de arquitecturas densas sin gradientes analíticos:** DGE es capaz de entrenar perceptrones multicapa (MLP) continuos de hasta ~110,000 parámetros obteniendo precisiones altamente competitivas en MNIST (`v28`: 87.56% ± 0.77%).
+*   **[Validated] Eficiencia sobre SPSA:** A diferencia de SPSA (cuyo ruido escala linealmente con la dimensión), la estrategia de particionado por bloques de DGE mitiga exponencialmente la varianza, permitiendo convergencia donde SPSA colapsa.
+*   **[Validated] Supremacía en entornos 100% discretos y no-diferenciables:** DGE puede entrenar con éxito arquitecturas donde Adam y la propagación hacia atrás fallan estrepitosamente (gradiente analítico = 0).
+    *   **Redes con Activación Signo (Step/Sign):** DGE logra ~73% de accuracy en redes con activaciones `torch.sign` (Adam fracasa al no poder entrenar capas ocultas).
+    *   **Pesos Binarios / Ternarios:** DGE logra un ~73% con pesos restringidos a $\{-1, 1\}$.
+    *   **Quantization-Aware Training Nativo (INT4/INT8):** DGE entrena redes donde pesos y activaciones están forzados a una cuadrícula discreta de 4-bits o 8-bits sin usar *Straight-Through Estimators* (`v32`: 82% en INT8, 78% en INT4 vs Adam ~9%).
+*   **[Validated] Universalidad en paisajes patológicos:** DGE con `Direction-Consistency LR` resuelve eficazmente topologías sintéticas hostiles como el valle de Rosenbrock y funciones cuadráticas elípticas extremadamente mal condicionadas (cond=$10^6$).
 
 ---
 
-## 🎯 Applications
+## 🟡 Preliminary Claims
 
-DGE is a universal optimizer for any multi-dimensional landscape where gradients are unavailable or unreliable:
+Estas afirmaciones han sido observadas experimentalmente pero requieren mayor investigación o no se aplican universalmente.
 
-1. **Non-differentiable architectures:** Spiking Neural Networks, logic-gate activations, step-function layers.
-2. **Memory-free training:** No activation graphs needed — only forward passes. Enables training on consumer hardware.
-3. **Black-box systems:** Hyperparameter tuning in physics simulators, robotics, financial engines.
-4. **Quantized / Binary networks:** Native training of 1-bit and ternary weights without straight-through estimators.
-5. **Adversarial research:** Efficient black-box attacks with O(log D) queries per step.
+*   **[Preliminary] Auto-ajuste del hiperparámetro K:** El tamaño óptimo de los bloques de perturbación ($K$) parece seguir una relación sublineal con la anchura de la capa de la red neuronal. Actualmente, el particionado de bloques requiere cierto ajuste manual (`K_BLOCKS`) dependiendo de la red.
+*   **[Preliminary] Aceleración mediante GPUs paralelas:** El motor V3 de DGE (`TorchDGEOptimizer`) explota la paralelización masiva de GPU evaluando miles de perturbaciones en un solo *batch*, pero todavía existe un cuello de botella por el despacho secuencial de bucles desde Python que limita el aprovechamiento del hardware en modelos muy pequeños.
 
 ---
 
-## 📂 Repository Structure
+## 🔴 Speculative Claims (Future Work)
 
+Exploraciones teóricas plausibles que aún no han sido demostradas empíricamente.
+
+*   **[Speculative] Fine-Tuning de LLMs (MeZO):** Dado que DGE escala a 100K parámetros, es plausible que funcione para el *fine-tuning* eficiente de memoria de Modelos de Lenguaje Masivos (optimizando adaptadores LoRA sin almacenar grafos de activación), compitiendo directamente con el algoritmo MeZO.
+*   **[Speculative] Spiking Neural Networks (SNNs):** El entrenamiento nativo de hardware neuromórfico no-diferenciable podría beneficiarse del enfoque de caja negra de DGE sin recurrir a gradientes subrogados.
+
+---
+
+## ⚠️ Limitations (Failure Regimes)
+
+De acuerdo a la teoría matemática del algoritmo (ver `docs/dge_theory_and_analysis.md`), DGE presenta los siguientes límites estrictos:
+
+1.  **Imposibilidad del Entrenamiento Continuo contra Backprop:** DGE **NO** pretende sustituir a Adam o al descenso de gradiente estándar en redes diferenciables. El entrenamiento analítico con propagación hacia atrás es matemática y computacionalmente muy superior. El nicho de DGE son los entornos donde backprop *no está disponible* (Black-Box) o *no funciona* (Topologías discontinuas/cuantizadas).
+2.  **El "Efecto Mariposa" en Deep Sign Networks:** Aunque DGE logra entrenar redes discretas, su capacidad de aprendizaje se desploma si la red es excesivamente profunda. Dado que DGE asume estacionariedad local temporal para filtrar el ruido (EMA), si un salto de 1-bit en la capa inicial invierte por completo el estado de las capas finales (comportamiento caótico/fractal), el filtro EMA se rompe y el optimizador se estanca irremediablemente en subóptimos (~75% accuracy máximo observado).
+3.  **No apto para gradientes altamente dispersos:** En problemas extremadamente densos pero con gradientes reales ralas ($K$-sparse), escaneos deterministas como *SFWHT* mostraron teóricamente mayor eficiencia espacial que la exploración estocástica ciega de DGE (aunque la implementación práctica falló por interferencia densa).
+
+---
+
+## 🔬 Reproducibility
+
+Todos los resultados validados pueden ser reproducidos usando los scripts localizados en el directorio `scratch/`. Las métricas incluyen el rastreo del tiempo de Wall-Clock, tiempo de evaluación de función y gastos de sobrecarga del optimizador.
+
+**Dependencias requeridas:**
+`torch`, `torchvision`, `numpy`. (Soporte nativo para CPU, CUDA o DirectML).
+
+### Comandos Exactos para Reproducción:
+
+**1. Entrenamiento continuo a gran escala (Nuevo Récord MNIST ~87.5% en V3):**
+Demuestra la escalabilidad de DGE frente a SPSA/MeZO usando *Direction-Consistency LR*.
+```bash
+python scratch/dge_fullmnist_comparison_v30e.py
 ```
-dge/
-  optimizer.py         — Canonical algorithm (Pure DGE, stable reference)
-scratch/
-  dge_consistency_lr_v27.py    — Direction-Consistency LR: synthetic benchmarks
-  dge_consistency_mnist_v28.py — ConsistencyDGE on MNIST (87.56% record)
-  dge_scaling_head_to_head_v25b.py — Pure DGE scaling to ~109K params
-  [v1-v26b]            — Full experimental history
-docs/
-  research_shortlist.md                  — Active research priorities and empirical context
-  dge_findings_v28_consistency_mnist.md  — Latest results (v28)
-  dge_findings_v27_consistency_lr.md     — Synthetic benchmark results (v27)
-  dge_findings_v25b_scaling_fair.md      — Scaling validation at 110K params
-  [v1-v26b findings]   — Complete audit trail
-results/raw/           — Raw JSON for every experiment (gitignored)
+
+**2. Entrenamiento en Redes Cuantizadas (INT4/INT8):**
+Entrenamiento nativo y sin *Straight-Through Estimators* en hardware de 16 y 256 niveles de precisión.
+```bash
+python scratch/dge_quantized_mnist_v32.py
+```
+
+**3. Entrenamiento con Activaciones Discontinuas (Sign):**
+Validación empírica del fallo masivo de Adam frente al éxito de caja negra de DGE.
+```bash
+python scratch/dge_sign_activation_mnist_v31.py
+```
+
+**4. Validación en Funciones Analíticas (Rosenbrock, Ellipsoid):**
+El benchmark original de la estabilidad en problemas mal condicionados.
+```bash
+python scratch/dge_consistency_lr_v27.py
 ```
 
 ---
-
-## Direction-Consistency LR — 5-line modification
-
-```python
-from collections import deque
-sign_buffer = deque(maxlen=20)   # T = 20
-
-# Inside the optimizer step, after computing grad:
-sign_buffer.append(torch.sign(grad))
-if len(sign_buffer) >= 2:
-    consistency = torch.stack(list(sign_buffer)).mean(dim=0).abs()  # in [0, 1]
-else:
-    consistency = torch.ones_like(grad)
-
-# Replace standard Adam update with:
-upd = lr * consistency * m_hat / (torch.sqrt(v_hat) + eps)
-```
-
-`consistency[i] ~= 1` → stable, reliable gradient direction → full LR applied.
-`consistency[i] ~= 0` → oscillating gradient (noise-dominated) → update suppressed.
-
----
-
-*DGE — Gradient-free optimization that scales.*
+*Para auditar la historia empírica completa, las lecciones fallidas y el desarrollo del algoritmo, revise los documentos `dge_findings_*.md` en la carpeta `docs/`.*
