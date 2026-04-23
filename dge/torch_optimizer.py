@@ -92,7 +92,7 @@ class TorchDGEOptimizer:
         
         self.device = torch.device(device) if isinstance(device, str) else device
         
-        self.rng = torch.Generator(device=self.device)
+        self.rng = torch.Generator(device="cpu")
         if seed is not None:
             self.rng.manual_seed(seed)
             
@@ -167,8 +167,8 @@ class TorchDGEOptimizer:
         
         # 1. Build Multi-Layer Perturbations Matrix
         for sz, k, pad, grp in zip(self.layer_sizes, self.k_blocks, self.pads, self.group_sizes):
-            perm = torch.randperm(sz, generator=self.rng, device=self.device)
-            signs = torch.randint(0, 2, (sz,), generator=self.rng, device=self.device).float() * 2 - 1
+            perm = torch.randperm(sz, generator=self.rng, device="cpu").to(self.device)
+            signs = torch.randint(0, 2, (sz,), generator=self.rng, device="cpu").float().to(self.device) * 2 - 1
             
             perms.append(perm)
             signss.append(signs)
