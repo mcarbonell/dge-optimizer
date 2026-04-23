@@ -87,3 +87,19 @@
   - **Arquitectura Adaptativa:** Cambiar la función de activación de una neurona (ej. de ReLU a Sigmoide o Tanh) dinámicamente basándose en la estabilidad del Loss.
   - **Poda (Pruning) Estocástica:** Si un bloque estructural (neurona) demuestra ser consistentemente ruidoso y no aporta al gradiente, "matar" la neurona (poner sus pesos a 0) y medir si el Loss mejora por la simplificación del paisaje de error.
 * **Cambio de Paradigma:** Pasar de "estimar gradientes para Adam" a un sistema puro de **Evolución y Selección** operando sobre los bloques topológicos.
+
+## 5. DGE-Canine: Stereo Gradient & Lateral Sniffing
+
+Inspirado en el sistema olfativo de los perros, que utilizan dos fosas nasales y un movimiento lateral rítmico para localizar el origen de un rastro.
+
+### 5.1 Stereo Sampling (Doble Fosa Nasal)
+En lugar de muestrear el gradiente desde un solo punto central $x_t$, mantenemos dos estimadores desplazados lateralmente por un vector ortogonal al movimiento:
+- $x_L = x_t - \epsilon \cdot v_{\perp}$
+- $x_R = x_t + \epsilon \cdot v_{\perp}$
+Al comparar el "olor" (Loss) entre $x_L$ y $x_R$, el algoritmo puede corregir su trayectoria lateralmente antes de que el gradiente central detecte el error.
+
+### 5.2 Lateral Sweeping (Movimiento de cabeza)
+Oscilación rítmica del centro de muestreo perpendicularmente a la dirección del momentum.
+- Ayuda a escapar de "valles estrechos" y detectar caminos paralelos más profundos.
+- Proporciona una estimación de la curvatura local (Hessiano aproximado) sin coste extra.
+- Actúa como una regularización dinámica que evita el colapso en mínimos locales agudos.
