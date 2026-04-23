@@ -1,0 +1,10 @@
+{
+  "experiment": "v55_megazord",
+  "seed": 42,
+  "acc": 0.9177,
+  "final_k_alloc": [
+    582,
+    2,
+    2
+  ]
+}
