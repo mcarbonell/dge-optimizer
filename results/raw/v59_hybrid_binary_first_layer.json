@@ -1,0 +1,10 @@
+{
+  "experiment": "v59_hybrid_binary_first_layer",
+  "seed": 42,
+  "acc": 0.6076,
+  "final_k_alloc": [
+    512,
+    64,
+    10
+  ]
+}

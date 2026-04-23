@@ -1,0 +1,10 @@
+{
+  "experiment": "v60_hybrid_binary_decoupled",
+  "seed": 42,
+  "acc": 0.5144,
+  "final_k_alloc": [
+    512,
+    64,
+    10
+  ]
+}
