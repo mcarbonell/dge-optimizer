@@ -251,7 +251,7 @@ if __name__ == "__main__":
     scales = [math.sqrt(2.0 / l_in) for l_in in ARCH[:-1]]
     norm_scales = [s / scales[0] for s in scales]
     
-    BASE_LR_MAX = 0.02
+    BASE_LR_MAX = 0.01
     BASE_LR_MIN = 0.001
     BASE_DELTA  = 1e-3
     

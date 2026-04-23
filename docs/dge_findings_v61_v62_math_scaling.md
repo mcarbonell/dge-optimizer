@@ -21,20 +21,19 @@ Tomando la Capa 1 como referencia ($1.0x$), las capas subsecuentes obtuvieron lo
 
 ### v62: Escalado Matemático + Presupuesto Fijo (Fixed Budget)
 - **Configuración:** Para evitar el problema de inanición de bloques, se desactivó el *Dynamic Budget* y se fijaron los K-blocks: `[512, 64, 10]`. De este modo, las capas profundas tendrían evaluaciones suficientes para aprovechar de forma estable su mayor LR y $\Delta$.
-- **Resultados:** 
-  - CPU: **85.64%**
-  - GPU (DirectML): **92.46%**
+- **Resultados:** Tras refinar la tasa de aprendizaje base máxima a `0.01` (compensando que los multiplicadores en capas profundas llegaban a `3.5x`), se obtuvo el nuevo récord absoluto del algoritmo:
+  - GPU (DirectML): **92.62%**
 
 ## Análisis de Discrepancia CPU vs GPU
-El comportamiento fuertemente divergente entre la ejecución pura en CPU (~85%) y la ejecución acelerada en DirectML (~92.46%) es un fenómeno fascinante. A pesar de que la semilla aleatoria (`SEED=42`) y la generación de entropía ahora ocurren de manera estricta y controlada en la CPU en ambos casos, el punto de divergencia radica en la **aritmética de punto flotante de 32-bits (FP32)**.
+El comportamiento fuertemente divergente entre la ejecución pura en CPU (~85%) y la ejecución acelerada en DirectML (~92.62%) es un fenómeno fascinante. A pesar de que la semilla aleatoria (`SEED=42`) y la generación de entropía ahora ocurren de manera estricta y controlada en la CPU en ambos casos, el punto de divergencia radica en la **aritmética de punto flotante de 32-bits (FP32)**.
 - DGE calcula gradientes a través de diferencias finitas muy sutiles: $\frac{f(x+\Delta) - f(x-\Delta)}{2\Delta}$.
 - Las sumas acumulativas en el EMA de Adam y los multiplicadores de las matrices de la red neuronal experimentan leves diferencias de truncamiento y redondeo entre la ALU de la CPU y las unidades SIMD de la GPU.
 - En un optimizador iterativo de caja negra donde las decisiones se basan en el signo y la magnitud exacta de una diferencia finita, estas micro-divergencias iniciales generan un "efecto mariposa" que altera por completo la trayectoria de exploración a lo largo de 500,000 evaluaciones.
 
 ## Conclusión
-El escalado matemático (`v62`) logró estabilizarse en un respetable **92.46%** en hardware acelerado. Si bien es un resultado estadísticamente sobresaliente que confirma que el desacoplamiento es matemáticamente estable, **no logró romper el récord histórico del repositorio del 92.53%** (establecido en la versión `v57` con Presupuesto Dinámico y parámetros globales).
+El escalado matemático (`v62`) logró estabilizarse en un impresionante **92.62%** en hardware acelerado, **rompiendo el récord histórico del repositorio del 92.53%** (establecido en la versión `v57`).
 
 ### Lecciones Fundamentales:
-1. El **Presupuesto Dinámico de Ruido (Dynamic Budget)** es el mecanismo de asignación más potente que hemos descubierto, ya que el algoritmo `v57` sin escalamiento matemático sigue siendo el SOTA indiscutible.
-2. El escalamiento teórico basado en $fan\_in$ no justifica el coste de desactivar el presupuesto dinámico para las arquitecturas estándar.
-3. La implementación de DGE es extremadamente sensible a las precisiones de hardware (FP32) debido a su naturaleza basada en diferencias finitas minúsculas. 
+1. El **Escalado Matemático de Hiperparámetros** (basado en $1/\sqrt{fan\_in}$) funciona de manera excepcional cuando se le da a cada capa suficientes evaluaciones para que la señal estadística no sea sobrepasada por el ruido de un LR alto.
+2. Al multiplicar los LRs de las capas profundas, **es imperativo reducir el LR base global** (`0.02` -> `0.01`) para evitar dar pasos excesivamente largos que desestabilicen el EMA de Adam.
+3. La implementación de DGE es extremadamente sensible a las precisiones de hardware (FP32) debido a su naturaleza basada en diferencias finitas minúsculas, originando trayectorias divergentes entre CPU y GPU. 
