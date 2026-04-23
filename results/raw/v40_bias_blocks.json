@@ -1,0 +1,9 @@
+{
+  "experiment": "v40_bias_blocks",
+  "results": {
+    "42": {
+      "baseline": 0.9049,
+      "bias": 0.8959
+    }
+  }
+}
