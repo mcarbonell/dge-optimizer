@@ -1,0 +1,6 @@
+{
+  "experiment": "v53_foresight_backtracking",
+  "seed": 42,
+  "acc": 0.9159,
+  "total_backtracks": 0
+}

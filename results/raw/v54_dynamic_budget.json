@@ -1,0 +1,10 @@
+{
+  "experiment": "v54_dynamic_budget",
+  "seed": 42,
+  "acc": 0.9176,
+  "final_k_alloc": [
+    582,
+    2,
+    2
+  ]
+}
