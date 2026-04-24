@@ -1,0 +1,10 @@
+{
+  "experiment": "v61_mathematical_scaling",
+  "seed": 42,
+  "acc": 0.8604,
+  "final_k_alloc": [
+    487,
+    79,
+    20
+  ]
+}
