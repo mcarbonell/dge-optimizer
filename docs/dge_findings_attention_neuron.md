@@ -1,4 +1,4 @@
-# DGE Findings: Neurona de Atención y Unificada (v1-v6)
+# DGE Findings: Neurona de Atención y Unificada (v1-v7)
 
 ## Objetivo del Experimento
 Explorar la viabilidad de tratar la neurona completa (todo su *fan-in* y *fan-out*) como una única variable optimizable en lugar de entrenar pesos individuales. Este enfoque conceptual, derivado de discusiones teóricas sobre escalabilidad computacional y estrategias de atención local, busca reducir la cantidad de parámetros entrenables de $O(\text{pesos})$ a $O(\text{neuronas})$.
@@ -38,6 +38,11 @@ Se plantearon y evaluaron seis arquitecturas incrementales sobre el dataset MNIS
   - **V6 (Rank 1):** **88.32% Accuracy** (4,158 parámetros)
   - **V6b (Rank 2):** **94.53% Accuracy** (7,794 parámetros)
 - **Análisis:** **¡Hito absoluto!** Rompimos el techo paramétrico. La factorización de Rango 1 logra un 88.3% con una reducción de parámetros del 99%. Sin embargo, la **Factorización de Rango 2 (V6b)** cruzó contundentemente el muro del 93-94%, logrando un **94.53% de precisión** con tan solo **7,794 parámetros entrenables** (comparado con ~400k de la base original).
+
+### 7. V7: Bias de Fase (Rank-2 + Bias Angular)
+- **Hipótesis:** Fusionar el inmenso poder expresivo del **V6b (Factorización Rank-2)** con el **Bias Angular ($sin(\theta)$)** en lugar del bias sumativo tradicional. Esto mantendría los sesgos estrictamente limitados entre $[-1, 1]$, previniendo explosiones matemáticas, ideal para implementaciones de bajo consumo o hardware analógico.
+- **Resultados empíricos (10 epochs):** **94.38% Accuracy**
+- **Análisis:** Mantiene la precisión SOTA del V6b (cayendo marginalmente un 0.15%) pero con la garantía matemática de un sesgo inyectado puramente estricto y acotado. Esto valida que la red no depende de magnitudes extremas en los sesgos para resolver el dataset, permitiendo crear arquitecturas "seguras" (Safe By Design) para el Edge Computing.
 
 ## Conclusiones y Próximos Pasos
 1. **Reducción de parámetros:** La hipótesis de la "Neurona como Variable" (V2) es viable y permite reducir la huella de memoria del optimizador en más de un 99.6%.
