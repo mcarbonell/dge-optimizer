@@ -127,8 +127,11 @@ class DGEOptimizer:
         self.v = np.zeros(dim, dtype=np.float64)
         self.t = 0
 
-        # Direction-Consistency buffer: circular buffer of sign arrays
-        self._sign_buffer: deque[np.ndarray] = deque(maxlen=consistency_window) if consistency_window > 0 else None
+        # DS-EMA (Dual Sign-EMA) for Direction-Consistency
+        self.ema_fast = np.zeros(dim, dtype=np.float64) if consistency_window > 0 else None
+        self.ema_slow = np.zeros(dim, dtype=np.float64) if consistency_window > 0 else None
+        self.alpha_f = 0.3
+        self.alpha_s = 0.05
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -139,18 +142,25 @@ class DGEOptimizer:
         frac = min(self.t / max(self.total_steps, 1), 1.0)
         return v0 * (decay + (1.0 - decay) * 0.5 * (1.0 + math.cos(math.pi * frac)))
 
-    def _consistency_mask(self) -> np.ndarray:
+    def _consistency_mask(self, grad_sign: np.ndarray) -> np.ndarray:
         """
-        Returns per-parameter LR scale in [0, 1] based on sign consistency.
+        Returns per-parameter LR scale in [0, 1] based on Dual Sign-EMA.
 
-        consistency[i] = |mean(sign(grad[i]) over last T steps)|
-          ~= 1  : gradient direction reliable  -> full LR
-          ~= 0  : gradient sign oscillates     -> update suppressed
+        1. Updates Fast (0.3) and Slow (0.05) EMAs of gradient signs.
+        2. Crossover Gate: mask = (sign(fast) == sign(slow)) * abs(slow)
         """
-        if self._sign_buffer is None or len(self._sign_buffer) < 2:
+        if self.ema_fast is None:
             return np.ones(self.dim, dtype=np.float64)
-        stacked = np.stack(list(self._sign_buffer), axis=0)   # (T, dim)
-        return np.abs(stacked.mean(axis=0))                    # (dim,)
+        
+        # Update EMAs
+        self.ema_fast = (1.0 - self.alpha_f) * self.ema_fast + self.alpha_f * grad_sign
+        self.ema_slow = (1.0 - self.alpha_s) * self.ema_slow + self.alpha_s * grad_sign
+        
+        # MACD-style Crossover Gate
+        agreement = (np.sign(self.ema_fast) == np.sign(self.ema_slow)).astype(np.float64)
+        confidence = np.abs(self.ema_slow)
+        
+        return agreement * confidence
 
     # ------------------------------------------------------------------
     # Public API
@@ -205,10 +215,8 @@ class DGEOptimizer:
         mh = self.m / (1.0 - self.beta1 ** self.t)
         vh = self.v / (1.0 - self.beta2 ** self.t)
 
-        # Direction-Consistency mask
-        if self._sign_buffer is not None:
-            self._sign_buffer.append(np.sign(grad))
-        mask = self._consistency_mask()
+        # Direction-Consistency mask (Dual Sign-EMA)
+        mask = self._consistency_mask(np.sign(grad))
 
         upd = lr * self.lr_scale * mask * mh / (np.sqrt(vh) + self.eps)
 
@@ -221,12 +229,13 @@ class DGEOptimizer:
         return x - upd, 2 * self.k
 
     def reset(self, seed: int | None = None) -> None:
-        """Reset optimizer state (Adam moments, step counter, sign buffer)."""
+        """Reset optimizer state (Adam moments, step counter, sign EMAs)."""
         self.m[:] = 0.0
         self.v[:] = 0.0
         self.t = 0
-        if self._sign_buffer is not None:
-            self._sign_buffer.clear()
+        if self.ema_fast is not None:
+            self.ema_fast[:] = 0.0
+            self.ema_slow[:] = 0.0
         if seed is not None:
             self.rng = np.random.default_rng(seed)
 
@@ -236,7 +245,7 @@ class DGEOptimizer:
         return 2 * self.k
 
     def __repr__(self) -> str:
-        cw = self.consistency_window if self._sign_buffer is not None else 0
+        cw = self.consistency_window if self.ema_fast is not None else 0
         return (
             f"DGEOptimizer(dim={self.dim}, k_blocks={self.k}, lr={self.lr0}, "
             f"delta={self.delta0}, consistency_window={cw}, "

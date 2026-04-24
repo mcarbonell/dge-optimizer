@@ -5,7 +5,7 @@
 
 **DGE** (**Denoised Gradient Estimation**) es un optimizador zeroth-order (libre de derivadas) que entrena Redes Neuronales y optimiza funciones matemáticas de alta dimensionalidad utilizando exclusivamente evaluaciones de funciones (forward passes), sin utilizar backpropagation.
 
-El algoritmo combina perturbaciones aleatorias por bloques con un suavizado temporal (Adam EMA) y una máscara atencional de consistencia de dirección (Direction-Consistency LR) para extraer el gradiente latente del ruido masivo.
+El algoritmo combina perturbaciones aleatorias por bloques con un suavizado temporal (Adam EMA) y una máscara atencional de consistencia de dirección basada en **Dual Sign-EMA (DS-EMA)** para extraer el gradiente latente del ruido masivo.
 
 ---
 

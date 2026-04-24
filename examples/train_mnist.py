@@ -164,17 +164,17 @@ if __name__ == "__main__":
 
     # --- DGEOptimizer con Direction-Consistency (por defecto) ---
     dge = DGEOptimizer(
-        dim=D, k_blocks=k, lr=0.1, delta=1e-3,
+        dim=D, k_blocks=k, lr=0.01, delta=1e-3,
         total_steps=total_steps,
         consistency_window=20,   # Direction-Consistency LR activado
         seed=SEED + 10,
     )
-    acc_dge = run("DGEOptimizer (consistency_window=20)", dge,
+    acc_dge = run("DGEOptimizer (DS-EMA Consistency)", dge,
                   params0, X_tr, y_tr, X_te, y_te)
 
     # --- PureDGE (consistency desactivada para comparación) ---
     pure = DGEOptimizer(
-        dim=D, k_blocks=k, lr=0.1, delta=1e-3,
+        dim=D, k_blocks=k, lr=0.01, delta=1e-3,
         total_steps=total_steps,
         consistency_window=0,    # sin máscara de consistencia
         seed=SEED + 10,
