@@ -1,0 +1,362 @@
+[
+  {
+    "benchmark": "rosenbrock",
+    "method": "PureDGE",
+    "seed": 0,
+    "loss": 120.4021697758597
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "PureDGE",
+    "seed": 1,
+    "loss": 171.0453879460011
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "PureDGE",
+    "seed": 2,
+    "loss": 165.03853445313737
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "PureDGE",
+    "seed": 3,
+    "loss": 124.40243161599095
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "PureDGE",
+    "seed": 4,
+    "loss": 117.5977306050931
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "ConsistencyDGE_T20",
+    "seed": 0,
+    "loss": 103.43789560844509
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "ConsistencyDGE_T20",
+    "seed": 1,
+    "loss": 102.62293365443215
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "ConsistencyDGE_T20",
+    "seed": 2,
+    "loss": 103.8992524732232
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "ConsistencyDGE_T20",
+    "seed": 3,
+    "loss": 160.83879549100203
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "ConsistencyDGE_T20",
+    "seed": 4,
+    "loss": 101.22611511213162
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "DualEMADGE_v67",
+    "seed": 0,
+    "loss": 96.23081684986741
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "DualEMADGE_v67",
+    "seed": 1,
+    "loss": 95.13593110774015
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "DualEMADGE_v67",
+    "seed": 2,
+    "loss": 97.32085865543998
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "DualEMADGE_v67",
+    "seed": 3,
+    "loss": 147.61281118307346
+  },
+  {
+    "benchmark": "rosenbrock",
+    "method": "DualEMADGE_v67",
+    "seed": 4,
+    "loss": 94.85110225248224
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "PureDGE",
+    "seed": 0,
+    "loss": 8.973714695919577e-13
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "PureDGE",
+    "seed": 1,
+    "loss": 3.509497944964023e-12
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "PureDGE",
+    "seed": 2,
+    "loss": 9.150142035041747e-12
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "PureDGE",
+    "seed": 3,
+    "loss": 2.2281861039138573e-18
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "PureDGE",
+    "seed": 4,
+    "loss": 5.305939804953236e-13
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "ConsistencyDGE_T20",
+    "seed": 0,
+    "loss": 2.924609670695471e-10
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "ConsistencyDGE_T20",
+    "seed": 1,
+    "loss": 1.4730546264782879e-08
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "ConsistencyDGE_T20",
+    "seed": 2,
+    "loss": 1.1932783146345866e-10
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "ConsistencyDGE_T20",
+    "seed": 3,
+    "loss": 1.6417848467441128e-12
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "ConsistencyDGE_T20",
+    "seed": 4,
+    "loss": 2.2780469489108065e-09
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "DualEMADGE_v67",
+    "seed": 0,
+    "loss": 1.7994504215511766e-17
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "DualEMADGE_v67",
+    "seed": 1,
+    "loss": 1.9506793073445025e-17
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "DualEMADGE_v67",
+    "seed": 2,
+    "loss": 4.350492066116196e-16
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "DualEMADGE_v67",
+    "seed": 3,
+    "loss": 7.987503168897039e-16
+  },
+  {
+    "benchmark": "rotated_quadratic",
+    "method": "DualEMADGE_v67",
+    "seed": 4,
+    "loss": 7.435349373003186e-12
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "PureDGE",
+    "seed": 0,
+    "loss": 7310.346945512492
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "PureDGE",
+    "seed": 1,
+    "loss": 7007.405688144858
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "PureDGE",
+    "seed": 2,
+    "loss": 7482.44086154496
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "PureDGE",
+    "seed": 3,
+    "loss": 6881.403066005087
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "PureDGE",
+    "seed": 4,
+    "loss": 8868.611131573045
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "ConsistencyDGE_T20",
+    "seed": 0,
+    "loss": 726.8623418886109
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "ConsistencyDGE_T20",
+    "seed": 1,
+    "loss": 912.4352467018246
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "ConsistencyDGE_T20",
+    "seed": 2,
+    "loss": 585.3045991575913
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "ConsistencyDGE_T20",
+    "seed": 3,
+    "loss": 808.5718385116618
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "ConsistencyDGE_T20",
+    "seed": 4,
+    "loss": 681.201938297623
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "DualEMADGE_v67",
+    "seed": 0,
+    "loss": 298.784016258285
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "DualEMADGE_v67",
+    "seed": 1,
+    "loss": 284.98806702945615
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "DualEMADGE_v67",
+    "seed": 2,
+    "loss": 242.6791718776065
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "DualEMADGE_v67",
+    "seed": 3,
+    "loss": 341.40296960587455
+  },
+  {
+    "benchmark": "ellipsoid",
+    "method": "DualEMADGE_v67",
+    "seed": 4,
+    "loss": 326.6432830611916
+  },
+  {
+    "benchmark": "sphere",
+    "method": "PureDGE",
+    "seed": 0,
+    "loss": 6.73935755493696e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "PureDGE",
+    "seed": 1,
+    "loss": 7.929574672815205e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "PureDGE",
+    "seed": 2,
+    "loss": 5.787362923909943e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "PureDGE",
+    "seed": 3,
+    "loss": 7.05459995337505e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "PureDGE",
+    "seed": 4,
+    "loss": 6.5582621316792e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "ConsistencyDGE_T20",
+    "seed": 0,
+    "loss": 3.4697868959623584e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "ConsistencyDGE_T20",
+    "seed": 1,
+    "loss": 4.644474610346518e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "ConsistencyDGE_T20",
+    "seed": 2,
+    "loss": 3.130503042656246e-33
+  },
+  {
+    "benchmark": "sphere",
+    "method": "ConsistencyDGE_T20",
+    "seed": 3,
+    "loss": 2.925681652932629e-28
+  },
+  {
+    "benchmark": "sphere",
+    "method": "ConsistencyDGE_T20",
+    "seed": 4,
+    "loss": 6.659419188980362e-33
+  },
+  {
+    "benchmark": "sphere",
+    "method": "DualEMADGE_v67",
+    "seed": 0,
+    "loss": 2.8054109832666706e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "DualEMADGE_v67",
+    "seed": 1,
+    "loss": 2.2894046585616765e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "DualEMADGE_v67",
+    "seed": 2,
+    "loss": 2.701991095778432e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "DualEMADGE_v67",
+    "seed": 3,
+    "loss": 2.369715164273945e-39
+  },
+  {
+    "benchmark": "sphere",
+    "method": "DualEMADGE_v67",
+    "seed": 4,
+    "loss": 2.0078095056181476e-39
+  }
+]
