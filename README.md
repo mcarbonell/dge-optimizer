@@ -1,6 +1,6 @@
 # DGE Optimizer (Denoised Gradient Estimation)
 
-📄 **[Read the Scientific Paper Draft (PDF)](paper/dge_paper_draft.pdf)**
+📄 **[Read the Scientific Paper Draft (PDF)](paper/dge_paper_v2.pdf)**
 
 
 **DGE** (**Denoised Gradient Estimation**) es un optimizador zeroth-order (libre de derivadas) que entrena Redes Neuronales y optimiza funciones matemáticas de alta dimensionalidad utilizando exclusivamente evaluaciones de funciones (forward passes), sin utilizar backpropagation.

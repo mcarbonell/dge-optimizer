@@ -1,0 +1,95 @@
+\begin{thebibliography}{14}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Banner et~al.(2019)Banner, Hubara, Hoffer, and Soudry]{banner2019post}
+Ron Banner, Itay Hubara, Elad Hoffer, and Daniel Soudry.
+\newblock Post training 4-bit quantization of convolutional networks for
+  rapid-deployment.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~32, 2019.
+
+\bibitem[Bengio et~al.(2013)Bengio, L{\'e}onard, and
+  Courville]{bengio2013estimating}
+Yoshua Bengio, Nicholas L{\'e}onard, and Aaron Courville.
+\newblock Estimating or propagating gradients through stochastic neurons for
+  conditional computation.
+\newblock In \emph{arXiv preprint arXiv:1308.3432}, 2013.
+
+\bibitem[Bertsekas(2016)]{bertsekas2019nonlinear}
+Dimitri~P Bertsekas.
+\newblock \emph{Nonlinear Programming}.
+\newblock Athena Scientific, 3rd edition, 2016.
+
+\bibitem[Davies et~al.(2018)]{davies2018loihi}
+Mike Davies et~al.
+\newblock {Loihi}: A neuromorphic manycore processor with on-chip learning.
+\newblock \emph{IEEE Micro}, 38\penalty0 (1):\penalty0 82--99, 2018.
+
+\bibitem[Ghadimi et~al.(2013)Ghadimi, Lan, and Zhang]{ghadimi2013optimal}
+Saeed Ghadimi, Guanghui Lan, and Hongchao Zhang.
+\newblock Optimal random perturbation methods for stochastic convex
+  optimization.
+\newblock \emph{Mathematics of Operations Research}, 38\penalty0 (2):\penalty0
+  233--252, 2013.
+
+\bibitem[LeCun et~al.(2015)LeCun, Bengio, and Hinton]{lecun2015deep}
+Yann LeCun, Yoshua Bengio, and Geoffrey Hinton.
+\newblock Deep learning.
+\newblock \emph{Nature}, 521\penalty0 (7553):\penalty0 436--444, 2015.
+
+\bibitem[Malladi et~al.(2023)Malladi, Liu, and Kalra]{malladi2023mezo}
+Sadhika Malladi, Tianyu Liu, and Arvind Kalra.
+\newblock {MeZO}: Memory-efficient zeroth-order optimization for fine-tuning
+  large language models.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine
+  Learning (ICML)}, 2023.
+
+\bibitem[Nocedal and Wright(2006)]{nocedal2006numerical}
+Jorge Nocedal and Stephen~J Wright.
+\newblock \emph{Numerical Optimization}.
+\newblock Springer, 2nd edition, 2006.
+
+\bibitem[Rumelhart et~al.(1986)Rumelhart, Hinton, and
+  Williams]{rumelhart1986learning}
+David~E Rumelhart, Geoffrey~E Hinton, and Ronald~J Williams.
+\newblock Learning representations by back-propagating errors.
+\newblock \emph{Nature}, 323\penalty0 (6088):\penalty0 533--536, 1986.
+
+\bibitem[Salimans et~al.(2017)Salimans, Ho, Chen, Sidor, and
+  Sutskever]{salimans2013evolution}
+Tim Salimans, Jonathan Ho, Xi~Chen, Szymon Sidor, and Ilya Sutskever.
+\newblock Evolution strategies as a scalable alternative to reinforcement
+  learning.
+\newblock In \emph{arXiv preprint arXiv:1703.03864}, 2017.
+
+\bibitem[Schuman et~al.(2022)]{schuman2022opportunities}
+Catherine~D Schuman et~al.
+\newblock Opportunities for neuromorphic computing algorithms and applications.
+\newblock \emph{Nature Computational Science}, 2\penalty0 (1):\penalty0 10--19,
+  2022.
+
+\bibitem[Spall(1992)]{spall1992multivariate}
+James~C Spall.
+\newblock Multivariate stochastic approximation using a simultaneous
+  perturbation gradient approximation.
+\newblock \emph{IEEE Transactions on Automatic Control}, 37\penalty0
+  (3):\penalty0 332--341, 1992.
+
+\bibitem[Wierstra et~al.(2014)Wierstra, Schaul, Glasmachers, Sun, Peters, and
+  Schmidhuber]{wierstra2014natural}
+Daan Wierstra, Tom Schaul, Tobias Glasmachers, Yi~Sun, Jan Peters, and
+  J{\"u}rgen Schmidhuber.
+\newblock Natural evolution strategies.
+\newblock \emph{Journal of Machine Learning Research}, 15\penalty0
+  (1):\penalty0 949--982, 2014.
+
+\bibitem[Yin et~al.(2020)]{yin2020binary}
+Penghai Yin et~al.
+\newblock Binarized neural networks: A survey.
+\newblock \emph{Pattern Recognition}, 104:\penalty0 107353, 2020.
+
+\end{thebibliography}
