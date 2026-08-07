@@ -18,7 +18,7 @@ Las siguientes afirmaciones han sido validadas empíricamente a través de múlt
 *   **[Validated] Supremacía en entornos 100% discretos y no-diferenciables:** DGE puede entrenar con éxito arquitecturas donde Adam y la propagación hacia atrás fallan estrepitosamente (gradiente analítico = 0).
     *   **Redes con Activación Signo (Step/Sign):** DGE logra ~73% de accuracy en redes con activaciones `torch.sign` (Adam fracasa al no poder entrenar capas ocultas).
     *   **Pesos Binarios / Ternarios:** DGE logra un ~73% con pesos restringidos a $\{-1, 1\}$.
-    *   **Quantization-Aware Training Nativo (INT4/INT8):** DGE entrena redes donde pesos y activaciones están forzados a una cuadrícula discreta de 4-bits o 8-bits sin usar *Straight-Through Estimators* (`v32`: 82% en INT8, 78% en INT4 vs Adam ~9%).
+    *   **Quantization-Aware Training Nativo (INT4/INT8):** DGE entrena redes donde pesos y activaciones están forzados a una cuadrícula discreta de 4-bits o 8-bits sin usar *Straight-Through Estimators* (`v32`: **86.40%** en INT8, **82.70%** en INT4 vs Adam ~8-9%).
 *   **[Validated] Universalidad en paisajes patológicos:** DGE con `Direction-Consistency LR` resuelve eficazmente topologías sintéticas hostiles como el valle de Rosenbrock y funciones cuadráticas elípticas extremadamente mal condicionadas (cond=$10^6$).
 
 ---
