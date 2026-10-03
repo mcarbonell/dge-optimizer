@@ -108,6 +108,7 @@ class DGEOptimizer:
                                            # v1 used lr_scale=1/sqrt(k) implicitly
         greedy_step: bool = False,        # kept as no-op; removed in v14+
         dense_update: bool = False,       # kept as no-op; removed in v14+
+        greedy_w: float | None = None,    # kept as no-op; deprecated
     ):
         self.dim = dim
         self.k = k_blocks if k_blocks is not None else max(1, math.ceil(math.log2(dim)))

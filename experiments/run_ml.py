@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from dge.optimizer import DGEOptimizer
 from experiments.utils import save_raw_result
-from experiments.baselines import SPSAOptimizer, RandomDirectionOptimizer
+from experiments.baselines import SPSAOptimizer, RandomDirectionOptimizer, MeZOptimizer
 
 # Optional Torch dependency for ML datasets
 try:
@@ -153,6 +153,10 @@ def run_ml_experiment(config, seed):
         total_steps = budget // 2
         opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
         opt = SPSAOptimizer(dim=dim, seed=seed+20, total_steps=total_steps, **opt_params)
+    elif opt_name == "mezo":
+        total_steps = budget // 2
+        opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
+        opt = MeZOptimizer(dim=dim, seed=seed+20, total_steps=total_steps, **opt_params)
     elif opt_name == "random":
         total_steps = budget // 2
         opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
@@ -203,8 +207,11 @@ def run_ml_experiment(config, seed):
             return loss
 
         t0 = time.time()
+        f_time_before = f_time
         params, evals_used = opt.step(tracked_f, params)
-        internal_time += time.time() - t0 - f_time
+        step_elapsed = time.time() - t0
+        step_f_time = f_time - f_time_before
+        internal_time += max(0.0, step_elapsed - step_f_time)
         
         evals += evals_used
 

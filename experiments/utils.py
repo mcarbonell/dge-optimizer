@@ -11,12 +11,39 @@ def get_commit_hash():
         return "unknown"
 
 def get_system_info():
-    return {
+    info = {
         "system": platform.system(),
         "release": platform.release(),
         "machine": platform.machine(),
-        "processor": platform.processor()
+        "processor": platform.processor(),
     }
+    # RAM detection
+    try:
+        import psutil
+        vm = psutil.virtual_memory()
+        info["ram_total_gb"] = round(vm.total / (1024 ** 3), 2)
+        info["ram_available_gb"] = round(vm.available / (1024 ** 3), 2)
+    except Exception:
+        info["ram_total_gb"] = "unknown"
+
+    # GPU detection
+    try:
+        import torch
+        if torch.cuda.is_available():
+            info["gpu"] = torch.cuda.get_device_name(0)
+            info["gpu_backend"] = "cuda"
+        else:
+            try:
+                import torch_directml
+                info["gpu"] = torch_directml.device_name(0)
+                info["gpu_backend"] = "torch_directml"
+            except Exception:
+                info["gpu"] = "none_or_cpu"
+                info["gpu_backend"] = "cpu"
+    except Exception:
+        info["gpu"] = "torch_not_installed"
+
+    return info
 
 def setup_result_directories():
     base_dir = "results"

@@ -13,12 +13,12 @@ El algoritmo combina perturbaciones aleatorias por bloques con un suavizado temp
 
 Las siguientes afirmaciones han sido validadas empíricamente a través de múltiples semillas y experimentos documentados rigurosamente en el directorio `scratch/`.
 
-*   **[Validated] Entrenamiento de arquitecturas densas sin gradientes analíticos:** DGE es capaz de entrenar perceptrones multicapa (MLP) continuos de hasta ~110,000 parámetros obteniendo precisiones altamente competitivas en MNIST (`v30e`: 94.16% con 3,000,000 evals).
+*   **[Validated] Entrenamiento de arquitecturas densas sin gradientes analíticos:** DGE es capaz de entrenar perceptrones multicapa (MLP) continuos de hasta ~110,000 parámetros obteniendo precisiones altamente competitivas en MNIST (`v30e`: media de **94.36%** en 3 semillas con 3,000,000 evals; seeds: 94.16%, 94.39%, 94.52%).
 *   **[Validated] Eficiencia sobre SPSA:** A diferencia de SPSA (cuyo ruido escala linealmente con la dimensión), la estrategia de particionado por bloques de DGE mitiga exponencialmente la varianza, permitiendo convergencia donde SPSA colapsa.
 *   **[Validated] Supremacía en entornos 100% discretos y no-diferenciables:** DGE puede entrenar con éxito arquitecturas donde Adam y la propagación hacia atrás fallan estrepitosamente (gradiente analítico = 0).
     *   **Redes con Activación Signo (Step/Sign):** DGE logra ~73% de accuracy en redes con activaciones `torch.sign` (Adam fracasa al no poder entrenar capas ocultas).
     *   **Pesos Binarios / Ternarios:** DGE logra un ~73% con pesos restringidos a $\{-1, 1\}$.
-    *   **Quantization-Aware Training Nativo (INT4/INT8):** DGE entrena redes donde pesos y activaciones están forzados a una cuadrícula discreta de 4-bits o 8-bits sin usar *Straight-Through Estimators* (`v32`: **86.40%** en INT8, **82.70%** en INT4 vs Adam ~8-9%).
+    *   **Quantization-Aware Training Nativo (INT4/INT8):** DGE entrena redes donde pesos y activaciones están forzados a una cuadrícula discreta de 4-bits o 8-bits sin usar *Straight-Through Estimators* (`v32`: **82.20%** en INT8, **77.80%** en INT4 vs Adam ~8-9%).
 *   **[Validated] Universalidad en paisajes patológicos:** DGE con `Direction-Consistency LR` resuelve eficazmente topologías sintéticas hostiles como el valle de Rosenbrock y funciones cuadráticas elípticas extremadamente mal condicionadas (cond=$10^6$).
 
 ---

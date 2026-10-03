@@ -14,7 +14,6 @@
         "lr": 0.5,
         "lr_decay": 0.01,
         "delta": 0.05,
-        "greedy_w": 0.3,
         "clip_norm": 0.1,
         "dense_update": false
     }

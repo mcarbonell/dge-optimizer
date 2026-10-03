@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dge.optimizer import DGEOptimizer
 from experiments.utils import save_raw_result
 from experiments.benchmarks import get_benchmark
-from experiments.baselines import SPSAOptimizer, RandomDirectionOptimizer
+from experiments.baselines import SPSAOptimizer, RandomDirectionOptimizer, MeZOptimizer
 
 def run_experiment(config, seed):
     print(f"Running experiment '{config.get('name', 'unknown')}' with seed {seed}...")
@@ -42,6 +42,10 @@ def run_experiment(config, seed):
         total_steps = budget // 2
         opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
         opt = SPSAOptimizer(dim=dim, seed=seed, total_steps=total_steps, **opt_params)
+    elif opt_name == "mezo":
+        total_steps = budget // 2
+        opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
+        opt = MeZOptimizer(dim=dim, seed=seed, total_steps=total_steps, **opt_params)
     elif opt_name == "random":
         total_steps = budget // 2
         opt_params = {k: v for k, v in opt_config.items() if k not in ["name"]}
@@ -67,6 +71,7 @@ def run_experiment(config, seed):
 
     while evals < budget:
         t0 = time.time()
+        f_time_before = f_time
         
         # Wrapper to track f_time
         def tracked_f(x_in):
@@ -78,7 +83,9 @@ def run_experiment(config, seed):
             
         # Optimization step
         x, evals_used = opt.step(tracked_f, x)
-        internal_time += time.time() - t0 - f_time
+        step_elapsed = time.time() - t0
+        step_f_time = f_time - f_time_before
+        internal_time += max(0.0, step_elapsed - step_f_time)
         
         evals += evals_used
         

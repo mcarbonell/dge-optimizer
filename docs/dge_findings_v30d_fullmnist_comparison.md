@@ -1,8 +1,11 @@
 # Findings v30d: Comparación Completa — Full MNIST (60K/10K)
 
+> [!NOTE]
+> **SUPERSEDED BY v30e**: Este documento y sus métricas preliminares (92.98% DGE / 28.98% SPSA) han sido superados por `v30e` (DGE 94.36% / SPSA 20.87%), documentado en `scratch/dge_fullmnist_comparison_v30e.py` y `results/raw/v30e_fullmnist_comparison.json`.
+
 **Fecha:** 2026-04-22
 **Código:** `scratch/dge_fullmnist_comparison_v30d.py`
-**Datos crudos:** `results/raw/v30d_fullmnist_comparison.json`
+**Datos crudos:** `results/raw/v30d_fullmnist_comparison.json` (Obsoleto)
 
 ---
 
