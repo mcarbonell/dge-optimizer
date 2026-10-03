@@ -3,16 +3,16 @@ message: "If you use DGE in your research, please cite it as below."
 authors:
   - family-names: "Carbonell Martínez"
     given-names: "Mario Raúl"
-    email: "mcarbonell@github.com"
-title: "Denoised Gradient Estimation: Training Deep Neural Networks Without Backpropagation via Block Perturbations and Temporal Filtering"
+    email: "marioraulcarbonell@gmail.com"
+title: "Denoised Gradient Estimation: Training Deep Neural Networks Without Backpropagation via Coordinate Block Perturbations and Dual Sign-EMA Temporal Filtering"
 version: 0.1.0
-date-released: 2026-04-22
+date-released: 2026-10-03
 url: "https://github.com/mcarbonell/dge-optimizer"
 preferred-citation:
   type: article
   authors:
     - family-names: "Carbonell Martínez"
       given-names: "Mario Raúl"
-  title: "Denoised Gradient Estimation: Training Deep Neural Networks Without Backpropagation via Block Perturbations and Temporal Filtering"
+  title: "Denoised Gradient Estimation: Training Deep Neural Networks Without Backpropagation via Coordinate Block Perturbations and Dual Sign-EMA Temporal Filtering"
   year: 2026
   url: "https://github.com/mcarbonell/dge-optimizer"
