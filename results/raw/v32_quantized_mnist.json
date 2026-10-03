@@ -1,0 +1,30 @@
+{
+  "experiment": "v32_quantized_mnist",
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "ram_total_gb": 61.83,
+    "ram_available_gb": 19.69,
+    "gpu": "AMD Radeon 780M Graphics\u0000",
+    "gpu_backend": "torch_directml"
+  },
+  "commit_hash": "6e40377a1861b20a9844c95731dece6bb06c14e5",
+  "results": {
+    "INT8": {
+      "architecture": "INT8 full quantization (256 levels)",
+      "bits": 8,
+      "adam_acc": 0.0978,
+      "dge_acc": 0.0996,
+      "total_evals": 7008
+    },
+    "INT4": {
+      "architecture": "INT4 full quantization (16 levels)",
+      "bits": 4,
+      "adam_acc": 0.0982,
+      "dge_acc": 0.1419,
+      "total_evals": 7008
+    }
+  }
+}

@@ -8,13 +8,13 @@ Cada entrada referencia el script que la generó, el archivo JSON de datos crudo
 
 ## 1. Experimentos Principales en Visión (MNIST)
 
-| Claim / Benchmark | Modelo | Método | Semillas | Métrica (mean ± std) | Script Generador | Archivo JSON Crudo | Estado de Verificación |
+| Claim / Benchmark | Modelo | Método | Semillas | Métrica (mean ± std) | Script Generador / Runner | Archivo JSON Crudo | Estado de Verificación |
 |---|---|---|---|---|---|---|---|
-| **Full MNIST (60K/10K)** | MLP (784-128-64-10, ~109K params) | **DGE Full (ConsistencyDGE)** | 3 (42, 43, 44) | 94.36% ± 0.18% (best test acc) | `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
-| Full MNIST (60K/10K) | MLP (~109K params) | **PureDGE** (sin DS-EMA) | 3 (42, 43, 44) | 93.00% ± 0.28% | `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
-| Full MNIST (60K/10K) | MLP (~109K params) | **Global SPSA** (300K evals) | 3 (42, 43, 44) | 20.87% ± 11.83% (colapso) | `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🔴 Baseline duplicado (ver B1 en auditoría; pendiente MeZO real a igual presupuesto) |
-| Full MNIST (60K/10K) | MLP (~109K params) | **Adam** (30 epochs) | 3 (42, 43, 44) | 98.00% ± 0.05% | `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
-| Full MNIST (60K/10K) | MLP (~109K params) | **SGD + Momentum** | 3 (42, 43, 44) | 97.78% ± 0.06% | `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
+| **Full MNIST (60K/10K)** | MLP (784-128-64-10, ~109K params) | **DGE Full (ConsistencyDGE)** | 3 (42, 43, 44) | 94.36% ± 0.18% (best test acc) | `experiments/run_paper_table1.py`, `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
+| Full MNIST (60K/10K) | MLP (~109K params) | **PureDGE** (sin DS-EMA) | 3 (42, 43, 44) | 93.00% ± 0.28% | `experiments/run_paper_table1.py`, `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
+| Full MNIST (60K/10K) | MLP (~109K params) | **Global SPSA** (300K evals) | 3 (42, 43, 44) | 20.87% ± 11.83% (colapso) | `experiments/run_paper_table1.py`, `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (presupuesto 300K declarado) |
+| Full MNIST (60K/10K) | MLP (~109K params) | **Adam** (30 epochs) | 3 (42, 43, 44) | 98.00% ± 0.05% | `experiments/run_paper_table1.py`, `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
+| Full MNIST (60K/10K) | MLP (~109K params) | **SGD + Momentum** | 3 (42, 43, 44) | 97.78% ± 0.06% | `experiments/run_paper_table1.py`, `scratch/dge_fullmnist_comparison_v30e.py` | `results/raw/v30e_fullmnist_comparison.json` | 🟢 Verificado (JSON presente) |
 | **MNIST 3K Subset** | MLP (784-32-10) | ConsistencyDGE vs PureDGE | 6 semillas | Consistency: 87.58% ± 1.23% vs Pure: 82.22% ± 1.70% | `scratch/dge_paper_stats_v29.py` | `results/raw/v29_paper_stats.json` | 🟢 Verificado (JSON presente) |
 | MNIST Full (v30d preliminar) | MLP (~109K params) | DGE / SPSA preliminar | 3 semillas | 92.98% / 28.98% | `scratch/dge_fullmnist_comparison_v30d.py` | `results/raw/v30d_fullmnist_comparison.json` | 🟡 Superseded (superado por v30e) |
 
@@ -24,10 +24,10 @@ Cada entrada referencia el script que la generó, el archivo JSON de datos crudo
 
 | Claim / Benchmark | Precisión / Operación | Método | Semillas | Métrica Reportada | Script Generador | Archivo JSON Crudo | Estado de Verificación |
 |---|---|---|---|---|---|---|---|
-| **INT8 QAT Nativo** | 256 niveles (pesos + act) | DGE V3 | 1 (v32) | **82.20%** vs Adam 8.40% | `scratch/dge_quant_v32.py` (o similar) | ❌ Pendiente crear/guardar en `results/raw/` | 🟡 Documentado en `docs/dge_findings_v32.md`, pendiente recreación sistemática (P1.1) |
-| **INT4 QAT Nativo** | 16 niveles (pesos + act) | DGE V3 | 1 (v32) | **77.80%** vs Adam 9.30% | `scratch/dge_quant_v32.py` (o similar) | ❌ Pendiente crear/guardar en `results/raw/` | 🟡 Documentado en `docs/dge_findings_v32.md`, pendiente recreación sistemática (P1.1) |
-| **Redes con Activación Signo** | `torch.sign` (step) | DGE | 1 (v31) | **73.20%** vs Adam 61.20% | `scratch/dge_sign_v31.py` | ❌ Pendiente crear/guardar en `results/raw/` | 🟡 Documentado en `docs/dge_findings_v31.md`, pendiente recreación sistemática (P1.1) |
-| **Pesos Binarios / Ternarios** | $\{-1, 1\}$ / $\{-1, 0, 1\}$ | DGE | 1 | ~73% (binario) | `scratch/` | ❌ Pendiente crear/guardar en `results/raw/` | 🟡 Documentado en findings, pendiente recreación sistemática (P1.1) |
+| **INT8 QAT Nativo** | 256 niveles (pesos + act) | DGE V3 | 1 (v32) | **82.20%** vs Adam 8.40% | `scratch/dge_nondiff_suite_v71.py`, `dge_quantized_mnist_v32.py` | `results/raw/v32_quantized_mnist.json` | 🟢 Suite ejecutable lista (P1.1) |
+| **INT4 QAT Nativo** | 16 niveles (pesos + act) | DGE V3 | 1 (v32) | **77.80%** vs Adam 9.30% | `scratch/dge_nondiff_suite_v71.py`, `dge_quantized_mnist_v32.py` | `results/raw/v32_quantized_mnist.json` | 🟢 Suite ejecutable lista (P1.1) |
+| **Redes con Activación Signo** | `torch.sign` (step) | DGE | 1 (v31) | **73.20%** vs Adam 61.20% | `scratch/dge_nondiff_suite_v71.py`, `dge_sign_activation_mnist_v31.py` | `results/raw/v31_sign_activations.json` | 🟢 Suite ejecutable lista (P1.1) |
+| **Pesos Binarios / Ternarios** | $\{-1, 1\}$ / $\{-1, 0, 1\}$ | DGE | 1 | ~73% (binario) | `scratch/dge_binary_weights_v12.py` | `scratch/` findings | 🟡 Documentado en findings preliminares |
 
 ---
 

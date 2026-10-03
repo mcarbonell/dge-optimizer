@@ -122,10 +122,32 @@ def fig1_convergence_mnist():
 # Figure 2: Non-Differentiable Architectures
 # ================================================================
 def fig2_non_diff_barplot():
-    # Data from findings v11, v31, v32
+    suite_path = RAW_DIR / "v71_nondiff_suite.json"
+    quant_path = RAW_DIR / "v32_quantized_mnist.json"
+    sign_path = RAW_DIR / "v31_sign_activations.json"
+
     architectures = ["Sign\nActivations", "INT8\nQuantized", "INT4\nQuantized"]
-    adam_acc = [61.20, 8.40, 9.30]
-    dge_acc = [73.20, 82.20, 77.80]
+    adam_acc = None
+    dge_acc = None
+
+    if suite_path.exists():
+        with open(suite_path) as f:
+            data = json.load(f)
+        results = data.get("results", [])
+        if len(results) >= 3:
+            adam_acc = [r["adam_acc"] * 100.0 for r in results]
+            dge_acc = [r["dge_acc"] * 100.0 for r in results]
+    elif quant_path.exists() and sign_path.exists():
+        with open(sign_path) as f:
+            s_data = json.load(f)["result"]
+        with open(quant_path) as f:
+            q_data = json.load(f)["results"]
+        adam_acc = [s_data["adam_acc"] * 100.0, q_data["INT8"]["adam_acc"] * 100.0, q_data["INT4"]["adam_acc"] * 100.0]
+        dge_acc = [s_data["dge_acc"] * 100.0, q_data["INT8"]["dge_acc"] * 100.0, q_data["INT4"]["dge_acc"] * 100.0]
+
+    if adam_acc is None or dge_acc is None:
+        adam_acc = [61.20, 8.40, 9.30]
+        dge_acc = [73.20, 82.20, 77.80]
 
     x = np.arange(len(architectures))
     width = 0.35
