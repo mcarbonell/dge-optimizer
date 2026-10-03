@@ -1,0 +1,273 @@
+{
+  "experiment": "v70_ablation_study",
+  "dataset": "mnist_full",
+  "arch": [
+    784,
+    128,
+    64,
+    10
+  ],
+  "budget_dge": 500000,
+  "budget_spsa": 500000,
+  "seeds": [
+    42
+  ],
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "ram_total_gb": 61.83,
+    "ram_available_gb": 21.22,
+    "gpu": "AMD Radeon 780M Graphics\u0000",
+    "gpu_backend": "torch_directml"
+  },
+  "commit_hash": "1dda21c7fd8e97f9fa2f26f250245f9bf2028e7d",
+  "timestamp": "2026-10-03T04:02:53",
+  "summary": {
+    "DGE_Full": {
+      "best_acc_mean": 0.8964,
+      "best_acc_std": 0.0,
+      "final_acc_mean": 0.8964,
+      "final_acc_std": 0.0,
+      "seeds": [
+        42
+      ],
+      "values": [
+        0.8964
+      ]
+    },
+    "SPSA": {
+      "best_acc_mean": 0.2087,
+      "best_acc_std": 0.1183,
+      "final_acc_mean": 0.1031,
+      "final_acc_std": 0.0,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "values": [
+        0.3757,
+        0.1175,
+        0.1328
+      ]
+    },
+    "MeZO": {
+      "best_acc_mean": 0.138,
+      "best_acc_std": 0.0,
+      "final_acc_mean": 0.138,
+      "final_acc_std": 0.0,
+      "seeds": [
+        42
+      ],
+      "values": [
+        0.138
+      ]
+    },
+    "PureDGE_Adam": {
+      "best_acc_mean": 0.8962,
+      "best_acc_std": 0.0,
+      "final_acc_mean": 0.8962,
+      "final_acc_std": 0.0,
+      "seeds": [
+        42
+      ],
+      "values": [
+        0.8962
+      ]
+    },
+    "PureDGE_SGD": {
+      "best_acc_mean": 0.8886,
+      "best_acc_std": 0.0,
+      "final_acc_mean": 0.8884,
+      "final_acc_std": 0.0,
+      "seeds": [
+        42
+      ],
+      "values": [
+        0.8886
+      ]
+    }
+  },
+  "results": [
+    {
+      "method": "PureDGE_SGD",
+      "seed": 42,
+      "best_test_acc": 0.8886,
+      "final_test_acc": 0.8884,
+      "curve_evals": [
+        25696,
+        51392,
+        77088,
+        100448,
+        126144,
+        151840,
+        175200,
+        200896,
+        226592,
+        252288,
+        275648,
+        301344,
+        327040,
+        350400,
+        376096,
+        401792,
+        425152,
+        450848,
+        476544,
+        502240
+      ],
+      "curve_acc": [
+        0.5969,
+        0.7339,
+        0.7947,
+        0.8278,
+        0.841,
+        0.8537,
+        0.865,
+        0.871,
+        0.8745,
+        0.8784,
+        0.8818,
+        0.8829,
+        0.8839,
+        0.8855,
+        0.8881,
+        0.8886,
+        0.8886,
+        0.8886,
+        0.8885,
+        0.8884
+      ],
+      "total_evals": 502240,
+      "wall_time": 172.24,
+      "f_eval_time": 13.15,
+      "internal_overhead_time": 158.59
+    },
+    {
+      "method": "PureDGE_Adam",
+      "seed": 42,
+      "best_test_acc": 0.8962,
+      "final_test_acc": 0.8962,
+      "curve_evals": [
+        25696,
+        51392,
+        77088,
+        100448,
+        126144,
+        151840,
+        175200,
+        200896,
+        226592,
+        252288,
+        275648,
+        301344,
+        327040,
+        350400,
+        376096,
+        401792,
+        425152,
+        450848,
+        476544,
+        502240
+      ],
+      "curve_acc": [
+        0.6941,
+        0.7851,
+        0.8249,
+        0.837,
+        0.8507,
+        0.8587,
+        0.8654,
+        0.8706,
+        0.8739,
+        0.8804,
+        0.8852,
+        0.8882,
+        0.8901,
+        0.8921,
+        0.8932,
+        0.8954,
+        0.8954,
+        0.8959,
+        0.8959,
+        0.8962
+      ],
+      "total_evals": 502240,
+      "wall_time": 171.73,
+      "f_eval_time": 4.06,
+      "internal_overhead_time": 167.14
+    },
+    {
+      "method": "MeZO",
+      "seed": 42,
+      "best_test_acc": 0.138,
+      "final_test_acc": 0.138,
+      "curve_evals": [
+        25000,
+        50000,
+        75000,
+        100000
+      ],
+      "curve_acc": [
+        0.138,
+        0.138,
+        0.138,
+        0.138
+      ],
+      "total_evals": 100000,
+      "wall_time": 1110.1,
+      "f_eval_time": 46.84,
+      "internal_overhead_time": 1062.98
+    },
+    {
+      "method": "DGE_Full",
+      "seed": 42,
+      "best_test_acc": 0.8964,
+      "final_test_acc": 0.8964,
+      "curve_evals": [
+        30368,
+        60736,
+        91104,
+        121472,
+        151840,
+        182208,
+        210240,
+        240608,
+        270976,
+        301344,
+        331712,
+        362080,
+        390112,
+        420480,
+        450848,
+        481216,
+        502240
+      ],
+      "curve_acc": [
+        0.6882,
+        0.7762,
+        0.8155,
+        0.8403,
+        0.8496,
+        0.8647,
+        0.8739,
+        0.8762,
+        0.8815,
+        0.8857,
+        0.8882,
+        0.8914,
+        0.8941,
+        0.8957,
+        0.8963,
+        0.8963,
+        0.8964
+      ],
+      "total_evals": 502240,
+      "wall_time": 160.19,
+      "f_eval_time": 11.68,
+      "internal_overhead_time": 148.1
+    }
+  ]
+}

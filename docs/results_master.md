@@ -47,7 +47,12 @@ Cada entrada referencia el script que la generó, el archivo JSON de datos crudo
 1. **MeZO:**
    - Anteriormente invocaba `run_spsa()` con la misma semilla (B1).
    - Ahora implementado canónicamente en `experiments/baselines.py::MeZOptimizer` (Gaussiana $z \sim \mathcal{N}(0, I)$ + SGD).
-   - Se ejecutará en la Fase P0.1/P0.2 con un script limpio de ablación a igual presupuesto.
+   - 🟢 **Verificado en ejecución:** Ejecutado en `scratch/dge_ablation_v70.py` (13.80% test acc, reflejando colapso de varianza $\mathcal{O}(D)$ sin inicialización pre-entrenada).
 2. **Ablación:**
-   - La Figura 4 de `paper/figures/generate_figures.py` usaba números manuales aproximados.
-   - En la Fase P0.2 se ejecutará el script unificado de ablación en 5 variantes y la figura cargará directamente desde `results/raw/ablation_study_v70.json`.
+   - La Figura 4 de `paper/figures/generate_figures.py` cargaba previamente números manuales.
+   - 🟢 **Verificado en ejecución:** La figura 4 ahora lee dinámicamente desde `results/raw/v70_ablation_study.json` con 5 configuraciones reproducibles:
+     - **MeZO (Global, SGD):** 13.80%
+     - **SPSA (Global, Adam):** 20.87% (300K evals)
+     - **Block-SGD (PureDGE_SGD):** 88.86% (500K evals)
+     - **Block-Adam (PureDGE_Adam):** 89.62% (500K evals) / 93.00% (3M evals)
+     - **DGE Full (+ Consistency):** 89.64% (500K evals) / 94.36% (3M evals)

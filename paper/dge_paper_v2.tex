@@ -360,7 +360,7 @@ Figure~\ref{fig:ablation} decomposes the contribution of each DGE component on f
     \label{fig:ablation}
 \end{figure}
 
-The block perturbation mechanism is the primary enabler (+72.13pp over SPSA). Temporal EMA provides the second largest gain (+5pp), while the DS-EMA consistency mask adds the final +6.36pp. The three mechanisms are complementary: removing any one causes significant degradation.
+The block perturbation mechanism is the primary enabler (+72.13pp over SPSA, and +75.06pp over canonical MeZO). Comparing Block-SGD (88.86\%) to Block-Adam (93.00\%) demonstrates the substantial benefit of second-moment adaptation over raw zeroth-order estimates, while the DS-EMA temporal consistency mask provides the final refinement to 94.36\%. The mechanisms are complementary: removing any one causes measurable degradation.
 
 \subsection{Convergence Analysis (6 Seeds)}
 \label{sec:convergence6}
