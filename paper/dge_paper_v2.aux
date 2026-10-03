@@ -54,8 +54,6 @@
 \newlabel{thm:unbiased}{{1}{4}{Unbiasedness}{theorem.1}{}}
 \newlabel{lem:variance}{{2}{4}{Variance Bound}{theorem.2}{}}
 \citation{lecun2015deep}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Test accuracy on full MNIST (60K/10K). DGE achieves 96.3\% of Adam's performance without any gradient information.}}{5}{table.caption.12}\protected@file@percent }
-\newlabel{tab:mnist_full}{{1}{5}{Test accuracy on full MNIST (60K/10K). DGE achieves 96.3\% of Adam's performance without any gradient information}{table.caption.12}{}}
 \newlabel{cor:snr}{{3}{5}{SNR Improvement}{theorem.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{5}{section.5}\protected@file@percent }
 \newlabel{sec:experiments}{{5}{5}{Experiments}{section.5}{}}
@@ -68,21 +66,21 @@
 \newlabel{sec:mnist}{{5.2}{5}{Differentiable MNIST}{subsection.5.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Non-Differentiable Networks}{5}{subsection.5.3}\protected@file@percent }
 \newlabel{sec:nondiff}{{5.3}{5}{Non-Differentiable Networks}{subsection.5.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Best test accuracy achieved on full MNIST (60K/10K) across 3 seeds. DGE achieves 96.3\% of Adam's peak performance without any gradient computation.}}{6}{table.caption.12}\protected@file@percent }
+\newlabel{tab:mnist_full}{{1}{6}{Best test accuracy achieved on full MNIST (60K/10K) across 3 seeds. DGE achieves 96.3\% of Adam's peak performance without any gradient computation}{table.caption.12}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Convergence on full MNIST (60K samples). DGE (DS-EMA) achieves 94.36\% while SPSA and MeZO collapse to $\sim $21\%.}}{6}{figure.caption.13}\protected@file@percent }
 \newlabel{fig:convergence}{{1}{6}{Convergence on full MNIST (60K samples). DGE (DS-EMA) achieves 94.36\% while SPSA and MeZO collapse to $\sim $21\%}{figure.caption.13}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Non-differentiable architectures. Adam fails completely without STE; DGE operates natively on discrete landscapes.}}{6}{table.caption.14}\protected@file@percent }
-\newlabel{tab:nondiff}{{2}{6}{Non-differentiable architectures. Adam fails completely without STE; DGE operates natively on discrete landscapes}{table.caption.14}{}}
 \@writefile{toc}{\contentsline {paragraph}{Sign activations.}{6}{section*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{INT8 quantization.}{6}{section*.16}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{INT4 quantization.}{6}{section*.17}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Synthetic Benchmarks}{6}{subsection.5.4}\protected@file@percent }
 \newlabel{sec:synthetic}{{5.4}{6}{Synthetic Benchmarks}{subsection.5.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Ablation Study}{6}{subsection.5.5}\protected@file@percent }
-\newlabel{sec:ablation}{{5.5}{6}{Ablation Study}{subsection.5.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Non-differentiable architectures. Adam fails completely without STE; DGE operates natively on discrete landscapes.}}{7}{table.caption.14}\protected@file@percent }
+\newlabel{tab:nondiff}{{2}{7}{Non-differentiable architectures. Adam fails completely without STE; DGE operates natively on discrete landscapes}{table.caption.14}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Non-differentiable architectures (no STE). DGE substantially outperforms Adam across all discrete settings.}}{7}{figure.caption.18}\protected@file@percent }
 \newlabel{fig:nondiff}{{2}{7}{Non-differentiable architectures (no STE). DGE substantially outperforms Adam across all discrete settings}{figure.caption.18}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Final loss on synthetic benchmarks (lower is better). DS-EMA achieves best or near-best on all functions.}}{7}{table.caption.19}\protected@file@percent }
-\newlabel{tab:synthetic}{{3}{7}{Final loss on synthetic benchmarks (lower is better). DS-EMA achieves best or near-best on all functions}{table.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Ablation Study}{7}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:ablation}{{5.5}{7}{Ablation Study}{subsection.5.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Convergence Analysis (6 Seeds)}{7}{subsection.5.6}\protected@file@percent }
 \newlabel{sec:convergence6}{{5.6}{7}{Convergence Analysis (6 Seeds)}{subsection.5.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Discussion}{7}{section.6}\protected@file@percent }
@@ -92,14 +90,16 @@
 \citation{banner2019post}
 \bibstyle{plainnat}
 \bibdata{references}
-\bibcite{banner2019post}{{1}{2019}{{Banner et~al.}}{{Banner, Hubara, Hoffer, and Soudry}}}
-\bibcite{bengio2013estimating}{{2}{2013}{{Bengio et~al.}}{{Bengio, L{\'e}onard, and Courville}}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Final loss on synthetic benchmarks (lower is better). DS-EMA achieves best or near-best on all functions.}}{8}{table.caption.19}\protected@file@percent }
+\newlabel{tab:synthetic}{{3}{8}{Final loss on synthetic benchmarks (lower is better). DS-EMA achieves best or near-best on all functions}{table.caption.19}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Component ablation on full MNIST. Each mechanism contributes multiplicatively to the final accuracy.}}{8}{figure.caption.20}\protected@file@percent }
 \newlabel{fig:ablation}{{3}{8}{Component ablation on full MNIST. Each mechanism contributes multiplicatively to the final accuracy}{figure.caption.20}{}}
 \@writefile{toc}{\contentsline {paragraph}{Practical recommendations.}{8}{section*.23}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Applications.}{8}{section*.24}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{8}{section.7}\protected@file@percent }
 \newlabel{sec:conclusion}{{7}{8}{Conclusion}{section.7}{}}
+\bibcite{banner2019post}{{1}{2019}{{Banner et~al.}}{{Banner, Hubara, Hoffer, and Soudry}}}
+\bibcite{bengio2013estimating}{{2}{2013}{{Bengio et~al.}}{{Bengio, L{\'e}onard, and Courville}}}
 \bibcite{bertsekas2019nonlinear}{{3}{2016}{{Bertsekas}}{{}}}
 \bibcite{davies2018loihi}{{4}{2018}{{Davies et~al.}}{{}}}
 \bibcite{ghadimi2013optimal}{{5}{2013}{{Ghadimi et~al.}}{{Ghadimi, Lan, and Zhang}}}
@@ -110,8 +110,8 @@
 \bibcite{salimans2013evolution}{{10}{2017}{{Salimans et~al.}}{{Salimans, Ho, Chen, Sidor, and Sutskever}}}
 \bibcite{schuman2022opportunities}{{11}{2022}{{Schuman et~al.}}{{}}}
 \bibcite{spall1992multivariate}{{12}{1992}{{Spall}}{{}}}
-\bibcite{wierstra2014natural}{{13}{2014}{{Wierstra et~al.}}{{Wierstra, Schaul, Glasmachers, Sun, Peters, and Schmidhuber}}}
-\bibcite{yin2020binary}{{14}{2020}{{Yin et~al.}}{{}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Convergence on MNIST-3K (6 seeds, mean $\pm $ 1 std). DGE+Consistency achieves 87.58\% $\pm $ 1.23\% vs.\ PureDGE 82.22\% $\pm $ 2.25\%.}}{9}{figure.caption.21}\protected@file@percent }
 \newlabel{fig:convergence6}{{4}{9}{Convergence on MNIST-3K (6 seeds, mean $\pm $ 1 std). DGE+Consistency achieves 87.58\% $\pm $ 1.23\% vs.\ PureDGE 82.22\% $\pm $ 2.25\%}{figure.caption.21}{}}
-\gdef \@abspage@last{9}
+\bibcite{wierstra2014natural}{{13}{2014}{{Wierstra et~al.}}{{Wierstra, Schaul, Glasmachers, Sun, Peters, and Schmidhuber}}}
+\bibcite{yin2020binary}{{14}{2020}{{Yin et~al.}}{{}}}
+\gdef \@abspage@last{10}

@@ -51,7 +51,7 @@
 \maketitle
 
 \begin{abstract}
-Gradient-based optimization requires analytical derivatives, limiting its applicability to differentiable architectures. We introduce \textbf{Denoised Gradient Estimation} (DGE), a zeroth-order algorithm that trains neural networks using only forward-pass evaluations. DGE combines three mechanisms: (1)~\emph{block-wise perturbations} that reduce gradient variance by a factor of $D/K$, where $K$ is the block size; (2)~\emph{temporal exponential moving average} filtering that improves signal-to-noise ratio as $\mathcal{O}(\sqrt{T})$; and (3)~a novel \emph{Dual Sign-EMA} (DS-EMA) consistency mask inspired by MACD crossover detection, achieving 90\% memory reduction over sliding-window approaches. On full MNIST (60K samples, 109K parameters), DGE achieves \textbf{94.36\%~$\pm$~0.23\%} test accuracy without backpropagation---reaching 96.3\% of Adam's performance. In non-differentiable settings where backpropagation fails entirely, DGE achieves 73--82\% accuracy versus $\sim$9\% for Adam on fully quantized (INT4/INT8) and sign-activation networks, without straight-through estimators. We provide theoretical analysis establishing the estimator's unbiasedness and characterize the variance reduction and SNR improvement bounds.
+Gradient-based optimization requires analytical derivatives, limiting its applicability to differentiable architectures. We introduce \textbf{Denoised Gradient Estimation} (DGE), a zeroth-order algorithm that trains neural networks using only forward-pass evaluations. DGE combines three mechanisms: (1)~\emph{block-wise perturbations} that reduce gradient variance by a factor of $K$, where $K$ is the number of coordinate blocks; (2)~\emph{temporal exponential moving average} filtering that improves signal-to-noise ratio as $\mathcal{O}(\sqrt{T})$; and (3)~a novel \emph{Dual Sign-EMA} (DS-EMA) consistency mask inspired by MACD crossover detection, achieving 90\% memory reduction over sliding-window approaches. On full MNIST (60K samples, 109K parameters), DGE achieves \textbf{94.36\%~$\pm$~0.23\%} test accuracy without backpropagation---reaching 96.3\% of Adam's performance. In non-differentiable settings where backpropagation fails entirely, DGE achieves 73--82\% accuracy without straight-through estimators, whereas Adam collapses to near random guessing ($\sim$8--9\%) under full INT4/INT8 quantization and plateaus at 61.20\% on sign activations. We provide theoretical analysis establishing the estimator's unbiasedness and characterize the variance reduction and SNR improvement bounds.
 \end{abstract}
 
 % ============================================================
@@ -215,17 +215,21 @@ Since $s_i \in \{-1, +1\}$, we have $s_i^2 = 1$. For $j \neq i$, $s_j$ and $s_i$
 
 \begin{lemma}[Variance Bound]
 \label{lem:variance}
-The conditional variance of the block perturbation estimator for an active coordinate $i$ is:
+Let the parameter space of dimension $D$ be partitioned into $K$ disjoint coordinate blocks of size $B = D/K$. For an active coordinate $i$ within its assigned block $\mathcal{B}_i$, the conditional variance of the block perturbation estimator is:
 \begin{equation}
-    \text{Var}(g_{t,i}) = \sum_{j \neq i} (\nabla f(x)_j)^2 m_j \leq \frac{K}{D} \|\nabla f(x)\|^2
+    \text{Var}(g_{t,i} \mid i \in \mathcal{B}_i) = \sum_{j \in \mathcal{B}_i, j \neq i} (\nabla f(x)_j)^2 \leq \frac{B}{D} \|\nabla f(x)\|^2 = \frac{1}{K} \|\nabla f(x)\|^2
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-The variance follows from the independence of Rademacher variables: $\text{Var}(g_{t,i}) = \mathbb{E}[(\sum_{j \neq i} \nabla f_j s_j s_i m_j)^2] = \sum_{j \neq i} (\nabla f_j)^2 m_j$. Since exactly $K$ of the $D$ dimensions are active ($\sum m_j = K$), the upper bound follows from $\sum_{j \neq i} (\nabla f_j)^2 m_j \leq \max_j (\nabla f_j)^2 \cdot K \leq (K/D) \|\nabla f\|^2$.
+By independence of the Rademacher perturbations across coordinates:
+\begin{equation*}
+    \text{Var}(g_{t,i}) = \mathbb{E}\left[\left(\sum_{j \in \mathcal{B}_i, j \neq i} \nabla f_j s_j s_i\right)^2\right] = \sum_{j \in \mathcal{B}_i, j \neq i} (\nabla f_j)^2
+\end{equation*}
+Averaging over uniform random coordinate partitions yields $\mathbb{E}_{\mathcal{B}_i}\left[\sum_{j \in \mathcal{B}_i, j \neq i} (\nabla f_j)^2\right] = \frac{B-1}{D-1} \|\nabla f\|^2 \leq \frac{1}{K} \|\nabla f\|^2$.
 \end{proof}
 
-\noindent This represents a \textbf{$D/K$-fold variance reduction} compared to SPSA, where all $D$ dimensions are perturbed simultaneously. For $D = 100{,}000$ and $K = 128$, this yields a 781$\times$ reduction.
+\noindent This represents a \textbf{$K$-fold variance reduction} compared to standard SPSA, where all $D$ dimensions are perturbed simultaneously. For $D = 100{,}000$ parameters and $K = 781$ blocks ($B \approx 128$), this yields an equivalent 781$\times$ reduction in cross-coordinate perturbation noise.
 
 \begin{corollary}[SNR Improvement]
 \label{cor:snr}
@@ -248,9 +252,9 @@ We evaluate DGE on differentiable and strictly non-differentiable architectures,
 
 \paragraph{Dataset.} MNIST~\citep{lecun2015deep}: full (60K/10K) or 3K-subset (3,000/600) as specified.
 
-\paragraph{Budget.} DGE methods receive 3M function evaluations for full MNIST, 800K for the 3K-subset. Backpropagation baselines train for 30 epochs.
+\paragraph{Budget.} DGE methods receive 3,000,000 function evaluations for full MNIST (and 800,000 for the 3K-subset). In the v30e benchmark, global zeroth-order baselines (SPSA) were allocated 300,000 evaluations (150,000 sequential forward steps) due to the heavy wall-clock overhead of single-sample steps; empirical curves show that SPSA early-plateaus and collapses within the first 60,000 evaluations. Backpropagation baselines train for 30 epochs.
 
-\paragraph{Hyperparameters.} $K = [1024, 128, 16]$ per layer, $\delta = 10^{-3}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$. Learning rate: 0.05 (ZO methods), $10^{-3}$ (Adam), 0.01 (SGD). All results averaged over 3 seeds (full MNIST) or 6 seeds (3K-subset) with 95\% confidence intervals.
+\paragraph{Hyperparameters.} $K = [1024, 128, 16]$ per layer, $\delta = 10^{-3}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$. Learning rate: 0.05 (ZO methods), $10^{-3}$ (Adam), 0.01 (SGD). All results averaged over 3 seeds (full MNIST) or 6 seeds (3K-subset) with standard deviations reported.
 
 \subsection{Differentiable MNIST}
 \label{sec:mnist}
@@ -259,15 +263,14 @@ Table~\ref{tab:mnist_full} presents results on the full MNIST dataset.
 
 \begin{table}[t]
 \centering
-\caption{Test accuracy on full MNIST (60K/10K). DGE achieves 96.3\% of Adam's performance without any gradient information.}
+\caption{Best test accuracy achieved on full MNIST (60K/10K) across 3 seeds. DGE achieves 96.3\% of Adam's peak performance without any gradient computation.}
 \label{tab:mnist_full}
 \begin{tabular}{@{}lccc@{}}
 \toprule
-\textbf{Method} & \textbf{Type} & \textbf{Accuracy} & \textbf{Std} \\
+\textbf{Method} & \textbf{Type} & \textbf{Best Test Acc.} & \textbf{Std} \\
 \midrule
-SPSA & Zeroth-order & 20.87\% & $\pm$11.83\% \\
-MeZO & Zeroth-order & 20.87\% & $\pm$11.83\% \\
-PureDGE & Zeroth-order & 93.00\% & $\pm$0.24\% \\
+Global SPSA & Zeroth-order & 20.87\% & $\pm$11.83\% \\
+Block-Adam (PureDGE) & Zeroth-order & 93.00\% & $\pm$0.24\% \\
 \textbf{DGE (DS-EMA)} & \textbf{Zeroth-order} & \textbf{94.36\%} & $\pm$0.23\% \\
 \midrule
 SGD + momentum & Backprop & 97.78\% & $\pm$0.04\% \\
@@ -276,7 +279,7 @@ Adam & Backprop & 98.00\% & $\pm$0.04\% \\
 \end{tabular}
 \end{table}
 
-SPSA and MeZO collapse to $\sim$21\% accuracy (near random guessing for 10 classes), confirming the fundamental dimensionality barrier. PureDGE with block perturbations alone achieves 93.00\%, demonstrating that variance reduction via blocking is the primary enabler. The DS-EMA consistency mask provides an additional +1.36pp improvement, reaching 94.36\%---only 3.64pp below Adam.
+Global SPSA collapses to $\sim$21\% accuracy (near random guessing for 10 classes), confirming the fundamental variance catastrophe in high dimensions. Block-Adam with coordinate block perturbations alone achieves 93.00\%, demonstrating that variance reduction via blocking is the primary enabler. The DS-EMA consistency mask provides an additional +1.36pp improvement, reaching 94.36\%---only 3.64pp below backpropagation with Adam.
 
 Figure~\ref{fig:convergence} shows the convergence curves. DGE separates from SPSA within the first 30K evaluations and maintains a consistent lead throughout training.
 
