@@ -380,8 +380,11 @@ The 95\% confidence intervals do not overlap: PureDGE [80.4\%, 84.1\%] vs.\ DGE+
 \section{Discussion}
 \label{sec:discussion}
 
+\paragraph{Computational and memory trade-offs.}
+In fully differentiable settings, backpropagation remains superior in wall-clock efficiency: Adam completes 30 epochs in $\sim$19\,s on our hardware, whereas DGE requires $\sim$13.5\,min for 3M evaluations. However, DGE's batched perturbation design evaluates 10$\times$ more candidate directions than single-direction SPSA or MeZO while requiring less than one-third of the wall-clock time ($\sim$13.5\,min vs.\ $\sim$48\,min for 300K SPSA steps), demonstrating the practical advantage of parallel tensor operations over sequential zero-order queries. Furthermore, because DGE requires only inference passes, it never caches intermediate forward activations for a backward graph. This yields substantial peak memory savings ($\mathcal{O}(\text{params} + \text{batch})$ rather than $\mathcal{O}(L \cdot \text{batch})$), which is particularly beneficial in memory-constrained deployment.
+
 \paragraph{Limitations.}
-DGE has two identified failure modes. First, \emph{deep discrete networks} suffer from the butterfly effect: a single bit-flip in early layers can invert the state of all subsequent layers, destroying the temporal stationarity required by the EMA filter. This caps accuracy at $\sim$75\% for deep sign-activation networks. Second, in \emph{fully differentiable settings}, DGE does not compete with backpropagation in computational efficiency---Adam requires $\mathcal{O}(1)$ gradient evaluations per step via the backward pass, while DGE requires $\mathcal{O}(K)$ function evaluations.
+DGE has two identified failure modes. First, \emph{deep discrete networks} suffer from the butterfly effect: a single bit-flip in early layers can invert the state of all subsequent layers, destroying the temporal stationarity required by the EMA filter. This caps accuracy at $\sim$75\% for deep sign-activation networks. Second, highly ill-conditioned discrete landscapes may require adaptive block sizing rather than static uniform partitioning.
 
 \paragraph{Practical recommendations.}
 Based on our empirical analysis, we recommend: (1)~use $K = \mathcal{O}(\sqrt{D})$ block sizes for neural network architectures; (2)~set learning rate $\alpha \leq 0.1$ for DS-EMA consistency to be effective (higher rates cause sign oscillations that the mask interprets as noise); (3)~use cosine annealing for both $\delta$ and $\alpha$ to transition from exploration to exploitation.
