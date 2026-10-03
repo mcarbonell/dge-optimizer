@@ -210,39 +210,78 @@ def fig3_synthetic_benchmarks():
 # Figure 4: Component Ablation Study
 # ================================================================
 def fig4_ablation_components():
-    # Data from v30e: PureDGE (blocks only), ConsistencyDGE (blocks+EMA+consistency)
-    # Data from v29: PureDGE 82.22%, ConsistencyDGE 87.58%
-    # We construct the ablation from known components:
-    # SPSA: no blocks, no EMA, no consistency = 20.87% (v30e)
-    # PureDGE: blocks only = 93.00% (v30e), 82.22% (v29 3K)
-    # DGE+EMA: blocks+EMA = ~88% (approx from v29 intermediate)
-    # DGE+EMA+Window: blocks+EMA+consistency(window) = ~91% (v29)
-    # DGE+EMA+DS-EMA: blocks+EMA+DS-EMA = 94.36% (v30e), 87.58% (v29)
+    v70_path = RAW_DIR / "v70_ablation_study.json"
+    v30e_path = RAW_DIR / "v30e_fullmnist_comparison.json"
 
-    # Use v30e (full MNIST) numbers as primary
-    components = [
-        "SPSA\n(no blocks)",
-        "PureDGE\n(blocks)",
-        "DGE + EMA\n(+ temporal)",
-        "DGE + EMA\n+ Consistency",
-        "DGE + EMA\n+ DS-EMA",
-    ]
-    accuracy = [20.87, 93.00, 88.0, 91.0, 94.36]
-    colors_ablation = ["#e74c3c", "#3498db", "#f39c12", "#9b59b6", "#2ecc71"]
+    components = []
+    accuracy = []
+    stds = []
+    colors_ablation = []
+
+    color_map = {
+        "SPSA": "#e74c3c",
+        "MeZO": "#e67e22",
+        "Block-SGD": "#f39c12",
+        "Block-Adam": "#3498db",
+        "DGE Full": "#2ecc71",
+    }
+
+    if v70_path.exists():
+        with open(v70_path) as f:
+            data = json.load(f)
+        summary = data.get("summary", {})
+        mapping = [
+            ("SPSA", "SPSA\n(Global, Adam)"),
+            ("MeZO", "MeZO\n(Global, SGD)"),
+            ("PureDGE_SGD", "Block-SGD\n(Blocks, no EMA)"),
+            ("PureDGE_Adam", "Block-Adam\n(Blocks + EMA)"),
+            ("DGE_Full", "DGE Full\n(+ Consistency)"),
+        ]
+        for key, label in mapping:
+            if key in summary:
+                components.append(label)
+                accuracy.append(summary[key]["best_acc_mean"] * 100.0)
+                stds.append(summary[key].get("best_acc_std", 0.0) * 100.0)
+                short_name = key.replace("PureDGE_", "Block-").replace("_", " ")
+                colors_ablation.append(color_map.get(short_name, "#34495e"))
+
+    if not components and v30e_path.exists():
+        # Fallback to verified v30e data (without unverified/fabricated intermediate steps)
+        with open(v30e_path) as f:
+            data = json.load(f)
+        summary = data.get("summary", {})
+        mapping = [
+            ("SPSA", "SPSA\n(Global, Adam)"),
+            ("PureDGE", "Block-Adam\n(PureDGE)"),
+            ("ConsistencyDGE", "DGE Full\n(+ Consistency)"),
+        ]
+        for key, label in mapping:
+            if key in summary:
+                components.append(label)
+                accuracy.append(summary[key]["mean"] * 100.0)
+                stds.append(summary[key].get("std", 0.0) * 100.0)
+                short_name = "SPSA" if "SPSA" in key else ("Block-Adam" if "Pure" in key else "DGE Full")
+                colors_ablation.append(color_map.get(short_name, "#34495e"))
+
+    if not components:
+        print("  [SKIP] fig4_ablation_components: No JSON data available in results/raw/")
+        return
 
     fig, ax = plt.subplots(figsize=(6, 3.5))
-    bars = ax.barh(components, accuracy, color=colors_ablation, alpha=0.85, height=0.6)
+    xerr = stds if any(s > 0 for s in stds) else None
+    bars = ax.barh(components, accuracy, xerr=xerr, color=colors_ablation, alpha=0.85, height=0.6, capsize=4)
 
     # Add value labels
-    for bar, acc in zip(bars, accuracy):
-        ax.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height() / 2,
-                f"{acc:.1f}%", va="center", fontsize=9)
+    for bar, acc, std in zip(bars, accuracy, stds):
+        label_text = f"{acc:.2f}%" if std == 0 else f"{acc:.2f}±{std:.2f}%"
+        ax.text(bar.get_width() + 1.0, bar.get_y() + bar.get_height() / 2,
+                label_text, va="center", fontsize=8.5)
 
-    ax.set_xlabel("Test Accuracy (%)")
+    ax.set_xlabel("Best Test Accuracy (%)")
     ax.set_title("Ablation: Contribution of Each Component (Full MNIST)")
-    ax.set_xlim(0, 105)
-    ax.axvline(x=98, color="gray", linestyle=":", alpha=0.5)
-    ax.text(98.5, 4.3, "Adam (98.0%)", fontsize=8, color="gray", rotation=90, va="top")
+    ax.set_xlim(0, 108)
+    ax.axvline(x=98.0, color="gray", linestyle=":", alpha=0.5)
+    ax.text(98.5, len(components) - 0.7, "Adam (98.0%)", fontsize=8, color="gray", va="center")
     fig.savefig(OUT_DIR / "ablation_components.pdf")
     plt.close(fig)
     print("  [OK] ablation_components.pdf")

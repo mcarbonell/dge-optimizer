@@ -76,6 +76,7 @@ class TorchDGEOptimizer:
         device: torch.device | str = "cpu",
         clip_norm: float | None = None,
         chunk_size: int | None = None,
+        use_adam: bool = True,
     ):
         self.dim = dim
         self.lr0 = lr
@@ -89,6 +90,7 @@ class TorchDGEOptimizer:
         self.consistency_window = consistency_window
         self.clip_norm = clip_norm
         self.chunk_size = chunk_size
+        self.use_adam = use_adam
         
         self.device = torch.device(device) if isinstance(device, str) else device
         
@@ -234,12 +236,16 @@ class TorchDGEOptimizer:
             offset += sz
             row_offset += k
         
-        # 4. Temporal Denoising (Adam EMA)
-        self.m = self.beta1 * self.m + (1.0 - self.beta1) * grad
-        self.v = self.beta2 * self.v + (1.0 - self.beta2) * (grad ** 2)
-        
-        mh = self.m / (1.0 - self.beta1 ** self.t)
-        vh = self.v / (1.0 - self.beta2 ** self.t)
+        # 4. Temporal Denoising (Adam EMA or pure SGD)
+        if self.use_adam:
+            self.m = self.beta1 * self.m + (1.0 - self.beta1) * grad
+            self.v = self.beta2 * self.v + (1.0 - self.beta2) * (grad ** 2)
+            
+            mh = self.m / (1.0 - self.beta1 ** self.t)
+            vh = self.v / (1.0 - self.beta2 ** self.t)
+            direction = mh / (torch.sqrt(vh) + self.eps)
+        else:
+            direction = grad
         
         # 5. Direction-Consistency Mask
         mask = 1.0
@@ -248,7 +254,7 @@ class TorchDGEOptimizer:
             if len(self._sign_buffer) >= 2:
                 mask = torch.stack(list(self._sign_buffer)).mean(0).abs()
         
-        upd = lr * mask * mh / (torch.sqrt(vh) + self.eps)
+        upd = lr * mask * direction
         
         if self.clip_norm is not None:
             un = torch.norm(upd)
