@@ -1,6 +1,6 @@
 # Tabla Maestra de Resultados y Trazabilidad — DGE
 
-Este documento constituye la **fuente canónica de verdad** para todas las métricas, benchmarks y afirmaciones reportadas en el `README.md`, el paper (`paper/dge_paper_v2.tex`) y los documentos de hallazgos (`docs/dge_findings_*.md`).
+Este documento constituye la **fuente canónica de verdad** para todas las métricas, benchmarks y afirmaciones reportadas en el `README.md`, el paper (`paper/dge_paper.tex`) y los documentos de hallazgos (`docs/dge_findings_*.md`).
 
 Cada entrada referencia el script que la generó, el archivo JSON de datos crudos en `results/raw/`, el número de semillas y su estado de verificación según la auditoría técnica.
 

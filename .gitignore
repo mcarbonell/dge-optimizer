@@ -163,3 +163,9 @@ data/
 *.ckpt
 outputs/
 temp/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.blg

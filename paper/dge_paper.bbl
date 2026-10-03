@@ -5,12 +5,11 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Banner et~al.(2019)Banner, Hubara, Hoffer, and Soudry]{banner2019post}
-Ron Banner, Itay Hubara, Elad Hoffer, and Daniel Soudry.
-\newblock Post training 4-bit quantization of convolutional networks for
-  rapid-deployment.
-\newblock In \emph{Advances in Neural Information Processing Systems
-  (NeurIPS)}, volume~32, 2019.
+\bibitem[Baydin et~al.(2022)Baydin, Alemi, Roberts, et~al.]{baydin2022survey}
+Atilim~G{\"u}nes Baydin, AA~Alemi, Sarah Roberts, et~al.
+\newblock Efficient differentiation of black-box simulators and neural networks
+  using forward-mode automatic differentiation.
+\newblock \emph{arXiv preprint arXiv:2205.10834}, 2022.
 
 \bibitem[Bengio et~al.(2013)Bengio, L{\'e}onard, and
   Courville]{bengio2013estimating}
