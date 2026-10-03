@@ -24,9 +24,9 @@ Cada entrada referencia el script que la generó, el archivo JSON de datos crudo
 
 | Claim / Benchmark | Precisión / Operación | Método | Semillas | Métrica Reportada | Script Generador | Archivo JSON Crudo | Estado de Verificación |
 |---|---|---|---|---|---|---|---|
-| **INT8 QAT Nativo** | 256 niveles (pesos + act) | DGE V3 | 1 (v32) | **82.20%** vs Adam 8.40% | `scratch/dge_nondiff_suite_v71.py`, `dge_quantized_mnist_v32.py` | `results/raw/v32_quantized_mnist.json` | 🟢 Suite ejecutable lista (P1.1) |
-| **INT4 QAT Nativo** | 16 niveles (pesos + act) | DGE V3 | 1 (v32) | **77.80%** vs Adam 9.30% | `scratch/dge_nondiff_suite_v71.py`, `dge_quantized_mnist_v32.py` | `results/raw/v32_quantized_mnist.json` | 🟢 Suite ejecutable lista (P1.1) |
-| **Redes con Activación Signo** | `torch.sign` (step) | DGE | 1 (v31) | **73.20%** vs Adam 61.20% | `scratch/dge_nondiff_suite_v71.py`, `dge_sign_activation_mnist_v31.py` | `results/raw/v31_sign_activations.json` | 🟢 Suite ejecutable lista (P1.1) |
+| **INT8 QAT Nativo** | 256 niveles (pesos + act) | DGE V3 | 1 (v32, v71) | **74.24%** (v71) / **82.20%** (v32) vs Adam 9.78% | `scratch/dge_nondiff_suite_v71.py` | `results/raw/v71_nondiff_suite.json`, `v32_quantized_mnist.json` | 🟢 Verificado (JSON presente) |
+| **INT4 QAT Nativo** | 16 niveles (pesos + act) | DGE V3 | 1 (v32, v71) | **68.82%** (v71) / **77.80%** (v32) vs Adam 9.82% | `scratch/dge_nondiff_suite_v71.py` | `results/raw/v71_nondiff_suite.json`, `v32_quantized_mnist.json` | 🟢 Verificado (JSON presente) |
+| **Redes con Activación Signo** | `torch.sign` (step) | DGE | 1 (v31, v71) | **70.43%** (v71) / **73.20%** (v31) vs Adam 65.30% | `scratch/dge_nondiff_suite_v71.py` | `results/raw/v71_nondiff_suite.json`, `v31_sign_activations.json` | 🟢 Verificado (JSON presente) |
 | **Pesos Binarios / Ternarios** | $\{-1, 1\}$ / $\{-1, 0, 1\}$ | DGE | 1 | ~73% (binario) | `scratch/dge_binary_weights_v12.py` | `scratch/` findings | 🟡 Documentado en findings preliminares |
 
 ---
